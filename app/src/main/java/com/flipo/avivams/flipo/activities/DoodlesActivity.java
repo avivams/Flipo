@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -39,12 +40,13 @@ public class DoodlesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doodles);
+
         //transparent navigation bar background
         Window w = getWindow(); // in Activity's onCreate() for instance
+
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         ///////
-
+        setContentView(R.layout.activity_doodles);
         initSurfaceView();
     }
 
@@ -148,5 +150,10 @@ public class DoodlesActivity extends AppCompatActivity {
         m_Canvas.clearColor(Color.WHITE);
         m_Canvas.drawLayer(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
     }*/
+
+
+    public void exitOnClick(View view){
+        finish();
+    }
 }
 

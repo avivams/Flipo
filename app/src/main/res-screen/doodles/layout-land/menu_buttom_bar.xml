@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout android:id="@+id/menu_main"
+    android:layout_width="360dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="32dp"
+    android:background="@drawable/menu_main_rect"
+    android:orientation="horizontal"
+    android:elevation="40dp"
+    android:gravity="center"
+    android:divider="@drawable/divider"
+    android:showDividers="middle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:text="select"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/menu_button_style"/>
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="erase"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/menu_button_style"/>
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="preview"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/menu_button_style"/>
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="export"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/menu_button_style"
+            android:layout_marginEnd="20dp" />
+    </LinearLayout>
+
