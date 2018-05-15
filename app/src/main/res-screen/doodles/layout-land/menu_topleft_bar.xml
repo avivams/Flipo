@@ -9,6 +9,7 @@
     android:paddingEnd="5dp">
 
     <Button
+        android:id="@+id/btn_draw"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +18,7 @@
         android:text="draw"/>
 
     <Button
+        android:id="@+id/btn_path"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/menu_button_style"
@@ -24,6 +26,7 @@
         android:text="path" />
 
     <Button
+        android:id="@+id/btn_params"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/menu_button_style"
@@ -31,6 +34,7 @@
         android:text="params"/>
 
     <Button
+        android:id="@+id/btn_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/menu_button_style"

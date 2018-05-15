@@ -1,0 +1,77 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context="com.flipo.avivams.flipo.fragments.DrawingFragment">
+
+
+    <Button
+        android:id="@+id/button_exit"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:onClick="exitOnClick"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_exit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_draw_complete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="#00FF00"
+        android:visibility="gone"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_exit"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_hor_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_hor_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <include layout="@layout/menu_buttom_bar"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_center"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_center"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/surfaceView" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <include layout="@layout/menu_topleft_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_left"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_top"/>
+
+</android.support.constraint.ConstraintLayout>
