@@ -1,24 +1,19 @@
 package com.flipo.avivams.flipo.utilities;
 
-import android.graphics.Color;
+import java.util.LinkedList;
 
 public class AnimationPath {
-    private Stroke m_Path;
-    private Color m_PathColor;
+    private LinkedList<Stroke> m_Path;
 
-    public void SetPath(Stroke i_Path){
+    public AnimationPath(LinkedList<Stroke> path){
+        m_Path = path;
+    }
+
+    public void SetPath(LinkedList<Stroke> i_Path){
         m_Path = i_Path;
     }
 
-    public Stroke GetPath(){
+    public LinkedList<Stroke> GetPath(){
         return m_Path;
-    }
-
-    public void SetColor(Color i_Color){
-        m_PathColor = i_Color;
-    }
-
-    public Color GetColor(){
-        return m_PathColor;
     }
 }

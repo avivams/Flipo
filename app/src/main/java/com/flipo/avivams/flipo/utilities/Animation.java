@@ -3,23 +3,32 @@ package com.flipo.avivams.flipo.utilities;
 public class Animation {
     private AnimationPath m_AnimationPath;
     private int m_Speed;
+    private static int count = 0;
     private String m_Name;
     private Shape m_AnimationObject;
 
-    public void SetAnimationObject(Shape i_AnimationObject) {
+    public Animation(){
+        m_Name = "animation n" + (count++);
+    }
+
+    public Animation SetAnimationObject(Shape i_AnimationObject) {
         this.m_AnimationObject = i_AnimationObject;
+        return this;
     }
 
-    public void SetAnimationPath(AnimationPath i_AnimationPath) {
+    public Animation SetAnimationPath(AnimationPath i_AnimationPath) {
         this.m_AnimationPath = i_AnimationPath;
+        return this;
     }
 
-    public void SetName(String i_Name) {
+    public Animation SetName(String i_Name) {
         this.m_Name = i_Name;
+        return this;
     }
 
-    public void SetSpeed(int i_Speed) {
+    public Animation SetSpeed(int i_Speed) {
         this.m_Speed = i_Speed;
+        return this;
     }
 
     public AnimationPath GetAnimationPath() {

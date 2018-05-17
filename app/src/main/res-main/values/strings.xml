@@ -1,9 +1,28 @@
 <resources>
     <string name="app_name">Flipo</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- dialogs buttons text -->
+    <string name="btn_ok">OK</string>
+    <string name="btn_ok_gotit">Got It</string>
+    <string name="btn_ok_alright">Alright</string>
+    <string name="btn_yes">Go for it</string>
+    <string name="btn_no">No, Thanks</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- dialogs prompt messages to show -->
+    <string name="prompt_choose_shape">Please choose a shape to animate</string>
+    <string name="prompt_draw_shape_first">Yowza! You need to draw a shape first</string>
+    <string name="prompt_draw_path_first">Yowza! You need to draw a path first</string>
+    <string name="prompt_draw_path">Now draw a path</string>
+    <string name="prompt_exist_path_chose">Do you want this path to animate?</string>
+
+    <!-- dialog questions -->
+    <string name="quest_combine_exist_path">This path is already taken.\n Would you like to combine it also?</string>
+
+
+    <!-- this is the correspond dialog tags -->
+    <string name="dialog_tag_choose">choose dialog</string>
+    <string name="dialog_tag_draw_shape_first">draw shape first</string>
+    <string name="dialog_tag_draw_path_first">draw path first</string>
+    <string name="dialog_tag_draw_path">draw path</string>
+    <string name="dialog_tag_exist_path_chose">exist path</string>
 </resources>

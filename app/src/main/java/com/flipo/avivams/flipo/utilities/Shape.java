@@ -1,16 +1,20 @@
 package com.flipo.avivams.flipo.utilities;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Shape {
-    private ArrayList<Stroke> m_Shape;
+    private LinkedList<Stroke> m_Shape;
 
-    public void SetShape(ArrayList<Stroke> i_Stroke)
+    public Shape(LinkedList<Stroke> shape){
+        m_Shape = shape;
+    }
+
+    public void SetShape(LinkedList<Stroke> i_Stroke)
     {
         m_Shape = i_Stroke;
     }
 
-    public ArrayList<Stroke> getM_Shape() {
+    public LinkedList<Stroke> getM_Shape() {
         return m_Shape;
     }
 }

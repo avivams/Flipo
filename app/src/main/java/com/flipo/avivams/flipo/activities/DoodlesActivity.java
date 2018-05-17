@@ -1,7 +1,10 @@
 package com.flipo.avivams.flipo.activities;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
@@ -11,7 +14,13 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.flipo.avivams.flipo.R;
+import com.flipo.avivams.flipo.dialogs.ChooseDialog;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
+import com.flipo.avivams.flipo.utilities.Animation;
+import com.flipo.avivams.flipo.utilities.AnimationPath;
+import com.flipo.avivams.flipo.utilities.Shape;
+import com.flipo.avivams.flipo.utilities.Stroke;
+import com.wacom.ink.manipulation.Intersector;
 import com.wacom.ink.rasterization.BlendMode;
 import com.wacom.ink.rasterization.InkCanvas;
 import com.wacom.ink.rasterization.Layer;
@@ -19,6 +28,8 @@ import com.wacom.ink.rasterization.SolidColorBrush;
 import com.wacom.ink.rasterization.StrokePaint;
 import com.wacom.ink.rasterization.StrokeRenderer;
 import com.wacom.ink.rendering.EGLRenderingContext;
+
+import java.util.LinkedList;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -33,6 +44,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     private Layer m_ViewLayer, m_StrokesLayer, m_CurrentFrameLayer;
     private SolidColorBrush m_SolidBrush;
     private StrokePaint m_Paint;
+    private Intersector<Stroke> intersector;
 
 
     @Override
@@ -47,9 +59,12 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         setContentView(R.layout.activity_doodles);
         m_CanvasColor = getResources().getColor(R.color.canvasBackground);
 
+        m_SolidBrush = new SolidColorBrush();
+        createStrokePaint();
+
         initSurfaceView();
 
-        Fragment f = DrawingFragment.newInstance();
+        Fragment f = DrawingFragment.newInstance(m_Paint);
         getFragmentManager().beginTransaction().add(R.id.fragment_container, f).commit();
     }
 
@@ -70,17 +85,18 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 m_CurrentFrameLayer = m_Canvas.createLayer(width, height);//this layer contains all the drawings on screen.
                 //to add more drawings, we add them to this layer so on renderView() will update it.
 
-                m_Canvas.clearLayer(m_CurrentFrameLayer, getResources().getColor(R.color.canvasBackground));
-
-                m_SolidBrush = new SolidColorBrush();
-                createStrokePaint();
+                m_Canvas.clearLayer(m_CurrentFrameLayer, m_CanvasColor);
+                if(m_SolidBrush == null)
+                    m_SolidBrush = new SolidColorBrush();
+                if(m_Paint == null)
+                    createStrokePaint();
 
        //         m_Smoothener = new MultiChannelSmoothener(m_PathStride);
         //        m_Smoothener.enableChannel(2);
 
                 m_StrokeRenderer = new StrokeRenderer(m_Canvas, m_Paint, width, height);
 
-           //     intersector = new Intersector<Stroke>();
+                intersector = new Intersector<Stroke>();
 
                 /*USE A THREAD HERE
                 Log.d("loading", "loaded");
@@ -93,8 +109,6 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-
-
             }
 
             @Override
@@ -128,33 +142,56 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         //m_Paint.setWidth(Float.NaN);//draw it with width
         m_Paint.setWidth(50.0f);
     }
-    /*
-    //draw the strokes from the list from 'surfaceChanged'
-    public synchronized void drawStrokes(LinkedList<Stroke> strokesList, boolean withPaths) {
-        m_Canvas.setTarget(m_StrokesLayer);
-        m_Canvas.clearColor(Color.WHITE);
 
+    //draw the strokes from the list from 'surfaceChanged'
+    @Override
+    public synchronized void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
+        m_Canvas.setTarget(m_StrokesLayer);
+        m_Canvas.clearColor(m_CanvasColor);
+        int oldPaintColor = m_Paint.getColor();
+/*
         if(animation != null && !animation.isCancelled() && !(animation.getStatus() == AsyncTask.Status.FINISHED)){
             if(!selectedsList.isEmpty())
                 strokesList = selectedsList;
         }
+*/
 
+        for (Shape shape: shapesList){
+            for(Stroke stroke : shape.getM_Shape()) {
+                m_Paint.setColor(stroke.GetColor());
 
-        for (Stroke stroke: strokesList){
-            if(!withPaths && stroke.getType()== Stroke.StrokeType.PATH)
-                continue;
-            m_Paint.setColor(stroke.getColor());
+                m_StrokeRenderer.setStrokePaint(m_Paint);
+                m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
+                        stroke.getStartValue(), stroke.getEndValue(), true);
+                m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+            }
+        }
 
-            m_StrokeRenderer.setStrokePaint(m_Paint);
-            m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(),
-                    stroke.getStartValue(), stroke.getEndValue(), true);
-            m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+        for (Animation anim: anims){
+            for(Stroke stroke : anim.GetAnimationObject().getM_Shape()) {
+                m_Paint.setColor(stroke.GetColor());
+
+                m_StrokeRenderer.setStrokePaint(m_Paint);
+                m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
+                        stroke.getStartValue(), stroke.getEndValue(), true);
+                m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+            }
+
+            for(Stroke path : anim.GetAnimationPath().GetPath()) {
+                m_Paint.setColor(path.GetColor());
+
+                m_StrokeRenderer.setStrokePaint(m_Paint);
+                m_StrokeRenderer.drawPoints(path.getPoints(), 0, path.getSize(), path.getStride(),
+                        path.getStartValue(), path.getEndValue(), true);
+                m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+            }
         }
 
         m_Canvas.setTarget(m_CurrentFrameLayer);
-        m_Canvas.clearColor(Color.WHITE);
+        m_Canvas.clearColor(m_CanvasColor);
         m_Canvas.drawLayer(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
-    }*/
+        m_Paint.setColor(oldPaintColor);
+    }
 
 
     public void exitOnClick(View view){
@@ -179,6 +216,16 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     @Override
     public StrokeRenderer getRenderer() {
         return m_StrokeRenderer;
+    }
+
+    @Override
+    public void setNewPaint(StrokePaint newPaint){
+        m_Paint = newPaint;
+    }
+
+    @Override
+    public Intersector<Stroke> getIntersector() {
+        return intersector;
     }
 }
 

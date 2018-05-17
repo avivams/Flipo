@@ -16,4 +16,14 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!-- for transparent frame behind dialog -->
+    <style name="DialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!-- this animation style is for the dialogs to pop up -->
+    <style name="Dialog_PopUp">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
 </resources>

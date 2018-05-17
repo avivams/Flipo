@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dialog_corners_radius">20dp</dimen>
+    <dimen name="dialog_prompt_txt_size">20sp</dimen>
+    <dimen name="dialog_btn_txt_size">20sp</dimen>
+</resources>

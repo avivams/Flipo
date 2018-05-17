@@ -1,4 +1,4 @@
-package com.flipo.avivams.flipo.fragments;
+package com.flipo.avivams.flipo.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,5 +1,6 @@
 package com.flipo.avivams.flipo.utilities;
 
+import android.graphics.Color;
 import android.graphics.RectF;
 
 import java.nio.ByteBuffer;
@@ -12,8 +13,7 @@ import com.wacom.ink.rasterization.BlendMode;
 import com.wacom.ink.utils.Utils;
 
 public class Stroke implements Intersectable{
-    public static enum StrokeType{PATH, OBJ};
-    private StrokeType type;
+
     private FloatBuffer m_Points;
     private int m_Color;
     private int m_Stride;
@@ -26,12 +26,14 @@ public class Stroke implements Intersectable{
     private int m_Seed;
     private boolean m_HasRandomSeed;
 
+    private int m_formerColor;
+
     private FloatBuffer m_SegmentsBounds;
     private RectF bounds;
 
     public Stroke(){
         bounds = new RectF();
-        type = StrokeType.OBJ;
+        m_formerColor = -1;
     }
 
     public Stroke(int size) {
@@ -55,7 +57,7 @@ public class Stroke implements Intersectable{
         m_HasRandomSeed = source.m_HasRandomSeed;
         bounds = new RectF(source.bounds);
         m_SegmentsBounds = source.m_SegmentsBounds;
-        type = source.type;
+        m_formerColor = source.m_formerColor;
         CopyPoints(source.m_Points, 0, source.m_Size);
     }
 
@@ -99,13 +101,9 @@ public class Stroke implements Intersectable{
         return m_EndT;
     }
 
-    public StrokeType GetType() {
-        return type;
-    }
+    public int getFormerColor(){return m_formerColor;}
 
-    public void SetType(StrokeType type) {
-        this.type = type;
-    }
+    public void setFormerColor(int color){m_formerColor = color;}
 
     @Override
     public FloatBuffer getSegmentsBounds() {

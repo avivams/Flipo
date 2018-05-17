@@ -4,8 +4,9 @@ import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.erezd.animative.activities.MainActivity;
-import com.example.erezd.animative.utilities.serialization.Stroke;
+
+import com.flipo.avivams.flipo.activities.DoodlesActivity;
+import com.flipo.avivams.flipo.utilities.Stroke;
 
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
@@ -20,11 +21,11 @@ public class AnimationPlay extends AsyncTask<LinkedList<Stroke>[], Boolean, Void
     private RectF currentPoint;
     private int speed = 5;
     private FloatBuffer objectPoints;
-    private AnimeOnePointTask.AnimeResultListener activity;
+    private AnimeResultListener activity;
     private Stroke updatedPoints;
 
 
-    public AnimationPlay(AnimeOnePointTask.AnimeResultListener activity, int speed){
+    public AnimationPlay(AnimeResultListener activity, int speed){
         this.activity = activity;
         this.speed = speed;
     }
@@ -131,7 +132,7 @@ public class AnimationPlay extends AsyncTask<LinkedList<Stroke>[], Boolean, Void
 
     @Override
     protected void onProgressUpdate(Boolean... values) {
-        if(MainActivity.IsVisible()) {
+        //if(DoodlesActivity.IsVisible()) {
             // Log.d("loopStroke", "onProgressUpdate");
              activity.RenderOnAnime();
 
@@ -141,7 +142,7 @@ public class AnimationPlay extends AsyncTask<LinkedList<Stroke>[], Boolean, Void
            /* if(values.length > 0) {
                 activity.saveBitmap(updatedPoints, startStroke, values[0]);
             }*/
-        }
+      //  }
         super.onProgressUpdate(values);
     }
 
@@ -185,5 +186,12 @@ public class AnimationPlay extends AsyncTask<LinkedList<Stroke>[], Boolean, Void
         direction.x = direc.x;
         direction.y =  direc.y;
         return PointCalc.Distance(currentPoint.centerX(), currentPoint.centerY(), targetX, targetY);
+    }
+
+    public interface AnimeResultListener{
+        void RenderOnAnime();
+        //  void AnimeEnded(ArrayList<Bitmap> images);
+        void AnimeEnded();
+        void saveBitmap(Stroke copy, Stroke target, boolean isLastFrame);
     }
 }

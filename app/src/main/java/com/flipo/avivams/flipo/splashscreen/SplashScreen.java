@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.erezd.animative.R;
-import com.example.erezd.animative.activities.MainActivity;
+import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.activities.DoodlesActivity;
 
 public class SplashScreen extends AppCompatActivity {
@@ -48,10 +47,11 @@ public class SplashScreen extends AppCompatActivity {
 
     private void launch(){
         if(!isFinishing()){
+
             //checks if the app on the foreground
             if(m_Visible) {
                 startActivity(new Intent(this, DoodlesActivity.class));
-                overridePendingTransition(R.anim.splashscreen_fade_in, R.anim.splashscreen_fade_out);
+               // overridePendingTransition(R.anim.splashscreen_fade_in, R.anim.splashscreen_fade_out);
                 finish();
             }
             else{
