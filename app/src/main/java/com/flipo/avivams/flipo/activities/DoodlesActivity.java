@@ -190,7 +190,10 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         m_Canvas.setTarget(m_CurrentFrameLayer);
         m_Canvas.clearColor(m_CanvasColor);
         m_Canvas.drawLayer(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+
+        // restore the previous user's selected color
         m_Paint.setColor(oldPaintColor);
+        m_StrokeRenderer.setStrokePaint(m_Paint);
     }
 
 

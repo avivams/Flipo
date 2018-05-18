@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -360,20 +361,25 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
      */
     private void handleSelectShape(MotionEvent event, detectMarker type){
 
-        if(event.getAction() == MotionEvent.ACTION_UP){
-            buildPath(event);
+        boolean bFinished = buildPath(event); // only if buildPath is finished
+
+        if(bFinished) {
+
+            float w = m_Paint.getWidth();
+            m_Paint.setWidth(2.0f); //this is used by the intersector
             checkSelection(type);
+            m_Paint.setWidth(w);
 
             //the user selected a shape
-            if(m_selectedShape != null && type == detectMarker.SHAPES_ONLY){
-                paintThese(m_selectedShape, null, false);
+            if (m_selectedShape != null && type == detectMarker.SHAPES_ONLY) {
+                paintThese(m_selectedShape, null, false); //highlight it
                 DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_PATH, getFragmentManager().beginTransaction(), null);
                 m_btnCompletedDraw.setVisibility(View.VISIBLE);
-            }
-            else if(m_selectedAnim != null){ //the user chose a path or an object which already located in an Animation
+            } else if (m_selectedAnim != null) { //the user chose a path or an object which already located in an Animation
                 DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOSE_EXIST_PATH, getFragmentManager().beginTransaction(), this);
             }
         }
+
     }
 
 
@@ -410,7 +416,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
         //I CHANGED THE INTERSECTOR CODE HERE, see the tutorial for selecting the whole stroke
         intersector.setTargetAsStroke(m_PathBuilder.getPathBuffer(), m_PathBuilder.getPathLastUpdatePosition(),
-                m_PathBuilder.getAddedPointsSize(), m_PathBuilder.getStride());
+                m_PathBuilder.getAddedPointsSize(), m_PathBuilder.getStride(), m_Paint.getWidth());
 
         // TODO 10: add a UI THREAD for search ?
         if(restriction == detectMarker.SHAPES_ONLY) {
