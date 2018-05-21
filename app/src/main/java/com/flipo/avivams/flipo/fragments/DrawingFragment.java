@@ -1,5 +1,7 @@
 package com.flipo.avivams.flipo.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.DialogFragment;
@@ -8,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
@@ -24,10 +27,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
+import com.flipo.avivams.flipo.activities.DoodlesActivity;
 import com.flipo.avivams.flipo.dialogs.ChooseDialog;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
+import com.flipo.avivams.flipo.utilities.MyView;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
 import com.wacom.ink.boundary.Boundary;
@@ -50,7 +55,7 @@ import java.util.LinkedList;
 public class DrawingFragment extends Fragment implements DialogMatcher.ResultYesNoListener{
     private enum detectMarker{SHAPES_ONLY, PATHS_ONLY, ANY};
 
-    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle;
+    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnAnimate;
     private ImageButton m_btnCompletedDraw;
 
     private SpeedPathBuilder m_PathBuilder;
@@ -187,6 +192,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnParams = fView.findViewById(R.id.btn_params);
         m_btnStyle = fView.findViewById(R.id.btn_style);
         m_btnCompletedDraw = fView.findViewById(R.id.btn_draw_complete);
+        m_btnAnimate = fView.findViewById(R.id.btnAnimate);
 
         m_btnCompletedDraw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,6 +254,19 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 }
                 else
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
+            }
+        });
+
+        m_btnAnimate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(getViewToAnimate(), View.X, View.Y, getPathFromStroke(m_animations.getLast().GetAnimationPath().GetPath()));
+                    animator.setDuration(3000);
+                    animator.start();
+                }
+
             }
         });
 
@@ -415,7 +434,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         // TODO 10: add a UI THREAD for search ?
         if(restriction == detectMarker.SHAPES_ONLY) {
             for (Shape shape : m_shapes) {
-                for (Stroke stroke : shape.getM_Shape()) {
+                for (Stroke stroke : shape.getShape()) {
                     if (intersector.isIntersectingTarget(stroke)) {
                         m_selectedShape = shape;
                         return;
@@ -436,7 +455,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         else if(restriction == detectMarker.ANY){
 
             for (Animation anim : m_animations) {
-                for (Stroke stroke : anim.GetAnimationObject().getM_Shape()) {
+                for (Stroke stroke : anim.GetAnimationObject().getShape()) {
                     if (intersector.isIntersectingTarget(stroke)) {
                         m_selectedAnim = anim;
                         return;
@@ -492,7 +511,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int color;
 
         if(shape != null) {
-            for (Stroke stroke : shape.getM_Shape()){
+            for (Stroke stroke : shape.getShape()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
                 stroke.setFormerColor(stroke.GetColor());
                 stroke.SetColor(color);
@@ -580,4 +599,35 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     }
     private Path path;
      */
+
+    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
+        Path path;
+
+        BoundaryBuilder builder = new BoundaryBuilder();
+
+        for(Stroke stroke : i_AnimationPath){
+            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
+        }
+
+        Boundary boundary = builder.getBoundary();
+        path = boundary.createPath();
+
+        return path;
+    }
+
+    private View getViewToAnimate(){
+        MyView view = new MyView(getActivity());
+
+        BoundaryBuilder builder = new BoundaryBuilder();
+
+        for(Stroke stroke : m_animations.getLast().GetAnimationObject().getShape()){
+            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
+        }
+
+        Boundary boundary = builder.getBoundary();
+        view.setObject(boundary.createPath());
+        view.invalidate();
+
+        return view;
+    }
 }

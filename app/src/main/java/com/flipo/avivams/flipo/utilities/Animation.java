@@ -1,5 +1,10 @@
 package com.flipo.avivams.flipo.utilities;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Path;
+import android.os.Build;
+import android.view.View;
+
 public class Animation {
     private AnimationPath m_AnimationPath;
     private int m_Speed;

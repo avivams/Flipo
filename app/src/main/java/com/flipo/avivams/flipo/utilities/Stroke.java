@@ -1,7 +1,9 @@
 package com.flipo.avivams.flipo.utilities;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.view.View;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -32,6 +34,7 @@ public class Stroke implements Intersectable{
     private RectF bounds;
 
     public Stroke(){
+        super();
         bounds = new RectF();
         m_formerColor = -1;
     }
