@@ -10,9 +10,11 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
+import com.flipo.avivams.flipo.fragments.PreviewFragment;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
@@ -246,6 +248,13 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     @Override
     public Intersector<Stroke> getIntersector() {
         return intersector;
+    }
+
+    @Override
+    public void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
+        Toast.makeText(this, "started preview", Toast.LENGTH_SHORT);
+        Fragment f = PreviewFragment.newInstance(shapesList, anims);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
     }
 }
 

@@ -45,7 +45,7 @@ import java.util.LinkedList;
 public class DrawingFragment extends Fragment implements DialogMatcher.ResultYesNoListener{
     private enum detectMarker{SHAPES_ONLY, PATHS_ONLY, ANY};
 
-    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls;
+    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls, m_btnPreview;
     private View m_topLeftBarView;
     private ImageButton m_btnCompletedDraw, m_btnToolsOpn;
 
@@ -190,6 +190,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     }
 
 
+    /**
+     * initialize all buttons in fragment and their behavior
+     * @param fView the fragment view
+     */
     private void initButtonsListeners(final View fView){
 
         m_btnDraw = fView.findViewById(R.id.btn_draw);
@@ -199,6 +203,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnCompletedDraw = fView.findViewById(R.id.btn_draw_complete);
         m_btnToolsCls = fView.findViewById(R.id.btn_cls_tools);
         m_btnToolsOpn = fView.findViewById(R.id.btn_opn_tools);
+        m_btnPreview = fView.findViewById(R.id.btn_preview);
         m_topLeftBarView = fView.findViewById(R.id.menu_topleft_bar_view);
 
         final View styleView =  fView.findViewById(R.id.menu_topleft_bar_style_tab);
@@ -295,6 +300,13 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 }
                 else
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
+            }
+        });
+
+        m_btnPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.startPreviewFragment(m_shapes, m_animations);
             }
         });
 
@@ -630,6 +642,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         Intersector<Stroke> getIntersector();
         void setNewPaint(StrokePaint newPaint);
         void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims);
+        void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims);
     }
 
     /**

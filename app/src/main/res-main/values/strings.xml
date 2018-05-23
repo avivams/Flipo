@@ -31,4 +31,7 @@
     <string name="dialog_tag_draw_path_first">draw path first</string>
     <string name="dialog_tag_draw_path">draw path</string>
     <string name="dialog_tag_exist_path_chose">exist path</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
