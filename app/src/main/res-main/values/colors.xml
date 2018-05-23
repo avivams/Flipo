@@ -9,4 +9,9 @@
 
 
     <color name="dialog_primery_color">#FFFFBB33</color>
+
+    <color name="menu_btn_open">#2b7128</color>
+    <color name="menu_btn_draw_path">#8243cf</color>
+    <color name="menu_btn_params">#4b494e</color>
+
 </resources>

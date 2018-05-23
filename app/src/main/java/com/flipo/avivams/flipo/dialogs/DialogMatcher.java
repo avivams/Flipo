@@ -11,7 +11,7 @@ import com.flipo.avivams.flipo.R;
 
 public class DialogMatcher {
 
-    public enum DialogType{CHOOSE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH};
+    public enum DialogType{CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH};
 
     public static void showDialog(Context context, DialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
 
@@ -19,6 +19,11 @@ public class DialogMatcher {
             case CHOOSE_SHAPE:
                 ChooseDialog.chooseDialogInstance(context.getString(R.string.prompt_choose_shape), context.getString(R.string.btn_ok_gotit))
                         .show(transaction, context.getString(R.string.dialog_tag_choose));
+                break;
+
+            case CHOOSE_FREE_SHAPE:
+                ChooseDialog.chooseDialogInstance(context.getString(R.string.prompt_choose_free_shape), context.getString(R.string.btn_ok_alright))
+                        .show(transaction, context.getString(R.string.prompt_choose_free_shape));
                 break;
 
             case DRAW_PATH:

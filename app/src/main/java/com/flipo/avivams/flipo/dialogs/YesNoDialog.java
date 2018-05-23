@@ -53,13 +53,13 @@ public class YesNoDialog extends DialogFragment {
             }
         });
 
-        Button cancel = dialog.findViewById(R.id.btn_no);
-        cancel.setText(btnCancelTxt);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        Button cancelBtn = dialog.findViewById(R.id.btn_no);
+        cancelBtn.setText(btnCancelTxt);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.resultCancel();
-                dismiss();
+                getDialog().cancel();
             }
         });
 
@@ -75,4 +75,5 @@ public class YesNoDialog extends DialogFragment {
         listener = null;
         super.onDismiss(dialog);
     }
+
 }
