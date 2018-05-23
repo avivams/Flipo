@@ -8,18 +8,19 @@
     android:background="@drawable/menu_main_rect"
     android:orientation="horizontal"
     android:elevation="40dp"
-    android:gravity="center"
+    android:weightSum="3"
     android:divider="@drawable/divider"
     android:showDividers="middle"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:text="select"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_zoom"
+            android:drawablePadding="0dp"
             android:background="@drawable/menu_button_style"/>
 
 
@@ -27,27 +28,21 @@
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:text="erase"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:drawablePadding="0dp"
+            android:drawableTop="@android:drawable/ic_menu_delete"
             android:background="@drawable/menu_button_style"/>
 
-
-    <Button
-        android:id="@+id/btnAnimate"
-        android:layout_width="70dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/menu_button_style"
-        android:text="preview" />
-
-
         <Button
+            android:id="@+id/btn_preview"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:text="export"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/menu_button_style"
-            android:layout_marginEnd="20dp" />
+            android:text="preview"
+            android:drawablePadding="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_media_play"
+            android:background="@drawable/menu_button_style"/>
+
     </LinearLayout>
 

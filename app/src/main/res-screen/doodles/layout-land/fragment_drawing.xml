@@ -32,12 +32,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_exit"/>
 
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline_hor_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.46" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_hor_bottom"
@@ -66,15 +67,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.12" />
+        app:layout_constraintGuide_percent="0.19" />
 
-    <include layout="@layout/menu_topleft_bar"
+
+    <include
+        android:id="@+id/menu_topleft_bar_view"
+        layout="@layout/menu_topleft_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline_ver_left"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_top"/>
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/btn_opn_tools"
+        app:layout_constraintTop_toTopOf="@id/btn_opn_tools" />
 
+
+    <ImageButton
+        android:id="@+id/btn_opn_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/top_menu_opn_btn"
+        android:elevation="10dp"
+        android:src="@android:drawable/ic_menu_sort_by_size"
+        android:tint="#2b7128"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Flipo</string>
 
+    <string name="menu_tools_title">Tools</string>
+    <string name="menu_style_title">Style</string>
+    <string name="menu_params_title">Parameters</string>
+
     <!-- dialogs buttons text -->
     <string name="btn_ok">OK</string>
     <string name="btn_ok_gotit">Got It</string>
@@ -10,6 +14,7 @@
 
     <!-- dialogs prompt messages to show -->
     <string name="prompt_choose_shape">Please choose a shape to animate</string>
+    <string name="prompt_choose_free_shape">You need to choose a non-animated shape</string>
     <string name="prompt_draw_shape_first">Yowza! You need to draw a shape first</string>
     <string name="prompt_draw_path_first">Yowza! You need to draw a path first</string>
     <string name="prompt_draw_path">Now draw a path</string>
@@ -21,8 +26,12 @@
 
     <!-- this is the correspond dialog tags -->
     <string name="dialog_tag_choose">choose dialog</string>
+    <string name="dialog_tag_choose_free_shape">choose free shape</string>
     <string name="dialog_tag_draw_shape_first">draw shape first</string>
     <string name="dialog_tag_draw_path_first">draw path first</string>
     <string name="dialog_tag_draw_path">draw path</string>
     <string name="dialog_tag_exist_path_chose">exist path</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

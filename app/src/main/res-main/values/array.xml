@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- For palette use, in the menu bar -->
+    <array name="palette_colors">
+        <item>#000000</item>
+        <item>#FF0000</item>
+        <item>#00FF00</item>
+        <item>#0000FF</item>
+        <item>#fffb00</item>
+        <item>#1dd1d1</item>
+        <item>#ff00a1</item>
+    </array>
+</resources>

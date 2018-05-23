@@ -1,23 +1,21 @@
 package com.flipo.avivams.flipo.activities;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
-import com.flipo.avivams.flipo.dialogs.ChooseDialog;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
+import com.flipo.avivams.flipo.fragments.PreviewFragment;
 import com.flipo.avivams.flipo.utilities.Animation;
-import com.flipo.avivams.flipo.utilities.AnimationPath;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
 import com.wacom.ink.manipulation.Intersector;
@@ -51,11 +49,11 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //transparent navigation bar background
+        //transparent navigation bar background (delete this in order to get the normal one)
         Window w = getWindow(); // in Activity's onCreate() for instance
-
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         ///////
+
         setContentView(R.layout.activity_doodles);
         m_CanvasColor = getResources().getColor(R.color.canvasBackground);
 
@@ -143,18 +141,22 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         m_Canvas.dispose();
     }
 
+
     //draw the strokes from the list from 'surfaceChanged'
     @Override
     public synchronized void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
         m_Canvas.setTarget(m_StrokesLayer);
         m_Canvas.clearColor(m_CanvasColor);
+
         int oldPaintColor = m_Paint.getColor();
+
 /*
         if(animation != null && !animation.isCancelled() && !(animation.getStatus() == AsyncTask.Status.FINISHED)){
             if(!selectedsList.isEmpty())
                 strokesList = selectedsList;
         }
 */
+        m_StrokeRenderer.reset(); //resets being used inorder to overcome the bug of coloring other shapes with wrong color
 
         for (Shape shape: shapesList){
             for(Stroke stroke : shape.getShape()) {
@@ -164,33 +166,53 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
                         stroke.getStartValue(), stroke.getEndValue(), true);
                 m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+                m_StrokeRenderer.reset();
             }
         }
 
+        m_StrokeRenderer.reset();
+
         for (Animation anim: anims){
-            for(Stroke stroke : anim.GetAnimationObject().getShape()) {
-                m_Paint.setColor(stroke.GetColor());
+
+            Log.d("anim_draw", "drawing new anim");
+            for(Stroke stroke : anim.GetAnimationObject().getM_Shape()) {
+
+                int color = stroke.GetColor();
+                Log.d("anim_draw", "color: " + color);
+
+                m_Paint.setColor(color);
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
                 m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
                         stroke.getStartValue(), stroke.getEndValue(), true);
                 m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+
+                m_StrokeRenderer.reset();
             }
 
             for(Stroke path : anim.GetAnimationPath().GetPath()) {
-                m_Paint.setColor(path.GetColor());
+                int color = path.GetColor();
+                Log.d("anim_draw", "color: " + color);
+
+                m_Paint.setColor(color);
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
                 m_StrokeRenderer.drawPoints(path.getPoints(), 0, path.getSize(), path.getStride(),
                         path.getStartValue(), path.getEndValue(), true);
                 m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+
+                m_StrokeRenderer.reset();
             }
+            m_StrokeRenderer.reset();
         }
 
         m_Canvas.setTarget(m_CurrentFrameLayer);
         m_Canvas.clearColor(m_CanvasColor);
         m_Canvas.drawLayer(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+
+        // restore the previous user's selected color
         m_Paint.setColor(oldPaintColor);
+        m_StrokeRenderer.setStrokePaint(m_Paint);
     }
 
 
@@ -226,6 +248,13 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     @Override
     public Intersector<Stroke> getIntersector() {
         return intersector;
+    }
+
+    @Override
+    public void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
+        Toast.makeText(this, "started preview", Toast.LENGTH_SHORT);
+        Fragment f = PreviewFragment.newInstance(shapesList, anims);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
     }
 }
 

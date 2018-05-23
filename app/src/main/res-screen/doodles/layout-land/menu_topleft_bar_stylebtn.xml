@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#f7f7f7"
+    android:elevation="40dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    tools:showIn="@layout/menu_topleft_bar">
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Brush"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000000"
+        android:drawableEnd="@android:drawable/ic_menu_edit"/>
+
+    <Spinner
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown">
+
+    </Spinner>
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000000"
+        android:drawableEnd="@android:drawable/ic_menu_zoom"/>
+
+    <SeekBar
+        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:max="80" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Color"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#000000" />
+
+    <GridView
+        android:id="@+id/menu_style_palette"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center">
+    </GridView>
+
+</LinearLayout>
