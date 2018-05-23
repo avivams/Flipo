@@ -66,6 +66,16 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         getFragmentManager().beginTransaction().add(R.id.fragment_container, f).commit();
     }
 
+    /**
+     * specifies how to draw each stroke
+     */
+    private void createStrokePaint() {
+        m_Paint = new StrokePaint();
+        m_Paint.setStrokeBrush(m_SolidBrush);
+        m_Paint.setColor(Color.BLUE);// Particle brush.
+        //m_Paint.setWidth(Float.NaN);//draw it with width
+        m_Paint.setWidth(50.0f);
+    }
 
     private void initSurfaceView() {
         m_SurfaceView = findViewById(R.id.surfaceView);
@@ -110,35 +120,25 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
+            public void surfaceDestroyed(SurfaceHolder holder)
+            {
                 releaseResources();
             }
 
         });
     }
 
-    private void releaseResources(){
-        m_StrokeRenderer.dispose();
-        m_Canvas.dispose();
-    }
-
     @Override
     public void renderView() {
         m_Canvas.setTarget(m_ViewLayer);
         m_Canvas.drawLayer(m_CurrentFrameLayer, BlendMode.BLENDMODE_OVERWRITE);
-       // m_Canvas.clearColor(getResources().getColor(R.color.canvasBackground));
+        // m_Canvas.clearColor(getResources().getColor(R.color.canvasBackground));
         m_Canvas.invalidate();
     }
 
-    /**
-     * specifies how to draw each stroke
-     */
-    private void createStrokePaint() {
-        m_Paint = new StrokePaint();
-        m_Paint.setStrokeBrush(m_SolidBrush);
-        m_Paint.setColor(Color.BLUE);// Particle brush.
-        //m_Paint.setWidth(Float.NaN);//draw it with width
-        m_Paint.setWidth(50.0f);
+    private void releaseResources(){
+        m_StrokeRenderer.dispose();
+        m_Canvas.dispose();
     }
 
 
@@ -159,7 +159,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         m_StrokeRenderer.reset(); //resets being used inorder to overcome the bug of coloring other shapes with wrong color
 
         for (Shape shape: shapesList){
-            for(Stroke stroke : shape.getM_Shape()) {
+            for(Stroke stroke : shape.getShape()) {
                 m_Paint.setColor(stroke.GetColor());
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);

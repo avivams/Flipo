@@ -1,8 +1,11 @@
 package com.flipo.avivams.flipo.utilities;
 
+import android.content.Context;
+import android.view.View;
+
 import java.util.LinkedList;
 
-public class Shape {
+public class Shape{
     private LinkedList<Stroke> m_Shape;
 
     public Shape(LinkedList<Stroke> shape){
@@ -14,7 +17,7 @@ public class Shape {
         m_Shape = i_Stroke;
     }
 
-    public LinkedList<Stroke> getM_Shape() {
+    public LinkedList<Stroke> getShape() {
         return m_Shape;
     }
 }
