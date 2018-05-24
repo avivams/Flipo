@@ -175,7 +175,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         for (Animation anim: anims){
 
             Log.d("anim_draw", "drawing new anim");
-            for(Stroke stroke : anim.GetAnimationObject().getM_Shape()) {
+            for(Stroke stroke : anim.GetAnimationObject().getShape()) {
 
                 int color = stroke.GetColor();
                 Log.d("anim_draw", "color: " + color);
@@ -252,7 +252,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
     @Override
     public void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
-        Toast.makeText(this, "started preview", Toast.LENGTH_SHORT);
+
         Fragment f = PreviewFragment.newInstance(shapesList, anims);
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
     }
