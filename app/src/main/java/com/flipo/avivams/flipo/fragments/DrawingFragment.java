@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ import com.flipo.avivams.flipo.utilities.AnimationPath;
 import com.flipo.avivams.flipo.utilities.MyView;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
+import com.wacom.ink.boundary.Boundary;
+import com.wacom.ink.boundary.BoundaryBuilder;
 import com.wacom.ink.manipulation.Intersector;
 import com.wacom.ink.path.PathUtils;
 import com.wacom.ink.path.SpeedPathBuilder;
@@ -613,7 +616,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int color;
 
         if(shape != null) {
-            for (Stroke stroke : shape.getM_Shape()){
+            for (Stroke stroke : shape.getShape()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
                 if(!oldColor)
                     stroke.setFormerColor(stroke.GetColor());
