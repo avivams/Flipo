@@ -3,8 +3,12 @@ package com.flipo.avivams.flipo.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Path;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.PathShape;
 import android.view.View;
+import android.view.animation.Animation;
 
 public class MyView extends View{
 
@@ -23,7 +27,7 @@ public class MyView extends View{
     }
 
     private Bitmap createBitmap(){
-        Bitmap bmp = Bitmap.createBitmap( this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
 
         return bmp;
     }

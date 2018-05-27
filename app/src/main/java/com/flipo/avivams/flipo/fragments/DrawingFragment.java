@@ -313,12 +313,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             @Override
             public void onClick(View v) {
                 mListener.startPreviewFragment(m_shapes, m_animations);
-
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ObjectAnimator animator = ObjectAnimator.ofFloat(getViewToAnimate(), View.X, View.Y, getPathFromStroke(m_animations.getLast().GetAnimationPath().GetPath()));
-                    animator.setDuration(3000);
-                    animator.start();
-                }*/
             }
         });
 
@@ -708,34 +702,5 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private Path path;
      */
 
-    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
-        Path path;
 
-        BoundaryBuilder builder = new BoundaryBuilder();
-
-        for(Stroke stroke : i_AnimationPath){
-            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-        }
-
-        Boundary boundary = builder.getBoundary();
-        path = boundary.createPath();
-
-        return path;
-    }
-
-    private View getViewToAnimate(){
-        MyView view = new MyView(getActivity());
-
-        BoundaryBuilder builder = new BoundaryBuilder();
-
-        for(Stroke stroke : m_animations.getLast().GetAnimationObject().getShape()){
-            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-        }
-
-        Boundary boundary = builder.getBoundary();
-        view.setObject(boundary.createPath());
-        view.invalidate();
-
-        return view;
-    }
 }
