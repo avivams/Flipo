@@ -51,7 +51,8 @@ import java.util.LinkedList;
 public class DrawingFragment extends Fragment implements DialogMatcher.ResultYesNoListener{
     private enum detectMarker{SHAPES_ONLY, PATHS_ONLY, ANY};
 
-    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls, m_btnPreview;
+    private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls, m_btnPreview,
+            m_btnErase;
     private View m_topLeftBarView;
     private ImageButton m_btnCompletedDraw, m_btnToolsOpn;
 
@@ -67,12 +68,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private LinkedList<Shape> m_shapes;
     private LinkedList<Animation> m_animations;
 
+    private Stroke m_selectedStroke; //stroke which in drawing mode
     private Shape m_selectedShape;
     private Animation m_selectedAnimShape, m_selectedAnimPath; // to distinguish what exactly the user clicked on as part of an animation
     private int m_ColorCanvas;
     private boolean isDrawingNow;
-
-// TODO 1 IMPORTANT : when user wants to delete - if a user chose an shape then delete the whole animation with the path. if the user chose a path, then delete the animation and send the shape to the shape list
 
 
     public DrawingFragment() {
@@ -158,6 +158,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                     if(m_topLeftBarView.getVisibility() == View.VISIBLE)
                         m_btnToolsCls.callOnClick();
 
+                    if(m_btnErase.isSelected()){
+                        handleSelectShape(event, detectMarker.ANY);
+                        return true;
+                    }
+
                     if(m_btnDraw.isSelected()) {
                         drawingMode(event);
                         return true;
@@ -211,6 +216,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnToolsOpn = fView.findViewById(R.id.btn_opn_tools);
         m_btnPreview = fView.findViewById(R.id.btn_preview);
         m_topLeftBarView = fView.findViewById(R.id.menu_topleft_bar_view);
+        m_btnErase = fView.findViewById(R.id.btn_erase);
 
         final View styleView =  fView.findViewById(R.id.menu_topleft_bar_style_tab);
 
@@ -309,6 +315,24 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
+
+        m_btnErase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                closeTopLeftBar();
+                m_btnErase.setSelected(!(m_btnErase.isSelected()));
+
+                //if no shape was drawn, then show a dialog and turn 'draw button' on
+                if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
+                    m_btnDraw.callOnClick();
+                }
+            }
+        });
+
+
+
         m_btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,6 +343,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         //set the draw button as pressed by default
         m_btnDraw.setSelected(true);
         m_btnCompletedDraw.setVisibility(View.VISIBLE);
+    }
+
+
+    private void closeTopLeftBar(){
+        if(m_topLeftBarView.getVisibility() == View.VISIBLE)
+            m_btnToolsCls.callOnClick();
     }
 
 
@@ -386,7 +416,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private void stopBuildStroke(){
         if(!(m_builtStrokes.isEmpty())) {
             m_builtStrokes.clear();
-            mListener.drawShapes(m_shapes, m_animations);
+            mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
             mListener.renderView();
         }
     }
@@ -468,8 +498,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             checkSelection(type);
             m_Paint.setWidth(w);
 
+            if(m_btnErase.isSelected()){
+                DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), this);
+            }
+            
             //the user selected a shape or an animation path
-            if (m_btnPath.isSelected()) {
+            else if (m_btnPath.isSelected()) {
                 if (m_selectedShape != null && type == detectMarker.SHAPES_ONLY) {
 
                     paintThese(m_selectedShape, null, false); //highlight it
@@ -548,6 +582,13 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         }
         else if(restriction == detectMarker.ANY){
+
+            for(Stroke stroke : m_builtStrokes){
+                if (intersector.isIntersectingTarget(stroke)) {
+                    m_selectedStroke = stroke;
+                    return;
+                }
+            }
 
             for (Animation anim : m_animations) {
                 for (Stroke stroke : anim.GetAnimationObject().getShape()) {
@@ -628,7 +669,44 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         }
 
-        mListener.drawShapes(m_shapes, m_animations);
+        mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
+        mListener.renderView();
+    }
+
+
+    private void deleteStroke(){
+
+        //user erasing a stroke when drawing
+        if(m_selectedStroke != null) {
+            m_builtStrokes.remove(m_selectedStroke);
+            m_selectedStroke = null;
+        }
+        // the user erasing a shape (only objects that are not current shape)
+        else if(m_selectedShape != null && !(m_btnPath.isSelected())){
+            m_shapes.remove(m_selectedShape);
+            m_selectedShape = null;
+        }
+
+        //if the user chose to delete a path, then send any shape corresponds to this path, to the shapes list.
+        else if( m_selectedAnimPath != null ){
+            for(Animation anim : m_animations){
+                //find if there are other shapes corresponds to this path
+               if(anim != m_selectedAnimPath && anim.GetAnimationPath() == m_selectedAnimPath.GetAnimationPath()){
+                   m_shapes.add(anim.GetAnimationObject());
+                   m_animations.remove(anim);
+               }
+            }
+            m_shapes.add(m_selectedAnimPath.GetAnimationObject());
+            m_animations.remove(m_selectedAnimPath);
+            m_selectedAnimPath = null;
+        }
+        // if user chose to delete a shape then delete its whole animation
+        else if( m_selectedAnimShape != null){
+            m_animations.remove(m_selectedAnimShape);
+            m_selectedAnimShape = null;
+        }
+
+        mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
         mListener.renderView();
     }
 
@@ -646,7 +724,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         StrokeRenderer getRenderer();
         Intersector<Stroke> getIntersector();
         void setNewPaint(StrokePaint newPaint);
-        void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims);
+        void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims, LinkedList<Stroke> strokes);
         void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims);
     }
 
@@ -667,15 +745,33 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
      */
     @Override
     public void resultOk() {
+
+        if(m_btnErase.isSelected()) {
+            deleteStroke();
+            m_btnErase.setSelected(false);
+            return;
+        }
         if(m_btnPath.isSelected() && m_selectedAnimPath != null) { //the user chose an existing path and decided to merge
             completeDrawPath(m_selectedAnimPath.GetAnimationPath()); // create animation with the selected path
         }
+
     }
     /**
      * this is a callback from dialog
      */
     @Override
     public void resultCancel() {
+
+        if(m_btnErase.isSelected()){
+            if(!(m_btnPath.isSelected())){ // if the path btn is not selected then we can null it
+                m_selectedShape = null;
+            }
+
+            m_selectedStroke = null;
+            m_selectedAnimPath = m_selectedAnimShape = null;
+            m_btnErase.setSelected(false);
+        }
+
         if(m_btnPath.isSelected() && m_selectedAnimPath != null) { //the user chose an existing path and decided to cancel
             m_selectedAnimPath = null;
         }

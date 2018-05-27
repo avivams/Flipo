@@ -14,6 +14,7 @@
 
     <!-- dialogs prompt messages to show -->
     <string name="prompt_choose_shape">Please choose a shape to animate</string>
+    <string name="prompt_choose_to_erase">Please choose an object to delete</string>
     <string name="prompt_choose_free_shape">You need to choose a non-animated shape</string>
     <string name="prompt_draw_shape_first">Yowza! You need to draw a shape first</string>
     <string name="prompt_draw_path_first">Yowza! You need to draw a path first</string>
@@ -22,16 +23,17 @@
 
     <!-- dialog questions -->
     <string name="quest_combine_exist_path">This path is already taken.\n Would you like to combine it also?</string>
+    <string name="quest_erase_selected">Are you sure to delete this object?</string>
 
 
     <!-- this is the correspond dialog tags -->
     <string name="dialog_tag_choose">choose dialog</string>
+    <string name="dialog_tag_choose_delete">choose to delete</string>
     <string name="dialog_tag_choose_free_shape">choose free shape</string>
     <string name="dialog_tag_draw_shape_first">draw shape first</string>
     <string name="dialog_tag_draw_path_first">draw path first</string>
     <string name="dialog_tag_draw_path">draw path</string>
     <string name="dialog_tag_exist_path_chose">exist path</string>
+    <string name="dialog_tag_delete_chosed">delete chosed</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
