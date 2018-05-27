@@ -28,6 +28,7 @@
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:text="erase"
+            android:id="@+id/btn_erase"
             android:layout_weight="1"
             android:drawablePadding="0dp"
             android:drawableTop="@android:drawable/ic_menu_delete"

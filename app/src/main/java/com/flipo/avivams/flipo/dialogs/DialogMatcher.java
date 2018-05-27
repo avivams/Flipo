@@ -11,7 +11,8 @@ import com.flipo.avivams.flipo.R;
 
 public class DialogMatcher {
 
-    public enum DialogType{CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH};
+    public enum DialogType{CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
+                            CHOOSE_DELETE, DELETE_CHOSED};
 
     public static void showDialog(Context context, DialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
 
@@ -23,7 +24,12 @@ public class DialogMatcher {
 
             case CHOOSE_FREE_SHAPE:
                 ChooseDialog.chooseDialogInstance(context.getString(R.string.prompt_choose_free_shape), context.getString(R.string.btn_ok_alright))
-                        .show(transaction, context.getString(R.string.prompt_choose_free_shape));
+                        .show(transaction, context.getString(R.string.dialog_tag_choose_free_shape));
+                break;
+
+            case CHOOSE_DELETE:
+                ChooseDialog.chooseDialogInstance(context.getString(R.string.prompt_choose_to_erase), context.getString(R.string.btn_ok_alright))
+                        .show(transaction, context.getString(R.string.dialog_tag_choose_delete));
                 break;
 
             case DRAW_PATH:
@@ -45,6 +51,12 @@ public class DialogMatcher {
                 YesNoDialog.yesNoDialogInstance(context.getString(R.string.quest_combine_exist_path), context.getString(R.string.btn_yes),
                         context.getString(R.string.btn_no), listener).show(transaction, context.getString(R.string.quest_combine_exist_path));
                 break;
+
+            case DELETE_CHOSED:
+                YesNoDialog.yesNoDialogInstance(context.getString(R.string.quest_erase_selected), context.getString(R.string.btn_yes),
+                        context.getString(R.string.btn_no), listener).show(transaction, context.getString(R.string.dialog_tag_choose_delete));
+                break;
+
         }
     }
 

@@ -144,11 +144,23 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
     //draw the strokes from the list from 'surfaceChanged'
     @Override
-    public synchronized void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
+    public synchronized void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims, LinkedList<Stroke> strokes) {
         m_Canvas.setTarget(m_StrokesLayer);
         m_Canvas.clearColor(m_CanvasColor);
 
         int oldPaintColor = m_Paint.getColor();
+
+        m_StrokeRenderer.reset(); //resets being used inorder to overcome the bug of coloring other shapes with wrong color
+
+        for(Stroke stroke : strokes){
+            m_Paint.setColor(stroke.GetColor());
+
+            m_StrokeRenderer.setStrokePaint(m_Paint);
+            m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
+                    stroke.getStartValue(), stroke.getEndValue(), true);
+            m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
+            m_StrokeRenderer.reset();
+        }
 
 /*
         if(animation != null && !animation.isCancelled() && !(animation.getStatus() == AsyncTask.Status.FINISHED)){
@@ -156,7 +168,6 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 strokesList = selectedsList;
         }
 */
-        m_StrokeRenderer.reset(); //resets being used inorder to overcome the bug of coloring other shapes with wrong color
 
         for (Shape shape: shapesList){
             for(Stroke stroke : shape.getM_Shape()) {
