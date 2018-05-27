@@ -34,7 +34,6 @@
             android:drawableTop="@android:drawable/ic_menu_delete"
             android:background="@drawable/menu_button_style"/>
 
-
         <Button
             android:id="@+id/btn_preview"
             android:layout_width="70dp"

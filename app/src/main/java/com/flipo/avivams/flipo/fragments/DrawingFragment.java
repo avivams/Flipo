@@ -1,5 +1,7 @@
 package com.flipo.avivams.flipo.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -26,6 +28,7 @@ import com.flipo.avivams.flipo.dialogs.DialogMatcher;
 import com.flipo.avivams.flipo.ui.PaletteAdapter;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
+import com.flipo.avivams.flipo.utilities.MyView;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
 import com.wacom.ink.manipulation.Intersector;
@@ -331,6 +334,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             @Override
             public void onClick(View v) {
                 mListener.startPreviewFragment(m_shapes, m_animations);
+
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(getViewToAnimate(), View.X, View.Y, getPathFromStroke(m_animations.getLast().GetAnimationPath().GetPath()));
+                    animator.setDuration(3000);
+                    animator.start();
+                }*/
             }
         });
 
@@ -557,7 +566,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         // TODO 2: should we add a UI THREAD for search ?
         if(restriction == detectMarker.SHAPES_ONLY) {
             for (Shape shape : m_shapes) {
-                for (Stroke stroke : shape.getM_Shape()) {
+                for (Stroke stroke : shape.getShape()) {
                     if (intersector.isIntersectingTarget(stroke)) {
                         m_selectedShape = shape;
                         return;
@@ -585,7 +594,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
 
             for (Animation anim : m_animations) {
-                for (Stroke stroke : anim.GetAnimationObject().getM_Shape()) {
+                for (Stroke stroke : anim.GetAnimationObject().getShape()) {
                     if (intersector.isIntersectingTarget(stroke)) {
                         m_selectedAnimShape = anim;
                         return;
@@ -645,7 +654,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int color;
 
         if(shape != null) {
-
             for (Stroke stroke : shape.getM_Shape()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
                 if(!oldColor)
@@ -792,4 +800,35 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     }
     private Path path;
      */
+
+    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
+        Path path;
+
+        BoundaryBuilder builder = new BoundaryBuilder();
+
+        for(Stroke stroke : i_AnimationPath){
+            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
+        }
+
+        Boundary boundary = builder.getBoundary();
+        path = boundary.createPath();
+
+        return path;
+    }
+
+    private View getViewToAnimate(){
+        MyView view = new MyView(getActivity());
+
+        BoundaryBuilder builder = new BoundaryBuilder();
+
+        for(Stroke stroke : m_animations.getLast().GetAnimationObject().getShape()){
+            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
+        }
+
+        Boundary boundary = builder.getBoundary();
+        view.setObject(boundary.createPath());
+        view.invalidate();
+
+        return view;
+    }
 }
