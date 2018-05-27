@@ -701,6 +701,4 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     }
     private Path path;
      */
-
-
 }

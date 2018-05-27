@@ -2,6 +2,7 @@ package com.flipo.avivams.flipo.fragments;
 
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Path;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.utilities.Animation;
@@ -19,6 +21,7 @@ import com.flipo.avivams.flipo.utilities.Stroke;
 import com.wacom.ink.boundary.Boundary;
 import com.wacom.ink.boundary.BoundaryBuilder;
 
+import java.nio.FloatBuffer;
 import java.util.LinkedList;
 
 
@@ -29,6 +32,7 @@ public class PreviewFragment extends Fragment {
     private LinkedList<ObjectAnimator> m_Animations;
     private LinkedList<Path> m_Pathes;
     private LinkedList<View> m_Views;
+    private LinkedList<float[]> m_Points;
 
     public PreviewFragment() {
         // Required empty public constructor
@@ -45,7 +49,6 @@ public class PreviewFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -76,22 +79,49 @@ public class PreviewFragment extends Fragment {
         for(Animation animation : m_AnimationsInfo){
             m_Pathes.add(getPathFromStroke(animation.GetAnimationPath().GetPath()));
         }
+
+        m_Points = new LinkedList<>();
+
+        for(Animation animation : m_AnimationsInfo){
+            FloatBuffer floatBuffer = animation.GetAnimationPath().GetPath().get(0).getPoints();
+            float[] floatList = new float[floatBuffer.capacity()];
+            floatBuffer.flip();
+            int i = 0;
+            while(floatBuffer.remaining() > 0){
+                floatList[i] = floatBuffer.get();
+                i++;
+            }
+
+            m_Points.add(floatList);
+        }
     }
 
     public void CreateViews(Activity i_MainActivity){
         m_Views = new LinkedList<>();
 
         for(Animation animation : m_AnimationsInfo){
-            m_Views.add(getViewToAnimate(animation.GetAnimationObject().getShape(), i_MainActivity));
+            View view = getViewToAnimate(animation.GetAnimationObject().getShape(), i_MainActivity);
+            view.setY(0);
+            view.setY(0);
+            m_Views.add(view);
+        }
+
+        for(Shape shape : m_ShapesList){
+            View view = getViewToAnimate(shape.getShape(), i_MainActivity);
+            m_Views.add(view);
         }
     }
 
     public void CreateAnimations(){
         m_Animations = new LinkedList<>();
 
-        for(int i = 0; i < m_Views.size(); i++){
-            ObjectAnimator animator = ObjectAnimator.ofFloat(m_Views.get(i), View.X, View.Y, m_Pathes.get(i));
-            animator.setDuration(3000);
+        for(int i = 0; i < m_Pathes.size(); i++){
+
+            ObjectAnimator animator = ObjectAnimator.ofFloat
+                    (m_Views.get(i), View.X, View.Y, m_Pathes.get(i));
+            animator.setRepeatMode(ValueAnimator.RESTART);
+            animator.setRepeatCount(0);
+            animator.setDuration(4000);
             animator.start();
         }
     }
@@ -122,9 +152,9 @@ public class PreviewFragment extends Fragment {
 
         Boundary boundary = builder.getBoundary();
         view.setObject(boundary.createPath());
-        view.invalidate();
+        //view.invalidate();
+        //view.CreateCanvas();
 
         return view;
     }
-
 }
