@@ -16,8 +16,11 @@ import android.view.animation.Animation;
 public class MyView extends View{
 
     private Path m_Object;
-    private Rect m_ShapeRect;
-    private Point m_ShapePosition;
+    private MyPoint m_TopLeft;
+    private MyPoint m_BottomRight;
+    private int m_Width;
+    private int m_Height;
+
 
     public MyView(Context i_Context) {
         super(i_Context);
@@ -35,7 +38,6 @@ public class MyView extends View{
 
     private Bitmap createBitmap(){
         Bitmap bmp = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-
         return bmp;
     }
 
@@ -47,19 +49,35 @@ public class MyView extends View{
         return m_Object;
     }
 
-    public void setRect(Rect i_Rect){
-        m_ShapeRect = i_Rect;
+    public MyPoint getBottomRight() {
+        return m_BottomRight;
     }
 
-    public Rect getRect(){
-        return m_ShapeRect;
+    public MyPoint getTopLeft() {
+        return m_TopLeft;
     }
 
-    public void setPosition(Point i_Position){
-        m_ShapePosition = i_Position;
+    public void setBottomRight(MyPoint i_BottomRight) {
+        this.m_BottomRight = i_BottomRight;
     }
 
-    public Point getPosition(){
-        return m_ShapePosition;
+    public void setTopLeft(MyPoint i_TopLeft) {
+        this.m_TopLeft = i_TopLeft;
+    }
+
+    public int getMyHeight() {
+        return m_Height;
+    }
+
+    public void setHeight(int i_Height) {
+        this.m_Height = i_Height;
+    }
+
+    public void setWidth(int i_Width) {
+        this.m_Width = i_Width;
+    }
+
+    public int getMyWidth() {
+        return m_Width;
     }
 }
