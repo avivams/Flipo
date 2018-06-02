@@ -1,9 +1,6 @@
 package com.flipo.avivams.flipo.utilities;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.RectF;
-import android.view.View;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

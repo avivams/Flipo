@@ -38,11 +38,30 @@
         android:textColor="#000000"
         android:drawableEnd="@android:drawable/ic_menu_zoom"/>
 
-    <SeekBar
-        android:layout_marginTop="4dp"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:max="80" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/skbar_brush_size"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            android:layout_width="170dp"
+            android:progress="@integer/default_brush_size"
+            />
+
+        <TextView
+            android:id="@+id/txt_brush_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@integer/default_brush_size"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif"
+            android:gravity="end"
+            android:textColor="#000000"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_marginTop="5dp"
