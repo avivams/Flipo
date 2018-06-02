@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -21,11 +22,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
 import com.flipo.avivams.flipo.ui.PaletteAdapter;
+import com.flipo.avivams.flipo.ui.SeekBarListener;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
 import com.flipo.avivams.flipo.utilities.MyView;
@@ -239,7 +243,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
-        activity = null;
+
 
         // CompleteDrawing button
         m_btnCompletedDraw.setOnClickListener(new View.OnClickListener() {
@@ -343,6 +347,19 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
+        Resources res = activity.getResources();
+        SeekBar seekBar = fView.findViewById(R.id.skbar_brush_size);
+        seekBar.setOnSeekBarChangeListener(
+                new SeekBarListener.BrushSeekBar(
+                        res.getInteger(R.integer.default_brush_size),
+                        res.getInteger(R.integer.min_brush_size),
+                        (TextView)fView.findViewById(R.id.txt_brush_size),
+                        m_Paint,
+                        mListener));
+        seekBar.setMax(res.getInteger(R.integer.max_brush_size) - res.getInteger(R.integer.min_brush_size));
+        seekBar.setProgress(res.getInteger(R.integer.default_brush_size) - res.getInteger(R.integer.min_brush_size) );
+
+        activity = null;
         //set the draw button as pressed by default
         m_btnDraw.setSelected(true);
         m_btnCompletedDraw.setVisibility(View.VISIBLE);
@@ -654,7 +671,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int color;
 
         if(shape != null) {
-            for (Stroke stroke : shape.getM_Shape()){
+            for (Stroke stroke : shape.getShape()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
                 if(!oldColor)
                     stroke.setFormerColor(stroke.GetColor());
@@ -801,34 +818,4 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private Path path;
      */
 
-    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
-        Path path;
-
-        BoundaryBuilder builder = new BoundaryBuilder();
-
-        for(Stroke stroke : i_AnimationPath){
-            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-        }
-
-        Boundary boundary = builder.getBoundary();
-        path = boundary.createPath();
-
-        return path;
-    }
-
-    private View getViewToAnimate(){
-        MyView view = new MyView(getActivity());
-
-        BoundaryBuilder builder = new BoundaryBuilder();
-
-        for(Stroke stroke : m_animations.getLast().GetAnimationObject().getShape()){
-            builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-        }
-
-        Boundary boundary = builder.getBoundary();
-        view.setObject(boundary.createPath());
-        view.invalidate();
-
-        return view;
-    }
 }
