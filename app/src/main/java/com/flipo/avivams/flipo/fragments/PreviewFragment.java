@@ -63,7 +63,9 @@ public class PreviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_preview, container, false);
+        //set buttons listeners
         setButtons(myView);
+        //add all views to fragment
         for(View view : m_Views){
             ((ConstraintLayout) myView.findViewById(R.id.layoutPrieview)).addView(view);
         }
@@ -72,10 +74,12 @@ public class PreviewFragment extends Fragment {
     }
 
     public void SetReady(Activity i_MainActivity){
+        //get window dimensions
         Display display = i_MainActivity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         m_Builder = new BoundaryBuilder();
+        //create all animations
         createAnimations(i_MainActivity, size);
         //CreatePaths();
         //CreateViews(i_MainActivity, size);
@@ -128,24 +132,27 @@ public class PreviewFragment extends Fragment {
     }
 
     private void createAnimations(Activity i_MainActivity, Point i_WindowSize){
+        //holds all shapes - animated and statics
         m_Views = new LinkedList<>();
+        //holds all paths
         m_Pathes = new LinkedList<>();
+        //holds all animators
         m_Animations = new LinkedList<>();
 
         for(Animation animation : m_AnimationsInfo){
             //create view from object
             MyView view = getViewToAnimate(animation.GetAnimationObject().getShape(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
-
+            //create path from stroke
             Path path = createPath(animation.GetAnimationPath().GetPath().get(0),
                     (view.getTopLeft().getX()),
                     (view.getTopLeft().getY()));
             m_Pathes.add(path);
-
+            //create animator according to path and view
             ObjectAnimator animator = createAnimation(view, path);
             m_Animations.add(animator);
         }
-
+        //add all static shapes
         for(Shape shape : m_ShapesList) {
             MyView view = getViewToAnimate(shape.getShape(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
@@ -158,6 +165,7 @@ public class PreviewFragment extends Fragment {
     }
 
     public void Start(){
+        //define animator set - order
         m_AnimationsSet = new AnimatorSet();
 
         if(m_Animations.size() == 1){
@@ -182,14 +190,15 @@ public class PreviewFragment extends Fragment {
 
         for(Stroke stroke : i_Strokes){
             RectF rect = stroke.getBounds();
+            //convert stroke to android path
             m_Builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-
+            //find topLeft and bottomRight points of view
             xPos = min(rect.left, xPos);
             yPos = min(rect.top, yPos);
             maxX = max(rect.right, maxX);
             maxY = max(rect.bottom, maxY);
         }
-
+        //set view width and height - the default is the all screen
         view.setWidth((int) (maxX - xPos));
         view.setHeight((int) (maxY - yPos));
         ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
@@ -205,16 +214,17 @@ public class PreviewFragment extends Fragment {
         //view.setPivotY((int) (maxY - yPos)/2);
         //view.setX((int) (maxX - xPos)/2);
         //view.setY((int) (maxY - yPos)/2);
-        view.setX(xPos);
-        view.setY(yPos);
+
+        //view.setX(xPos);
+        //view.setY(yPos);
         //view.setBackground(i_Context.getResources().getDrawable(R.drawable.border));
         m_Boundary = m_Builder.getBoundary();
-        Path path = m_Boundary.createPath();
-
-        path.offset(-xPos,-yPos);
+        Path shape = m_Boundary.createPath();
+        //set shape offset - default is (0,0)
+        shape.offset(-xPos,-yPos);
         view.setTopLeft(new MyPoint(xPos, yPos));
         view.setBottomRight(new MyPoint(maxX, maxY));
-        view.setObject(path);
+        view.setObject(shape);
 
         return view;
     }
@@ -223,10 +233,12 @@ public class PreviewFragment extends Fragment {
         FloatBuffer floatBuffer = i_PathStroke.getPoints();
         floatBuffer.flip();
         Path path = new Path();
+        //set path to start from the middle of the shape
         path.moveTo(i_X, i_Y);
         while (floatBuffer.remaining() > 0) {
             path.lineTo(floatBuffer.get(), floatBuffer.get());
         }
+        
         return path;
     }
 
