@@ -1,5 +1,7 @@
 package com.flipo.avivams.flipo.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -75,7 +77,6 @@ public class PreviewFragment extends Fragment {
         display.getSize(size);
         m_Builder = new BoundaryBuilder();
         createAnimations(i_MainActivity, size);
-        Start();
         //CreatePaths();
         //CreateViews(i_MainActivity, size);
         //CreateAnimations();
@@ -98,12 +99,20 @@ public class PreviewFragment extends Fragment {
                 backBtn_OnClick();
             }
         });
+
+        m_AnimationsSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                m_PlayStopBtn.setText("Play");
+            }
+        });
     }
 
     private void playStopBtn_OnClick(View i_View){
         if(m_PlayStopBtn.getText().equals("Stop")){
             m_PlayStopBtn.setText("Play");
-            m_AnimationsSet.pause();//.end();
+            m_AnimationsSet.end();
         }
         else {
             m_PlayStopBtn.setText("Stop");
@@ -160,7 +169,8 @@ public class PreviewFragment extends Fragment {
             }
         }
 
-        //m_AnimationsSet.start();
+        m_AnimationsSet.start();
+
     }
 
     private MyView getViewToAnimate(LinkedList<Stroke> i_Strokes, Activity i_Context, Point i_WIndowSize){
