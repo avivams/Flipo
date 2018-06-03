@@ -3,6 +3,7 @@ package com.flipo.avivams.flipo.fragments;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -13,6 +14,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.MyPoint;
@@ -34,6 +37,8 @@ public class PreviewFragment extends Fragment {
     private AnimatorSet m_AnimationsSet;//the animator
     private BoundaryBuilder m_Builder;
     private LinkedList<FloatBuffer> m_PathsBuffers;
+    private Boundary m_Boundary;
+    private Button m_PlayStopBtn, m_BackBtn;
 
 
     public PreviewFragment() {
@@ -56,7 +61,7 @@ public class PreviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_preview, container, false);
-
+        setButtons(myView);
         for(View view : m_Views){
             ((ConstraintLayout) myView.findViewById(R.id.layoutPrieview)).addView(view);
         }
@@ -69,35 +74,67 @@ public class PreviewFragment extends Fragment {
         Point size = new Point();
         display.getSize(size);
         m_Builder = new BoundaryBuilder();
-        CreatePaths();
-        CreateViews(i_MainActivity, size);
-        CreateAnimations();
+        createAnimations(i_MainActivity, size);
+        Start();
+        //CreatePaths();
+        //CreateViews(i_MainActivity, size);
+        //CreateAnimations();
     }
 
-    public void CreatePaths(){
-        m_Pathes = new LinkedList<>();
+    private void setButtons(final View i_View){
+        m_PlayStopBtn = i_View.findViewById(R.id.buttonPlayStop);
+        m_BackBtn = i_View.findViewById(R.id.buttonBack);
 
-        for(Animation animation : m_AnimationsInfo){
-            for(Stroke stroke : animation.GetAnimationPath().GetPath()) {
-                FloatBuffer floatBuffer = stroke.getPoints();
-                floatBuffer.flip();
-                Path path = new Path();
-                path.moveTo(floatBuffer.get(), floatBuffer.get());
-                while (floatBuffer.remaining() > 0) {
-                    path.lineTo(floatBuffer.get(), floatBuffer.get());
-                }
-                //path.close();
-                m_Pathes.add(path);
+        m_PlayStopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playStopBtn_OnClick(v);
             }
+        });
+
+        m_BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backBtn_OnClick();
+            }
+        });
+    }
+
+    private void playStopBtn_OnClick(View i_View){
+        if(m_PlayStopBtn.getText().equals("Stop")){
+            m_PlayStopBtn.setText("Play");
+            m_AnimationsSet.pause();//.end();
+        }
+        else {
+            m_PlayStopBtn.setText("Stop");
+            m_AnimationsSet.start();
         }
     }
 
-    public void CreateViews(Activity i_MainActivity, Point i_WindowSize){
+    private void backBtn_OnClick(){
+        Fragment f = DrawingFragment.newInstance(null);
+        m_BackBtn.setVisibility(View.INVISIBLE);
+        m_PlayStopBtn.setVisibility(View.INVISIBLE);
+        getFragmentManager().beginTransaction().add(R.id.fragment_container, f).commit();
+    }
+
+    private void createAnimations(Activity i_MainActivity, Point i_WindowSize){
         m_Views = new LinkedList<>();
+        m_Pathes = new LinkedList<>();
+        m_Animations = new LinkedList<>();
 
         for(Animation animation : m_AnimationsInfo){
+            //create view from object
             MyView view = getViewToAnimate(animation.GetAnimationObject().getShape(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
+
+            Path path = createPath(animation.GetAnimationPath().GetPath().get(0),
+                    (view.getTopLeft().getX()),
+                    (view.getTopLeft().getY()));
+            m_Pathes.add(path);
+
+            ObjectAnimator animator = createAnimation(view, path);
+            m_Animations.add(animator);
         }
 
         for(Shape shape : m_ShapesList) {
@@ -105,10 +142,10 @@ public class PreviewFragment extends Fragment {
             m_Views.add(view);
         }
 
-        for (Animation animation : m_AnimationsInfo){
+        /*for (Animation animation : m_AnimationsInfo){
             MyView view = getViewToAnimate(animation.GetAnimationPath().GetPath(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
-        }
+        }*/
     }
 
     public void Start(){
@@ -123,40 +160,7 @@ public class PreviewFragment extends Fragment {
             }
         }
 
-        m_AnimationsSet.start();
-    }
-
-
-    public void CreateAnimations(){
-        m_Animations = new LinkedList<>();
-
-        for(int i = 0; i < m_Pathes.size(); i++){
-            float x = -(m_Views.get(i).getTopLeft().getX());
-            float y = -(m_Views.get(i).getTopLeft().getY());
-            //m_Pathes.get(i).offset((-m_Views.get(i).getTopLeft().getX()), -(m_Views.get(i).getTopLeft().getY()));
-           m_Pathes.get(i).offset(-(m_Views.get(i).getBottomRight().getX() - (m_Views.get(i).getMyWidth())),
-                    -(m_Views.get(i).getBottomRight().getY() - (m_Views.get(i).getMyHeight())));
-            ObjectAnimator animator = ObjectAnimator.ofFloat(m_Views.get(i), View.X, View.Y, m_Pathes.get(i));
-            animator.setRepeatCount(0);
-            animator.setDuration(4000);
-            //animator.start();
-            m_Animations.add(animator);
-        }
-    }
-
-    @Deprecated
-    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
-        Path path;
-
-        for(Stroke stroke : i_AnimationPath){
-            m_Builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
-        }
-
-        Boundary boundary = m_Builder.getBoundary();
-        path = boundary.createPath();
-        path.close();
-
-        return path;
+        //m_AnimationsSet.start();
     }
 
     private MyView getViewToAnimate(LinkedList<Stroke> i_Strokes, Activity i_Context, Point i_WIndowSize){
@@ -193,9 +197,9 @@ public class PreviewFragment extends Fragment {
         //view.setY((int) (maxY - yPos)/2);
         view.setX(xPos);
         view.setY(yPos);
-        view.setBackground(i_Context.getResources().getDrawable(R.drawable.border));
-        Boundary boundary = m_Builder.getBoundary();
-        Path path = boundary.createPath();
+        //view.setBackground(i_Context.getResources().getDrawable(R.drawable.border));
+        m_Boundary = m_Builder.getBoundary();
+        Path path = m_Boundary.createPath();
 
         path.offset(-xPos,-yPos);
         view.setTopLeft(new MyPoint(xPos, yPos));
@@ -205,11 +209,97 @@ public class PreviewFragment extends Fragment {
         return view;
     }
 
+    private Path createPath(Stroke i_PathStroke, float i_X, float i_Y){
+        FloatBuffer floatBuffer = i_PathStroke.getPoints();
+        floatBuffer.flip();
+        Path path = new Path();
+        path.moveTo(i_X, i_Y);
+        while (floatBuffer.remaining() > 0) {
+            path.lineTo(floatBuffer.get(), floatBuffer.get());
+        }
+        return path;
+    }
+
+    private ObjectAnimator createAnimation(View i_Shape, Path i_Path){
+        ObjectAnimator animator = ObjectAnimator.ofFloat(i_Shape, View.X, View.Y, i_Path);
+        animator.setRepeatCount(0);
+        animator.setDuration(4000);
+
+        return animator;
+    }
+
     private float min(float i_First, float i_Second){
         return i_First < i_Second ? i_First : i_Second;
     }
 
     private float max(float i_First, float i_Second){
         return i_First > i_Second ? i_First : i_Second;
+    }
+    @Deprecated
+    public void CreatePaths(){
+        m_Pathes = new LinkedList<>();
+
+        for(Animation animation : m_AnimationsInfo){
+            for(Stroke stroke : animation.GetAnimationPath().GetPath()) {
+                FloatBuffer floatBuffer = stroke.getPoints();
+                floatBuffer.flip();
+                Path path = new Path();
+                path.moveTo(floatBuffer.get(), floatBuffer.get());
+                while (floatBuffer.remaining() > 0) {
+                    path.lineTo(floatBuffer.get(), floatBuffer.get());
+                }
+                //path.close();
+                m_Pathes.add(path);
+            }
+        }
+    }
+    @Deprecated
+    public void CreateViews(Activity i_MainActivity, Point i_WindowSize){
+        m_Views = new LinkedList<>();
+
+        for(Animation animation : m_AnimationsInfo){
+            MyView view = getViewToAnimate(animation.GetAnimationObject().getShape(), i_MainActivity, i_WindowSize);
+            m_Views.add(view);
+        }
+
+        for(Shape shape : m_ShapesList) {
+            MyView view = getViewToAnimate(shape.getShape(), i_MainActivity, i_WindowSize);
+            m_Views.add(view);
+        }
+
+        for (Animation animation : m_AnimationsInfo){
+            MyView view = getViewToAnimate(animation.GetAnimationPath().GetPath(), i_MainActivity, i_WindowSize);
+            m_Views.add(view);
+        }
+    }
+    @Deprecated
+    public void CreateAnimations(){
+        m_Animations = new LinkedList<>();
+
+        for(int i = 0; i < m_Pathes.size(); i++){
+            //m_Pathes.get(i).offset((-m_Views.get(i).getTopLeft().getX()), -(m_Views.get(i).getTopLeft().getY()));
+            m_Pathes.get(i).offset(-(m_Views.get(i).getBottomRight().getX() - (m_Views.get(i).getMyWidth())),
+                    -(m_Views.get(i).getBottomRight().getY() - (m_Views.get(i).getMyHeight())));
+            ObjectAnimator animator = ObjectAnimator.ofFloat(m_Views.get(i), View.X, View.Y, m_Pathes.get(i));
+            animator.setRepeatCount(0);
+            animator.setDuration(4000);
+            //animator.start();
+            m_Animations.add(animator);
+        }
+    }
+
+    @Deprecated
+    private Path getPathFromStroke(LinkedList<Stroke> i_AnimationPath){
+        Path path;
+
+        for(Stroke stroke : i_AnimationPath){
+            m_Builder.addPath(stroke.getPoints(), stroke.getSize(), stroke.getStride(), stroke.getWidth());
+        }
+
+        Boundary boundary = m_Builder.getBoundary();
+        path = boundary.createPath();
+        path.close();
+
+        return path;
     }
 }
