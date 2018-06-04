@@ -8,7 +8,7 @@
     android:elevation="40dp"
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
-    tools:showIn="@layout/menu_topleft_bar">
+    tools:showIn="@layout/deprec_menu_topleft_bar">
 
     <TextView
         android:layout_marginTop="2dp"

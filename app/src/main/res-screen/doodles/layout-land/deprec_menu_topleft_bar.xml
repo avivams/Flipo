@@ -122,7 +122,7 @@
 
             </LinearLayout>
 
-            <include layout="@layout/menu_topleft_bar_stylebtn"
+            <include layout="@layout/deprec_menu_topleft_bar_stylebtn"
                 android:id="@+id/menu_topleft_bar_style_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

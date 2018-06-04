@@ -7,6 +7,89 @@
     android:background="@android:color/transparent"
     tools:context="com.flipo.avivams.flipo.fragments.DrawingFragment">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_hor_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.80" />
+
+    <ImageButton
+        android:id="@+id/btn_opn_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="0dp"
+        android:elevation="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/menu_closed"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_menu_left"/>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_menu_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <include layout="@layout/menu_homescreen"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+
+        android:visibility="invisible"/>
+
+
+    <!--
 
     <Button
         android:id="@+id/button_exit"
@@ -54,7 +137,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <include layout="@layout/menu_buttom_bar"
+    <include layout="@laydeprec_menu_buttom_bar_bar"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/guideline_ver_center"
@@ -72,7 +155,7 @@
 
     <include
         android:id="@+id/menu_topleft_bar_view"
-        layout="@layout/menu_topleft_bar"
+        layout="@laydeprec_menu_topleft_bar_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -95,5 +178,8 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+        -->
 
 </android.support.constraint.ConstraintLayout>

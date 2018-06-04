@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+
+    <Button
+        android:id="@+id/btn_menu_title"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:background="@drawable/top_menu_bar_btn_style"
+        android:layout_marginTop="5dp"
+        android:text="Tools"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:drawablePadding="20dp"
+        android:textColor="#083971"
+
+        android:paddingStart="5dp" />
+
+    <FrameLayout
+        android:id="@+id/menu_tab_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</FrameLayout>
