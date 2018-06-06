@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    tools:showIn="@layout/fragment_drawing"
+    android:alpha="0"
+    >
 
 
     <Button
@@ -15,10 +20,10 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textAlignment="textStart"
-        android:drawablePadding="20dp"
-        android:textColor="#083971"
-
-        android:paddingStart="5dp" />
+        android:drawableStart="@drawable/menu_tab_title_icon"
+        android:layout_gravity="start"
+        android:gravity="start|center"
+        android:textColor="#083971" />
 
     <FrameLayout
         android:id="@+id/menu_tab_container"
@@ -26,4 +31,5 @@
         android:layout_height="match_parent"/>
 
 
-</FrameLayout>
+
+</LinearLayout>

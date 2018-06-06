@@ -13,7 +13,7 @@
     <string name="btn_no">No, Thanks</string>
 
     <!-- dialogs prompt messages to show -->
-    <string name="prompt_choose_shape">Please choose a shape to animate</string>
+    <string name="prompt_choose_shape">Path tool selected.\nChoose a shape and then draw a path</string>
     <string name="prompt_choose_to_erase">Please choose an object to delete</string>
     <string name="prompt_choose_free_shape">You need to choose a non-animated shape</string>
     <string name="prompt_draw_shape_first">Yowza! You need to draw a shape first</string>
@@ -22,7 +22,7 @@
     <string name="prompt_exist_path_chose">Do you want this path to animate?</string>
 
     <!-- dialog questions -->
-    <string name="quest_combine_exist_path">This path is already taken.\n Would you like to combine it also?</string>
+    <string name="quest_combine_exist_path">This path is already taken.\n Would you like to combine it too?</string>
     <string name="quest_erase_selected">Are you sure to delete this object?</string>
 
 

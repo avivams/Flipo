@@ -3,4 +3,10 @@
     <integer name="default_brush_size">50</integer>
     <integer name="min_brush_size">10</integer>
     <integer name="max_brush_size">80</integer>
+    <integer name="seekbar_brush_size_jumps">5</integer>
+
+    <integer name="default_params_speed">3000</integer>
+    <integer name="min_params_speed">2000</integer>
+    <integer name="max_params_speed">10000</integer>
+    <integer name="seekbar_speed_jumps">500</integer>
 </resources>
