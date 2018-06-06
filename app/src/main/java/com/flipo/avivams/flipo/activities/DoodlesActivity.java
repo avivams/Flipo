@@ -29,10 +29,8 @@ import com.wacom.ink.rendering.EGLRenderingContext;
 
 import java.util.LinkedList;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
+
+
 public class DoodlesActivity extends AppCompatActivity implements DrawingFragment.OnDrawingInteractionListener {
 
     private SurfaceView m_SurfaceView;
@@ -149,11 +147,13 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         m_Canvas.clearColor(m_CanvasColor);
 
         int oldPaintColor = m_Paint.getColor();
+        float oldWidth = m_Paint.getWidth();
 
         m_StrokeRenderer.reset(); //resets being used inorder to overcome the bug of coloring other shapes with wrong color
 
         for(Stroke stroke : strokes){
             m_Paint.setColor(stroke.GetColor());
+            m_Paint.setWidth(stroke.getWidth());
 
             m_StrokeRenderer.setStrokePaint(m_Paint);
             m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
@@ -172,6 +172,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
         for (Shape shape: shapesList){
             for(Stroke stroke : shape.getShape()) {
                 m_Paint.setColor(stroke.GetColor());
+                m_Paint.setWidth(stroke.getWidth());
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
                 m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
@@ -192,6 +193,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 Log.d("anim_draw", "color: " + color);
 
                 m_Paint.setColor(color);
+                m_Paint.setWidth(stroke.getWidth());
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
                 m_StrokeRenderer.drawPoints(stroke.getPoints(), 0, stroke.getSize(), stroke.getStride(),
@@ -206,6 +208,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 Log.d("anim_draw", "color: " + color);
 
                 m_Paint.setColor(color);
+                m_Paint.setWidth(path.getWidth());
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
                 m_StrokeRenderer.drawPoints(path.getPoints(), 0, path.getSize(), path.getStride(),
@@ -223,6 +226,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
         // restore the previous user's selected color
         m_Paint.setColor(oldPaintColor);
+        m_Paint.setWidth(oldWidth);
         m_StrokeRenderer.setStrokePaint(m_Paint);
     }
 
