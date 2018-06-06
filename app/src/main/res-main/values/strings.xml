@@ -5,12 +5,16 @@
     <string name="menu_style_title">Style</string>
     <string name="menu_params_title">Parameters</string>
 
+    <string name="assignment_title">The assingment</string>
+    <string name="assignment_description">To demonstrate how the solar system\nworks, according to what taught in the\nclassroom.</string>
+
     <!-- dialogs buttons text -->
     <string name="btn_ok">OK</string>
     <string name="btn_ok_gotit">Got It</string>
     <string name="btn_ok_alright">Alright</string>
     <string name="btn_yes">Go for it</string>
     <string name="btn_no">No, Thanks</string>
+    <string name="btn_thanks_gotit">Great, got it!</string>
 
     <!-- dialogs prompt messages to show -->
     <string name="prompt_choose_shape">Path tool selected.\nChoose a shape and then draw a path</string>
@@ -35,5 +39,6 @@
     <string name="dialog_tag_draw_path">draw path</string>
     <string name="dialog_tag_exist_path_chose">exist path</string>
     <string name="dialog_tag_delete_chosed">delete chosed</string>
+    <string name="dialog_tag_assignment">assignment dialog</string>
 
 </resources>

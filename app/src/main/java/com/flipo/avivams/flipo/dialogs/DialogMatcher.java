@@ -12,7 +12,7 @@ import com.flipo.avivams.flipo.R;
 public class DialogMatcher {
 
     public enum DialogType{CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
-                            CHOOSE_DELETE, DELETE_CHOSED};
+                            CHOOSE_DELETE, DELETE_CHOSED, ASSIGNMENT_OBJECTIVE};
 
     public static void showDialog(Context context, DialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
 
@@ -57,6 +57,10 @@ public class DialogMatcher {
                         context.getString(R.string.btn_no), listener).show(transaction, context.getString(R.string.dialog_tag_choose_delete));
                 break;
 
+            case ASSIGNMENT_OBJECTIVE:
+                AssignmentDialog.AssignmentDialogInstance(context.getString(R.string.assignment_title), context.getString(R.string.assignment_description),
+                        context.getString(R.string.btn_thanks_gotit)).show(transaction, context.getString(R.string.dialog_tag_assignment));
+                break;
         }
     }
 

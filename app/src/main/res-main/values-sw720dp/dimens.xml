@@ -7,7 +7,12 @@
     <dimen name="menu_bar_right_btn_width">80dp</dimen>
     <dimen name="menu_bar_right_btn_height">80dp</dimen>
 
-    <dimen name="dialog_assignment_height">560dp</dimen>
+    <dimen name="dialog_assignment_height">580dp</dimen>
     <dimen name="dialog_assignment_width">520dp</dimen>
+
+    <dimen name="assignment_title_image_height">160dp</dimen>
+    <dimen name="assignment_title_image_width">350dp</dimen>
+    <dimen name="assignment_title_txt_size">25sp</dimen>
+    <dimen name="assignment_description_txt_size">20sp</dimen>
 
 </resources>

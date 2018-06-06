@@ -9,9 +9,15 @@
 
     <dimen name="dialog_corners_radius">20dp</dimen>
     <dimen name="dialog_prompt_txt_size">20sp</dimen>
-    <dimen name="dialog_btn_txt_size">20sp</dimen>
+    <dimen name="dialog_btn_txt_size">18sp</dimen>
 
-    <dimen name="dialog_assignment_height">360dp</dimen>
+    <dimen name="dialog_assignment_height">380dp</dimen>
     <dimen name="dialog_assignment_width">320dp</dimen>
+
+
+    <dimen name="assignment_title_image_height">110dp</dimen>
+    <dimen name="assignment_title_image_width">320dp</dimen>
+    <dimen name="assignment_title_txt_size">18sp</dimen>
+    <dimen name="assignment_description_txt_size">13sp</dimen>
 
 </resources>

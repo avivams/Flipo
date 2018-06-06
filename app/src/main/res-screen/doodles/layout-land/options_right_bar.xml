@@ -9,7 +9,7 @@
         android:layout_marginBottom="16dp"
         android:layout_width="@dimen/menu_bar_right_btn_width"
         android:layout_height="@dimen/menu_bar_right_btn_height"
-        android:src="@drawable/btn_task"
+        android:src="@drawable/complete_draw"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"/>
 

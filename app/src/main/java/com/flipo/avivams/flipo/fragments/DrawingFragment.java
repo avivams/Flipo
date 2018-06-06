@@ -41,7 +41,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     /*private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls, m_btnPreview,
             m_btnErase;*/
     private ImageButton m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnPreview,
-            m_btnErase;
+            m_btnErase, m_btnTask;
     private View m_menuTabView;
     private ImageButton m_btnCompletedDraw, m_btnMenuOpn;
     private MenuManager menuManager;
@@ -201,7 +201,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnPreview = fView.findViewById(R.id.btn_preview);
         m_menuTabView = fView.findViewById(R.id.menu_tab_container);
         m_btnErase = fView.findViewById(R.id.btn_erase);
-
+        m_btnTask = fView.findViewById(R.id.btn_task);
 
         // set color for icons when api is less than 23
         Activity activity = getActivity();
@@ -311,6 +311,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                disableButtonsExcept(m_btnPreview);
                 mListener.startPreviewFragment(m_shapes, m_animations);
 
                 /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -318,6 +319,14 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                     animator.setDuration(3000);
                     animator.start();
                 }*/
+            }
+        });
+
+        
+        m_btnTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.ASSIGNMENT_OBJECTIVE, getFragmentManager().beginTransaction(), null);
             }
         });
 
