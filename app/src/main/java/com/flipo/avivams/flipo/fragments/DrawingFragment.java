@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,8 +35,6 @@ import com.flipo.avivams.flipo.utilities.AnimationPath;
 import com.flipo.avivams.flipo.utilities.MyView;
 import com.flipo.avivams.flipo.utilities.Shape;
 import com.flipo.avivams.flipo.utilities.Stroke;
-import com.wacom.ink.boundary.Boundary;
-import com.wacom.ink.boundary.BoundaryBuilder;
 import com.wacom.ink.manipulation.Intersector;
 import com.wacom.ink.path.PathUtils;
 import com.wacom.ink.path.SpeedPathBuilder;
@@ -341,6 +338,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             @Override
             public void onClick(View v) {
                 mListener.startPreviewFragment(m_shapes, m_animations);
+
+                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(getViewToAnimate(), View.X, View.Y, getPathFromStroke(m_animations.getLast().GetAnimationPath().GetPath()));
+                    animator.setDuration(3000);
+                    animator.start();
+                }*/
             }
         });
 

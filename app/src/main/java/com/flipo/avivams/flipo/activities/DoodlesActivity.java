@@ -267,11 +267,9 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
     @Override
     public void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
-
-        Fragment fragmentPrieview = PreviewFragment.newInstance(shapesList, anims);
-        ((PreviewFragment)fragmentPrieview).SetReady(this);
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentPrieview).addToBackStack("doodles").commit();
-        ((PreviewFragment)fragmentPrieview).Start();//CreateAnimations();
+        Toast.makeText(this, "started preview", Toast.LENGTH_SHORT);
+        Fragment f = PreviewFragment.newInstance(shapesList, anims);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
     }
 }
 
