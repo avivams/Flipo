@@ -31,7 +31,6 @@ import java.util.LinkedList;
 
 public class PreviewFragment extends Fragment {
 
-    //test comment
     private LinkedList<Shape> m_ShapesList;//holds all static shapes
     private LinkedList<Animation> m_AnimationsInfo;//hold all the animation
     private LinkedList<ObjectAnimator> m_Animations;
