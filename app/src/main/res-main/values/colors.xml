@@ -4,7 +4,10 @@
     <color name="colorPrimaryDark">#CC99FF</color>
     <color name="colorAccent">#FFEB76</color>
 
-    <color name="canvasBackground">#999d9e</color>
+    <color name="text_view_background">#F4F2F2</color>
+
+    <color name="canvasBackground">#F4F2F2</color>
+    <color name="navigation_bar_color">#CC99FF</color>
     <color name="black_overlay">#66000000</color>
 
 
@@ -13,5 +16,6 @@
     <color name="dialog_text_color">#0060B7</color>
     <color name="dialog_btn_text_color">#FFCC00</color>
 
-
+    <color name="dialog_result_text_color">#700099</color>
+    <color name="dialog_result_text_input">#CC99FF</color>
 </resources>

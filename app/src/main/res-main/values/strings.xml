@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Flipo</string>
 
+
     <string name="menu_tools_title">Tools</string>
-    <string name="menu_style_title">Style</string>
+    <string name="menu_draw_shape_title">Draw Shape</string>
+    <string name="menu_draw_path_title">Draw Path</string>
+    <string name="menu_style_title">Brush Style</string>
     <string name="menu_params_title">Parameters</string>
 
     <string name="assignment_title">The assingment</string>
@@ -40,5 +43,21 @@
     <string name="dialog_tag_exist_path_chose">exist path</string>
     <string name="dialog_tag_delete_chosed">delete chosed</string>
     <string name="dialog_tag_assignment">assignment dialog</string>
+
+
+
+    <!-- For the Preview fragment -->
+    <string name="dialog_record_tab_save_txt">Save on device</string>
+    <string name="dialog_record_save_title">File Name</string>
+    <string name="dialog_record_share_title">Email Address</string>
+    <string name="dialog_record_share_input_hint">Someone@gmail.com</string>
+
+    <string name="dialog_record_tab_share_txt">Share via Email</string>
+    <string name="dialog_record_save_btn_txt">Save</string>
+    <string name="dialog_record_share_btn_txt">Send</string>
+    <string name="dialog_record_save_input_hint">Untitled</string>
+
+    <string name="dialog_record_result_tag">tabbed dialog record</string>
+
 
 </resources>

@@ -16,8 +16,9 @@ public class SeekBarListener implements SeekBar.OnSeekBarChangeListener{
 
     protected int m_minimumValue;
     protected int m_progressValue;
+    protected TextView m_currentValTxt;
     private int jump;
-    private TextView m_currentValTxt;
+
 
     public SeekBarListener(int currentProgress, int minimumValue, @NonNull TextView currentValTxt, int jump){
         m_minimumValue = minimumValue;
@@ -82,13 +83,15 @@ public class SeekBarListener implements SeekBar.OnSeekBarChangeListener{
     public static class SpeedSeekBar extends SeekBarListener{
 
         private MenuManager.MenuManagerListener mListener;
+        private int m_maxVal;
 
-        public SpeedSeekBar(int currentProgress, int minimumValue, int jump,
-                            @NonNull TextView currentValTxt,
+        public SpeedSeekBar(int currentProgress, int minimumValue, int maxVal,
+                            int jump, @NonNull TextView currentValTxt,
                             @NonNull MenuManager.MenuManagerListener listener){
 
             super(currentProgress, minimumValue, currentValTxt, jump);
             mListener = listener;
+            m_maxVal = maxVal;
         }
 
 
@@ -96,6 +99,13 @@ public class SeekBarListener implements SeekBar.OnSeekBarChangeListener{
         public void onStopTrackingTouch(SeekBar seekBar) {
             seekBar.setProgress(m_progressValue - m_minimumValue);
             mListener.setNewSpeed(m_progressValue);
+        }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            super.onProgressChanged(seekBar, i, b);
+            double speed = ((double)m_progressValue/m_maxVal) * 10;
+            m_currentValTxt.setText(String.valueOf(speed));//update text
         }
     }
 }

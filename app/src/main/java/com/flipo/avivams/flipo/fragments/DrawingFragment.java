@@ -12,10 +12,12 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
+import com.flipo.avivams.flipo.dialogs.TabsDialog;
 import com.flipo.avivams.flipo.ui.MenuManager;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
@@ -93,9 +95,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_drawing, container, false);
+
         menuManager = new MenuManager();
         initButtonsListeners(v);
         menuManager.registerButtons(m_btnMenuOpn, m_btnStyle, m_btnParams, m_btnPath, m_btnDraw);
+        menuManager.registerButtonsText((TextView)v.findViewById(R.id.menu_btn_style_txt), (TextView)v.findViewById(R.id.menu_btn_params_txt),
+                (TextView)v.findViewById(R.id.menu_btn_path_txt), (TextView)v.findViewById(R.id.menu_btn_shape_txt));
         menuManager.registerTab(m_menuTabView);
 
         m_PathBuilder = new SpeedPathBuilder();
@@ -224,11 +229,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 //check if an object is drawn.
                 if(m_builtStrokes.isEmpty()){
                     if(m_btnDraw.isSelected()) //if needs to draw a shape
-                        DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
+                        DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
                     else // needs to draw a path
-                        DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_PATH_FIRST, getFragmentManager().beginTransaction(), null);
+                        DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_PATH_FIRST, getFragmentManager().beginTransaction(), null);
                     return;
                 }
+
 
                 if(m_btnDraw.isSelected()) {
                     completeDrawObject();
@@ -263,7 +269,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         });
 
 
-        //TODO 5: complete the Style button
         m_btnStyle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,11 +286,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
                 //if no shape was drawn, then show a dialog and turn 'draw button' on
                 if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
                     m_btnDraw.callOnClick();
                 }
                 else
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
             }
         });
 
@@ -299,7 +304,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
                 //if no shape was drawn, then show a dialog and turn 'draw button' on
                 if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
                     m_btnErase.setSelected(false);
                     m_btnDraw.callOnClick();
                 }
@@ -326,7 +331,9 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.ASSIGNMENT_OBJECTIVE, getFragmentManager().beginTransaction(), null);
+                DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.ASSIGNMENT_OBJECTIVE, getFragmentManager().beginTransaction(), null);
+               /* AssignmentDialog.makeInstance(getString(R.string.assignment_title), getString(R.string.assignment_description),
+                        getString(R.string.btn_thanks_gotit), fView.findViewById(R.id.layout_container), getActivity());*/
             }
         });
 
@@ -477,7 +484,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
             if(m_btnErase.isSelected()){
                 if(m_selectedStroke != null || m_selectedAnimShape != null || m_selectedAnimPath != null || m_selectedShape != null )
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), this);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), this);
                 else
                     m_btnErase.setSelected(false);
             }
@@ -487,16 +494,16 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 if (m_selectedShape != null && type == detectMarker.SHAPES_ONLY) {
 
                     paintThese(m_selectedShape, null, false); //highlight it
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.DRAW_PATH, getFragmentManager().beginTransaction(), null);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_PATH, getFragmentManager().beginTransaction(), null);
                     m_btnCompletedDraw.setVisibility(View.VISIBLE);
 
                 }
                 else if (m_selectedShape == null && type == detectMarker.SHAPES_ONLY){
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOOSE_FREE_SHAPE,
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.CHOOSE_FREE_SHAPE,
                             getFragmentManager().beginTransaction(), null);
                 }
                 else if (m_selectedAnimPath != null) { //the user chose a path which already located in an Animation
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DialogType.CHOSE_EXIST_PATH, getFragmentManager().beginTransaction(), this);
+                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.CHOSE_EXIST_PATH, getFragmentManager().beginTransaction(), this);
                 }
             }
         }
@@ -611,7 +618,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         anim.SetAnimationPath(path)
                 .SetAnimationObject(m_selectedShape)
                 .SetSpeed(m_pathSpeed);
-        //TODO 3: add the correct speed here when adding the speed parameter in UI
+
         m_animations.add(anim);
 
         m_shapes.remove(m_selectedShape);

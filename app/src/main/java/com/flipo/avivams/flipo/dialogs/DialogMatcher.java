@@ -2,6 +2,7 @@ package com.flipo.avivams.flipo.dialogs;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.flipo.avivams.flipo.R;
 
@@ -11,10 +12,12 @@ import com.flipo.avivams.flipo.R;
 
 public class DialogMatcher {
 
-    public enum DialogType{CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
+    public enum DoodlesDialogType {CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
                             CHOOSE_DELETE, DELETE_CHOSED, ASSIGNMENT_OBJECTIVE};
 
-    public static void showDialog(Context context, DialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
+    public enum PreviewDialogType {RECORD_RESULT};
+
+    public static void showDialog(Context context, DoodlesDialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
 
         switch(type){
             case CHOOSE_SHAPE:
@@ -64,9 +67,24 @@ public class DialogMatcher {
         }
     }
 
+
+    public static void showDialog(Context context, PreviewDialogType type, FragmentTransaction transaction, @NonNull RecordResultDialogListener listener) {
+        switch (type){
+            case RECORD_RESULT:
+                TabsDialog.TabsDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
+                break;
+        }
+    }
+
+
     public interface ResultYesNoListener{
         void resultOk();
         void resultCancel();
     }
 
+
+    public interface RecordResultDialogListener{
+
+        void onConfirmButtonClicked(TabsDialog.TabType tabType, String userInput);
+    }
 }

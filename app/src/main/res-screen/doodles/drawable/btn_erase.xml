@@ -5,7 +5,7 @@
         android:drawable="@drawable/erase_disable"/>
 
     <item android:state_selected="true"
-        android:drawable="@drawable/erase_selected"/>
+        android:drawable="@drawable/erase_select"/>
 
     <item android:drawable="@drawable/erase"/>
 

@@ -10,25 +10,20 @@
     >
 
 
-    <Button
-        android:id="@+id/btn_menu_title"
+
+    <ImageButton
+        android:id="@+id/btn_menu_title_image"
         android:layout_width="@dimen/menu_bar_tools_btn_width"
         android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/brush_style"
         android:background="@drawable/top_menu_bar_btn_style"
-        android:layout_marginTop="5dp"
-        android:text="Tools"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        android:textAlignment="textStart"
-        android:drawableStart="@drawable/menu_tab_title_icon"
-        android:layout_gravity="start"
-        android:gravity="start|center"
-        android:textColor="#083971" />
+        android:scaleType="centerCrop"/>
+
 
     <FrameLayout
         android:id="@+id/menu_tab_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="@dimen/menu_bar_tools_tab_width"
+        android:layout_height="wrap_content"/>
 
 
 
