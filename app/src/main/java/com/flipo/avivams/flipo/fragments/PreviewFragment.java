@@ -16,9 +16,7 @@ import com.flipo.avivams.flipo.utilities.Shape;
 
 import java.util.LinkedList;
 
-
 public class PreviewFragment extends Fragment implements DialogMatcher.RecordResultDialogListener{
-
     private LinkedList<Shape> shapesList;
     private LinkedList<Animation> anims;
 
