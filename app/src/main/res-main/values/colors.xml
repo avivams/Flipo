@@ -2,7 +2,9 @@
 <resources>
     <color name="colorPrimary">#700099</color>
     <color name="colorPrimaryDark">#CC99FF</color>
-    <color name="colorAccent">#FFEB76</color>
+    <color name="colorAccent">#0060B7</color>
+
+    <color name="dialog_half_bg_color">#FFEB76</color>
 
     <color name="text_view_background">#F4F2F2</color>
 

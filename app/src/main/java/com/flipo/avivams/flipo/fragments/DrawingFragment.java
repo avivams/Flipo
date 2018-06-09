@@ -96,6 +96,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_drawing, container, false);
 
+
         menuManager = new MenuManager();
         initButtonsListeners(v);
         menuManager.registerButtons(m_btnMenuOpn, m_btnStyle, m_btnParams, m_btnPath, m_btnDraw);
