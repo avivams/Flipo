@@ -24,5 +24,9 @@
 
     <!-- The Preview fragment section -->
     <dimen name="preview_tabview_input_title_txt_size">22sp</dimen>
+    <dimen name="preview_tabview_height">160dp</dimen>
+    <dimen name="preview_tabview_width">300dp</dimen>
+    <dimen name="preview_dialog_record_result_width">350dp</dimen>
+    <dimen name="preview_dialog_record_result_height">380dp</dimen>
 
 </resources>
