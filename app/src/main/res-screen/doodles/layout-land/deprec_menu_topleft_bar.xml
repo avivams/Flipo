@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
@@ -8,6 +9,7 @@
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
     android:paddingBottom="2dp">
+    <!--
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,8 +86,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="#59bf54"/>
-
+-->
                 <!-- TODO 4.1: make the sub view for params as match_parent of with and height of this view -->
+<!--
                 <Button
                     android:id="@+id/btn_params"
                     android:layout_width="@dimen/menu_bar_tools_btn_width"
@@ -104,8 +107,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="#59bf54"/>
-
+-->
                 <!-- TODO 5.2: make the sub view for style as match_parent of with and height of this view -->
+<!--
                 <Button
                     android:id="@+id/btn_style"
                     android:layout_width="@dimen/menu_bar_tools_btn_width"
@@ -122,7 +126,7 @@
 
             </LinearLayout>
 
-            <include layout="@layout/menu_topleft_bar_stylebtn"
+            <include layout="@layout/deprec_menu_topleft_bar_stylebtn"
                 android:id="@+id/menu_topleft_bar_style_tab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -131,5 +135,5 @@
 
         </FrameLayout>
     </LinearLayout>
-
+-->
 </FrameLayout>

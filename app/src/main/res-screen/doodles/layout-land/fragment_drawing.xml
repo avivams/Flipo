@@ -7,38 +7,35 @@
     android:background="@android:color/transparent"
     tools:context="com.flipo.avivams.flipo.fragments.DrawingFragment">
 
-
-    <Button
-        android:id="@+id/button_exit"
-        android:layout_width="70dp"
-        android:layout_height="60dp"
-        android:onClick="exitOnClick"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button_exit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageButton
-        android:id="@+id/btn_draw_complete"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#00FF00"
-        android:src="@android:drawable/ic_input_add"
-        android:visibility="visible"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_exit"/>
-
-
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_hor_top"
+        android:id="@+id/guideline_hor_logo_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.46" />
+        app:layout_constraintGuide_percent="0.10" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_menu_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.10" />
+
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        android:alpha="0.6"
+        android:src="@drawable/flipo_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_logo_top"
+        app:layout_constraintEnd_toEndOf="@id/guideline_ver_menu_left"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_hor_bottom"
@@ -47,53 +44,173 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.80" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_ver_center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <include layout="@layout/menu_buttom_bar"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_center"
-        app:layout_constraintEnd_toStartOf="@id/guideline_ver_center"
-        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"
-        app:layout_constraintBottom_toBottomOf="@+id/surfaceView" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_ver_left"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.19" />
-
-
-    <include
-        android:id="@+id/menu_topleft_bar_view"
-        layout="@layout/menu_topleft_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@id/btn_opn_tools"
-        app:layout_constraintTop_toTopOf="@id/btn_opn_tools" />
 
 
     <ImageButton
         android:id="@+id/btn_opn_tools"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="60dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:elevation="40dp"
+        android:src="@drawable/menu_open"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_menu_left"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <ImageButton
+        android:id="@+id/btn_style"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:background="@android:color/transparent"
+        android:src="@drawable/brush_style"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/menu_btn_style_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/top_menu_opn_btn"
-        android:elevation="10dp"
-        android:src="@android:drawable/ic_menu_sort_by_size"
-        android:tint="#2b7128"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/menu_style_title"
+        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
+        android:textColor="@color/dialog_text_color"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_style"
+        app:layout_constraintStart_toEndOf="@id/btn_style"
+        app:layout_constraintTop_toTopOf="@id/btn_style"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+
+    <ImageButton
+        android:id="@+id/btn_params"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:background="@android:color/transparent"
+        android:src="@drawable/parameters"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/menu_btn_params_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_params_title"
+        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
+        android:textColor="@color/dialog_text_color"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_params"
+        app:layout_constraintStart_toEndOf="@id/btn_params"
+        app:layout_constraintTop_toTopOf="@id/btn_params"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+
+    <!-- TODO 4.1: make the sub view for params as match_parent of with and height of this view -->
+    <ImageButton
+        android:id="@+id/btn_path"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:background="@android:color/transparent"
+        android:src="@drawable/path"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/menu_btn_path_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_draw_path_title"
+        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
+        android:textColor="@color/dialog_text_color"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_path"
+        app:layout_constraintStart_toEndOf="@id/btn_path"
+        app:layout_constraintTop_toTopOf="@id/btn_path"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+    <!-- TODO 5.2: make the sub view for style as match_parent of with and height of this view -->
+    <ImageButton
+        android:id="@+id/btn_draw"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:background="@android:color/transparent"
+        android:src="@drawable/draw_shape"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/menu_btn_shape_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_draw_shape_title"
+        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
+        android:textColor="@color/dialog_text_color"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/btn_draw"
+        app:layout_constraintStart_toEndOf="@id/btn_draw"
+        app:layout_constraintTop_toTopOf="@id/btn_draw"
+        android:alpha="0"
+        android:visibility="invisible"/>
+
+
+
+
+    <include layout="@layout/menu_tabs"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:visibility="invisible" />
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_menu_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <include
+        android:id="@+id/options_right_bar"
+        layout="@layout/options_right_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_right" />
+
+
 
 </android.support.constraint.ConstraintLayout>

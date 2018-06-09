@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:gravity="center">
+
+
+    <EditText
+        android:id="@+id/preview_tab_txt_user_input"
+        android:layout_marginTop="5dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:inputType="text"
+        android:layout_below="@+id/preview_tab_txt_title"
+        android:background="@drawable/txt_view_style"
+        android:scrollbars="vertical"
+        android:textColor="@color/dialog_result_text_input"
+        android:textSize="@dimen/preview_tabview_input_title_txt_size" />
+
+
+
+    <TextView
+        android:id="@+id/preview_tab_txt_title"
+        android:layout_marginTop="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:fontFamily="sans-serif"
+        android:layout_alignStart="@id/preview_tab_txt_user_input"
+        android:layout_centerInParent="true"
+        android:text="Email Address"
+        android:textColor="@color/dialog_result_text_color"
+        android:textSize="@dimen/preview_tabview_input_title_txt_size" />
+
+
+
+    <Button
+        android:id="@+id/preview_tab_btn_confirm"
+        android:layout_marginTop="5dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/preview_tab_txt_user_input"
+        android:background="@drawable/dialog_button"
+        android:text="Send"
+        android:textAllCaps="false"
+        android:textColor="@color/dialog_btn_text_color"
+        android:textSize="@dimen/dialog_btn_txt_size"
+        android:textStyle="normal" />
+
+
+</RelativeLayout>

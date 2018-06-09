@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/btn_task"
+        android:width="@dimen/menu_bar_right_btn_width"
+        android:height="@dimen/menu_bar_right_btn_height"
+        />
+</layer-list>

@@ -47,10 +47,10 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //transparent navigation bar background (delete this in order to get the normal one)
-        Window w = getWindow(); // in Activity's onCreate() for instance
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        ///////
+        /*transparent navigation bar background
+        Window window = getWindow(); // in Activity's onCreate() for instance
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        */
 
         setContentView(R.layout.activity_doodles);
         m_CanvasColor = getResources().getColor(R.color.canvasBackground);
@@ -62,6 +62,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
         Fragment f = DrawingFragment.newInstance(m_Paint);
         getFragmentManager().beginTransaction().add(R.id.fragment_container, f).commit();
+
     }
 
     /**
@@ -268,8 +269,10 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     @Override
     public void startPreviewFragment(LinkedList<Shape> shapesList, LinkedList<Animation> anims) {
         Toast.makeText(this, "started preview", Toast.LENGTH_SHORT);
+      //  android.support.v4.app.Fragment f = PreviewFragment.newInstance(shapesList, anims);
         Fragment f = PreviewFragment.newInstance(shapesList, anims);
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
+      //  getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, f).addToBackStack("doodles").commit();
     }
 }
 

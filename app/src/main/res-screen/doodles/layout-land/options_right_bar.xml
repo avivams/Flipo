@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <ImageButton
+        android:id="@+id/btn_draw_complete"
+        android:layout_marginBottom="16dp"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:src="@drawable/complete_draw"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"/>
+
+    <ImageButton
+        android:id="@+id/btn_task"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:src="@drawable/btn_task"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"/>
+
+    <ImageButton
+        android:id="@+id/btn_select"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:src="@drawable/btn_select"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"/>
+
+    <ImageButton
+        android:id="@+id/btn_erase"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:src="@drawable/btn_erase"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"/>
+
+    <ImageButton
+        android:id="@+id/btn_preview"
+        android:layout_width="@dimen/menu_bar_right_btn_width"
+        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:src="@drawable/btn_preview"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"/>
+
+</LinearLayout>

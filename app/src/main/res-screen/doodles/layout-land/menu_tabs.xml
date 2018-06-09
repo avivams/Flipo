@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    tools:showIn="@layout/fragment_drawing"
+    android:alpha="0"
+    >
+
+
+
+    <ImageButton
+        android:id="@+id/btn_menu_title_image"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/brush_style"
+        android:background="@drawable/top_menu_bar_btn_style"
+        android:scaleType="centerCrop"/>
+
+
+    <FrameLayout
+        android:id="@+id/menu_tab_container"
+        android:layout_width="@dimen/menu_bar_tools_tab_width"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>

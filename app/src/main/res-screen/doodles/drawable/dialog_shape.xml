@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners android:radius="@dimen/dialog_corners_radius"/>
-    <solid android:color="@android:color/white"/>
-    <stroke android:color="@color/dialog_primery_color" android:width="5dp"/>
+    <solid android:color="@color/dialog_primary_color"/>
+    <stroke android:color="@color/dialog_border_color" android:width="8dp"/>
 </shape>
