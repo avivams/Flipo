@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 
@@ -56,12 +57,28 @@ public class TabsDialog extends DialogFragment {
 
     public TabsDialog(){}
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Window window =  getDialog().getWindow();
+        viewPager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        window.setLayout((int)getActivity().getResources().getDimension(R.dimen.preview_dialog_record_result_width),
+                (int)getActivity().getResources().getDimension(R.dimen.preview_dialog_record_result_height));
+        Toast.makeText(getActivity(), "Width = " +  window.getAttributes().width + " Height="+window.getAttributes().height, Toast.LENGTH_LONG).show();
+
+    }
 
     public static TabsDialog TabsDialogInstance(@NonNull DialogMatcher.RecordResultDialogListener listener) throws RuntimeException{
         TabsDialog dialog = new TabsDialog();
         dialog.listener = listener;
         return dialog;
     }
+
 
 
     @Override
@@ -79,6 +96,11 @@ public class TabsDialog extends DialogFragment {
         setAdapter();
 
     //    tabLayout.setupWithViewPager(viewPager, false);
+
+
+        rootview.setLayoutParams(new ViewGroup.LayoutParams((int)getActivity().getResources().getDimension(R.dimen.preview_dialog_record_result_width),
+                (int)getActivity().getResources().getDimension(R.dimen.preview_dialog_record_result_height) ));
+
 
         builder.setView(rootview);
         Dialog dlg = builder.create();
