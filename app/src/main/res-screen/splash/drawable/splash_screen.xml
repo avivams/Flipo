@@ -3,8 +3,12 @@
 
     <item android:drawable="@android:color/white" />
 
-    <item>
+    <item android:drawable="@drawable/flipo_logo_splash"
+        android:gravity="center|fill_horizontal">
+
+        <!--
         <bitmap android:src="@drawable/logo"
             android:gravity="center" />
+            -->
     </item>
 </layer-list>
