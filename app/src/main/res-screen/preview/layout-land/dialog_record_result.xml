@@ -6,6 +6,7 @@
     android:layout_width="@dimen/preview_dialog_record_result_width"
     android:layout_height="@dimen/preview_dialog_record_result_height"
     android:padding="@dimen/dialog_border_width"
+    android:layoutDirection="ltr"
     >
 
     <android.support.design.widget.TabLayout
