@@ -99,7 +99,13 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         m_PlayBtn = i_View.findViewById(R.id.preview_btn_play);
         m_StopBtn = i_View.findViewById(R.id.preview_btn_stop);
         m_RecordBtn = i_View.findViewById(R.id.preview_btn_record);
-        m_PlayBtn.setSelected(true);
+        if(m_Animations.size() == 0){
+            m_PlayBtn.setSelected(false);
+        }
+        else {
+            m_PlayBtn.setSelected(true);
+            m_RecordBtn.setVisibility(View.INVISIBLE);
+        }
 
         m_PlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,15 +180,13 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     }
 
     private void animationStart(){
-        //m_PlayBtn.setSelected(true);
-        //m_PlayBtn.setVisibility(View.INVISIBLE);
-        //m_RecordBtn.setVisibility(View.INVISIBLE);
+        m_PlayBtn.setSelected(true);
+        m_RecordBtn.setVisibility(View.INVISIBLE);
     }
 
     private void animationStop(){
-        //m_PlayBtn.setVisibility(View.VISIBLE);
-        //m_PlayBtn.setSelected(false);
-        //m_RecordBtn.setVisibility(View.VISIBLE);
+        m_PlayBtn.setSelected(false);
+        m_RecordBtn.setVisibility(View.VISIBLE);
     }
 
     private void animationPause(){
@@ -220,7 +224,8 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             //create path from stroke
             Path path = createPath(animation.GetAnimationPath().GetPath().get(0),
                     (view.getTopLeft().getX()),
-                    (view.getTopLeft().getY()));
+                    (view.getTopLeft().getY()),
+                    view.getMyHeight());
             m_Pathes.add(path);
             //create animator according to path and view
             ObjectAnimator animator = createAnimation(view, path);
@@ -232,10 +237,10 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             m_Views.add(view);
         }
 
-        /*for (Animation animation : m_AnimationsInfo){
+        for (Animation animation : m_AnimationsInfo){
             MyView view = getViewToAnimate(animation.GetAnimationPath().GetPath(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
-        }*/
+        }
     }
 
     public void Start(){
@@ -288,8 +293,8 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         //view.setX((int) (maxX - xPos)/2);
         //view.setY((int) (maxY - yPos)/2);
 
-        //view.setX(xPos);
-        //view.setY(yPos);
+        view.setX(xPos);
+        view.setY(yPos);
         //view.setBackground(i_Context.getResources().getDrawable(R.drawable.border));
         m_Boundary = m_Builder.getBoundary();
         Path shape = m_Boundary.createPath();
@@ -302,14 +307,16 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         return view;
     }
 
-    private Path createPath(Stroke i_PathStroke, float i_X, float i_Y){
+    private Path createPath(Stroke i_PathStroke, float i_TopLeftX, float i_TopLeftY, float i_Height){
         FloatBuffer floatBuffer = i_PathStroke.getPoints();
         floatBuffer.flip();
         Path path = new Path();
+        float distance = 0;
         //set path to start from the middle of the shape
-        path.moveTo(i_X, i_Y);
+        path.moveTo(i_TopLeftX, i_TopLeftY);
+        //path.lineTo(i_TopRightX, i_TopRightY);
         while (floatBuffer.remaining() > 0) {
-            path.lineTo(floatBuffer.get(), floatBuffer.get());
+            path.lineTo(floatBuffer.get(), floatBuffer.get() - i_Height/2);
         }
 
         return path;
