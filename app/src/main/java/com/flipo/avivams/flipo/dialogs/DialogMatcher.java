@@ -15,7 +15,7 @@ public class DialogMatcher {
     public enum DoodlesDialogType {CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
                             CHOOSE_DELETE, DELETE_CHOSED, ASSIGNMENT_OBJECTIVE};
 
-    public enum PreviewDialogType {RECORD_RESULT};
+    public enum PreviewDialogType {RECORD_RESULT, ANIMATION_MAIL_SEND, ANIMATION_SAVED};
 
     public static void showDialog(Context context, DoodlesDialogType type, FragmentTransaction transaction, ResultYesNoListener listener){
 
@@ -64,6 +64,7 @@ public class DialogMatcher {
                 AssignmentDialog.AssignmentDialogInstance(context.getString(R.string.assignment_title), context.getString(R.string.assignment_description),
                         context.getString(R.string.btn_thanks_gotit)).show(transaction, context.getString(R.string.dialog_tag_assignment));
                 break;
+
         }
     }
 
@@ -73,6 +74,16 @@ public class DialogMatcher {
             case RECORD_RESULT:
                 TabsDialog.TabsDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
                 break;
+            case ANIMATION_MAIL_SEND:{
+                ChooseDialog.chooseDialogInstance(context.getString(R.string.animation_was_send), context.getString(R.string.btn_ok))
+                        .show(transaction, context.getString(R.string.send_animation));
+                break;
+            }
+            case ANIMATION_SAVED:{
+                ChooseDialog.chooseDialogInstance(context.getString(R.string.animation_saved), context.getString(R.string.btn_ok))
+                        .show(transaction, context.getString(R.string.save_animation));
+                break;
+            }
         }
     }
 

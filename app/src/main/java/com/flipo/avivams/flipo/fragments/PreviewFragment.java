@@ -150,10 +150,11 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     }
 
     private void stopBtn_OnClick(View i_View){
-        m_PlayBtn.setSelected(false);
+        /*m_PlayBtn.setSelected(false);
         m_AnimationsSet.end();
         m_IsPausing = false;
-        m_RecordBtn.setVisibility(View.VISIBLE);
+        m_RecordBtn.setVisibility(View.VISIBLE);*/
+        m_AnimationsSet.end();
     }
 
     private void recordBtn_OnClick(View i_View){
@@ -168,13 +169,19 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     public void onConfirmButtonClicked(TabsDialog.TabType i_TabType, String i_UserInput) {
         switch (i_TabType){
             case SAVE_TAB:{
+                DialogMatcher.showDialog(getActivity(),
+                        DialogMatcher.PreviewDialogType.ANIMATION_SAVED,
+                        getFragmentManager().beginTransaction(),
+                        PreviewFragment.this);
                 //save i_UserInpute file name to the device memory
-                //make popup that file was saved
                 break;
             }
             case SHARE_TAB:{
+                DialogMatcher.showDialog(getActivity(),
+                        DialogMatcher.PreviewDialogType.ANIMATION_MAIL_SEND,
+                        getFragmentManager().beginTransaction(),
+                        PreviewFragment.this);
                 //send email to i_UserInput
-                //make popup that file was send
             }
         }
     }
@@ -187,10 +194,15 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     private void animationStop(){
         m_PlayBtn.setSelected(false);
         m_RecordBtn.setVisibility(View.VISIBLE);
+        for(MyView view : m_Views){
+            view.setX(view.getTopLeft().getX());
+            view.setY(view.getTopLeft().getY());
+        }
     }
 
     private void animationPause(){
-
+        m_PlayBtn.setSelected(false);
+        m_RecordBtn.setVisibility(View.VISIBLE);
     }
 
     private void setAnimationListeners(){
@@ -205,6 +217,12 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
                 animationStart();
+            }
+
+            @Override
+            public void onAnimationPause(Animator animation) {
+                super.onAnimationPause(animation);
+                animationPause();
             }
         });
     }
@@ -228,7 +246,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
                     view.getMyHeight());
             m_Pathes.add(path);
             //create animator according to path and view
-            ObjectAnimator animator = createAnimation(view, path);
+            ObjectAnimator animator = createAnimation(view, path, animation.GetSpeed());
             m_Animations.add(animator);
         }
         //add all static shapes
@@ -237,10 +255,10 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             m_Views.add(view);
         }
 
-        for (Animation animation : m_AnimationsInfo){
+        /*for (Animation animation : m_AnimationsInfo){
             MyView view = getViewToAnimate(animation.GetAnimationPath().GetPath(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
-        }
+        }*/
     }
 
     public void Start(){
@@ -322,10 +340,10 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         return path;
     }
 
-    private ObjectAnimator createAnimation(View i_Shape, Path i_Path){
+    private ObjectAnimator createAnimation(View i_Shape, Path i_Path, int i_Speed){
         ObjectAnimator animator = ObjectAnimator.ofFloat(i_Shape, View.X, View.Y, i_Path);
         animator.setRepeatCount(0);
-        animator.setDuration(4000);
+        animator.setDuration(10000 - i_Speed);
 
         return animator;
     }

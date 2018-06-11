@@ -58,6 +58,9 @@
     <string name="dialog_record_save_input_hint">Untitled</string>
 
     <string name="dialog_record_result_tag">tabbed dialog record</string>
-
+    <string name="animation_was_send">Animation send successfully</string>
+    <string name="animation_saved">Animation is saved.</string>
+    <string name="save_animation">save animation</string>
+    <string name="send_animation">send animation</string>
 
 </resources>
