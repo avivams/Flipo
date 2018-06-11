@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.flipo.avivams.flipo.R;
+import com.flipo.avivams.flipo.animation.PointCalc;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
 import com.flipo.avivams.flipo.dialogs.TabsDialog;
 import com.flipo.avivams.flipo.utilities.Animation;
@@ -33,6 +34,8 @@ import com.wacom.ink.boundary.BoundaryBuilder;
 
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
+
+import static java.lang.Math.abs;
 
 public class PreviewFragment extends Fragment implements DialogMatcher.RecordResultDialogListener{
     private LinkedList<Shape> m_ShapesList;//holds all static shapes
@@ -75,6 +78,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         //animationStart();
         //add all views to fragment
         for(View view : m_Views){
+
             ((ConstraintLayout) myView.findViewById(R.id.layoutPrieview)).addView(view);
         }
 
@@ -173,17 +177,20 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         }
     }
 
+
     private void animationStart(){
         //m_PlayBtn.setSelected(true);
         //m_PlayBtn.setVisibility(View.INVISIBLE);
         //m_RecordBtn.setVisibility(View.INVISIBLE);
     }
 
+
     private void animationStop(){
         //m_PlayBtn.setVisibility(View.VISIBLE);
         //m_PlayBtn.setSelected(false);
         //m_RecordBtn.setVisibility(View.VISIBLE);
     }
+
 
     private void animationPause(){
 
@@ -219,8 +226,8 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             m_Views.add(view);
             //create path from stroke
             Path path = createPath(animation.GetAnimationPath().GetPath().get(0),
-                    (view.getTopLeft().getX()),
-                    (view.getTopLeft().getY()));
+                    (view.getMyWidth()/2),// + view.getMyWidth()/2),
+                    (view.getMyHeight()/2 ));//+ view.getMyHeight()/2 ));
             m_Pathes.add(path);
             //create animator according to path and view
             ObjectAnimator animator = createAnimation(view, path);
@@ -232,7 +239,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             m_Views.add(view);
         }
 
-        /*for (Animation animation : m_AnimationsInfo){
+      /*  for (Animation animation : m_AnimationsInfo){
             MyView view = getViewToAnimate(animation.GetAnimationPath().GetPath(), i_MainActivity, i_WindowSize);
             m_Views.add(view);
         }*/
@@ -261,6 +268,8 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         float maxX = 0;
         float maxY = 0;
 
+        LinkedList<Path> shape = new LinkedList<>();
+
         for(Stroke stroke : i_Strokes){
             RectF rect = stroke.getBounds();
             //convert stroke to android path
@@ -270,7 +279,12 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             yPos = min(rect.top, yPos);
             maxX = max(rect.right, maxX);
             maxY = max(rect.bottom, maxY);
+            m_Boundary = m_Builder.getBoundary();
+
+            shape.add(m_Boundary.createPath());
+            view.setColor(stroke.GetColor());
         }
+
         //set view width and height - the default is the all screen
         view.setWidth((int) (maxX - xPos));
         view.setHeight((int) (maxY - yPos));
@@ -278,8 +292,12 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
                 view.getMyWidth(),
                 view.getMyHeight());
 
+
         //layoutParams.leftMargin= (int) xPos;
         //layoutParams.topMargin = (int) yPos;
+
+        view.setX(xPos);
+        view.setY(yPos);
 
         view.setLayoutParams(layoutParams);
 
@@ -291,10 +309,12 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         //view.setX(xPos);
         //view.setY(yPos);
         //view.setBackground(i_Context.getResources().getDrawable(R.drawable.border));
-        m_Boundary = m_Builder.getBoundary();
-        Path shape = m_Boundary.createPath();
+
         //set shape offset - default is (0,0)
-        shape.offset(-xPos,-yPos);
+
+        for(Path path : shape) {
+            path.offset(-xPos, -yPos);
+        }
         view.setTopLeft(new MyPoint(xPos, yPos));
         view.setBottomRight(new MyPoint(maxX, maxY));
         view.setObject(shape);
@@ -306,16 +326,29 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         FloatBuffer floatBuffer = i_PathStroke.getPoints();
         floatBuffer.flip();
         Path path = new Path();
-        //set path to start from the middle of the shape
-        path.moveTo(i_X, i_Y);
+
+        float x = floatBuffer.get(), y = floatBuffer.get();
+        float sX = x, sY = y;
+       // float diffX = abs(x - i_X), diffY = abs(y - i_Y);
+
+        // start point, is the start point of the shape
+       // path.moveTo(x - diffX, y - diffY);
+        path.moveTo(x,y);
+
         while (floatBuffer.remaining() > 0) {
-            path.lineTo(floatBuffer.get(), floatBuffer.get());
+            x = floatBuffer.get();
+            y = floatBuffer.get();
+          //  path.lineTo(x - diffX , y - diffY);
+            path.lineTo(x, y);
         }
+
+        path.offset(-i_X, -i_Y);
 
         return path;
     }
 
-    private ObjectAnimator createAnimation(View i_Shape, Path i_Path){
+    private ObjectAnimator createAnimation(MyView i_Shape, Path i_Path){
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(i_Shape, View.X, View.Y, i_Path);
         animator.setRepeatCount(0);
         animator.setDuration(4000);

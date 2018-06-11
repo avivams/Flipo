@@ -8,17 +8,24 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 public class MyView extends View{
 
-    private Path m_Object;
+    private LinkedList<Path> m_Object;
     private MyPoint m_TopLeft;
     private MyPoint m_BottomRight;
     private int m_Width;
     private int m_Height;
+    private ArrayList<Integer> m_Colors;
 
 
     public MyView(Context i_Context) {
+
         super(i_Context);
+        m_Object = new LinkedList<>();
+        m_Colors = new ArrayList<>();
     }
 
     @Override
@@ -26,9 +33,13 @@ public class MyView extends View{
         super.onDraw(canvas);
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
         paint.setStrokeWidth(2.0f);
-        canvas.drawPath(m_Object, paint);
+
+        int i=0;
+        for(Path path : m_Object) {
+            paint.setColor(m_Colors.get(i++));
+            canvas.drawPath(path, paint);
+        }
     }
 
     private Bitmap createBitmap(){
@@ -36,11 +47,11 @@ public class MyView extends View{
         return bmp;
     }
 
-    public void setObject(Path i_Object) {
+    public void setObject(LinkedList<Path> i_Object) {
         this.m_Object = i_Object;
     }
 
-    public Path getObject() {
+    public LinkedList<Path> getObject() {
         return m_Object;
     }
 
@@ -75,4 +86,8 @@ public class MyView extends View{
     public int getMyWidth() {
         return m_Width;
     }
+
+    public void setColor(int color){m_Colors.add(color);}
+
+    public ArrayList<Integer> getColor(){return m_Colors;}
 }
