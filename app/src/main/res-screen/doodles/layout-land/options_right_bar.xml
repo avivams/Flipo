@@ -12,7 +12,7 @@
         android:id="@+id/btn_erase"
         android:layout_width="@dimen/info_btn_width"
         android:layout_height="@dimen/info_btn_height"
-        android:src="@drawable/ic_preview"
+        android:src="@drawable/btn_erase"
         android:background="@android:color/transparent"
         android:layout_marginRight="3dp"
         android:scaleType="centerInside"/>
@@ -21,7 +21,7 @@
         android:id="@+id/btn_preview"
         android:layout_width="@dimen/info_btn_width"
         android:layout_height="@dimen/info_btn_height"
-        android:src="@drawable/ic_preview"
+        android:src="@drawable/btn_preview"
         android:background="@android:color/transparent"
         android:scaleType="centerInside"/>
 

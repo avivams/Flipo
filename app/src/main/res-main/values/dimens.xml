@@ -23,6 +23,9 @@
     <dimen name="dialog_assignment_height">380dp</dimen>
     <dimen name="dialog_assignment_width">320dp</dimen>
 
+    <!-- Drawing confirmation -->
+    <dimen name="btn_confirm_draw_width">110dp</dimen>
+    <dimen name="btn_confirm_draw_height">40dp</dimen>
 
     <!-- Palette sizes -->
     <dimen name="palette_icon_size">26dp</dimen>

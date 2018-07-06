@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -39,13 +40,23 @@ public class MenuManager {
 
     private int brushSizes[];
     private ArrayList<Integer> brushColors;
-    private LinearLayout m_btnMenuOpn;
+    private LinearLayout m_btnMenuView;
+    private ImageButton m_btnOpnDraw;
     private boolean menuVisible;
+
+    private int openWidth, openHeight, closeWidth, closeHeight;
 
     public MenuManager(Context context) {
 
         brushColors = new ArrayList<>();
         brushSizes = context.getResources().getIntArray(R.array.brush_sizes);
+
+        Resources resources = context.getResources();
+
+        openWidth = (int)resources.getDimension(R.dimen.palette_width);
+        openHeight = (int)resources.getDimension(R.dimen.palette_height);
+        closeHeight = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_height);
+        closeWidth = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_width);
 
         // get colors from 'array.xml'
         TypedArray colors = context.getResources().obtainTypedArray(R.array.palette_colors);
@@ -58,15 +69,17 @@ public class MenuManager {
 
     /**
      * After the opnMenuButton, insert each button button ordered by their position after each other.
-     * @param opnMenuButton the button which responsible of opening the menu.
+     * @param opnMenuView the menu.
+     * @param btnOpnButton the button which responsible of opening the menu.
      * @param buttons the buttons to show on the menu.
      */
     public void registerButtons(
             final DrawingFragment.OnDrawingInteractionListener drawListener,
             final MenuManagerListener listener,
-            LinearLayout opnMenuButton, int numOfSizes, int numOfColors, ImageView... buttons){
+            LinearLayout opnMenuView, ImageButton btnOpnButton, int numOfSizes, int numOfColors, ImageView... buttons){
 
-        m_btnMenuOpn = opnMenuButton;
+        m_btnMenuView = opnMenuView;
+        m_btnOpnDraw = btnOpnButton;
 
         initAnimsListeners(drawListener, listener, numOfSizes, numOfColors, buttons);
     }
@@ -108,6 +121,13 @@ public class MenuManager {
             });
         //    buttons[i].animate().setListener(new MenuOptionAnimation(buttons[i]));
         }
+
+        m_btnMenuView.findViewById(R.id.draw_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               animateMenu(false);
+            }
+        });
     }
 
 
@@ -115,37 +135,69 @@ public class MenuManager {
      * animation action for the brush palette.
      * @param open is opening animation?
      */
-    public void animateMenu(Activity activity, boolean open){
+    public void animateMenu(boolean open){
 
         if(open){
 
-           Resources resources = activity.getResources();
-
             // set the starting height (the current height) and the new height that the view should have after the animation
-            ResizeAnimation anim = new ResizeAnimation(m_btnMenuOpn);
-            anim.setHeights(m_btnMenuOpn.getHeight(), (int)resources.getDimension(R.dimen.palette_height));
-            anim.setWidths(m_btnMenuOpn.getWidth(), (int)resources.getDimension(R.dimen.palette_width));
-            anim.setOriginXY(m_btnMenuOpn.getX(), m_btnMenuOpn.getY());
+            ResizeAnimation anim = new ResizeAnimation(m_btnMenuView);
+            anim.setHeights(m_btnMenuView.getHeight(), openHeight);
+            anim.setWidths(m_btnMenuView.getWidth(), openWidth);
+            anim.setOriginXY(m_btnMenuView.getX(), m_btnMenuView.getY());
 
             anim.setDuration(500);
 
-            m_btnMenuOpn.startAnimation(anim);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    m_btnMenuView.setVisibility(View.VISIBLE);
+                    m_btnOpnDraw.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            m_btnMenuView.startAnimation(anim);
 
             menuVisible = true;
         }
         else {
 
-            Resources resources = activity.getResources();
 
             // set the starting height (the current height) and the new height that the view should have after the animation
-            ResizeAnimation anim = new ResizeAnimation(m_btnMenuOpn);
-            anim.setHeights(m_btnMenuOpn.getHeight(), (int)resources.getDimension(R.dimen.menu_bar_tools_btn_height));
-            anim.setWidths(m_btnMenuOpn.getWidth(), (int)resources.getDimension(R.dimen.menu_bar_tools_btn_width));
-            anim.setOriginXY(m_btnMenuOpn.getX(), m_btnMenuOpn.getY());
+            ResizeAnimation anim = new ResizeAnimation(m_btnMenuView);
+            anim.setHeights(m_btnMenuView.getHeight(), closeHeight);
+            anim.setWidths(m_btnMenuView.getWidth(), closeWidth);
+            anim.setOriginXY(m_btnMenuView.getX(), m_btnMenuView.getY());
 
             anim.setDuration(500);
 
-            m_btnMenuOpn.startAnimation(anim);
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    m_btnMenuView.setVisibility(View.GONE);
+                    m_btnOpnDraw.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            m_btnMenuView.startAnimation(anim);
+            m_btnOpnDraw.setVisibility(View.VISIBLE);
 
             menuVisible = false;
         }
@@ -153,20 +205,19 @@ public class MenuManager {
     }
 
 
-    public static float convertDpToPixel(float dp, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
-    }
-
-
     public boolean isMenuVisible(){
         return menuVisible;
     }
 
+
+    public interface MenuManagerListener{
+        StrokePaint getPaint();
+        void setNewSpeed(int speed);
+    }
+
+
 /*
-    private void initBrushTab(Activity activity,
+    private void initBrushTab(y activity,
                               final DrawingFragment.OnDrawingInteractionListener drawListener,
                               final MenuManagerListener menuListener){
 
@@ -223,10 +274,7 @@ public class MenuManager {
         seekBar.setProgress(res.getInteger(R.integer.default_params_speed) - res.getInteger(R.integer.min_params_speed) );
     }*/
 
-    public interface MenuManagerListener{
-        StrokePaint getPaint();
-        void setNewSpeed(int speed);
-    }
+
 }
 
 

@@ -15,12 +15,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
-import com.flipo.avivams.flipo.dialogs.TabsDialog;
 import com.flipo.avivams.flipo.ui.MenuManager;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
@@ -46,7 +44,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     /*private Button m_btnDraw, m_btnPath, m_btnParams, m_btnStyle, m_btnToolsCls, m_btnPreview,
             m_btnErase;*/
     private LinearLayout m_btnDraw;
-    private ImageButton m_btnPath, m_btnPreview,
+    private ImageButton m_btnOpnDraw, m_btnPath, m_btnPreview,
             m_btnErase, m_btnCompletedDraw, m_btnSelect;
     private Button m_btnTask;
 
@@ -104,7 +102,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         menuManager = new MenuManager(getActivity());
         initButtonsListeners(v);
 
-        menuManager.registerButtons(mListener, this, m_btnDraw,getResources().getIntArray(R.array.brush_sizes).length, getResources().getIntArray(R.array.palette_colors).length,
+        menuManager.registerButtons(mListener, this,
+                (LinearLayout)v.findViewById(R.id.draw_pallete_view),
+                m_btnOpnDraw,
+                getResources().getIntArray(R.array.brush_sizes).length, getResources().getIntArray(R.array.palette_colors).length,
                 (ImageView)v.findViewById(R.id.brush_size_tiny),  (ImageView)v.findViewById(R.id.brush_size_small), (ImageView)v.findViewById(R.id.brush_size_normal),
                 (ImageView)v.findViewById(R.id.brush_size_big), (ImageView)v.findViewById(R.id.brush_size_giant),
                 (ImageView)v.findViewById(R.id.brush_color_y), (ImageView)v.findViewById(R.id.brush_color_r), (ImageView)v.findViewById(R.id.brush_color_b), (ImageView)v.findViewById(R.id.brush_color_g),
@@ -159,12 +160,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                     if(menuManager.isMenuVisible())
                         toggleDrawMenu();
 
-                    if(m_btnErase.isSelected()){
-                        handleSelectShape(event, detectMarker.ANY);
-                        return true;
-                    }
-
-                    if(m_btnDraw.isSelected()) {
+                    if(m_btnOpnDraw.isSelected()) {
                         drawingMode(event);
                         return true;
                     }
@@ -205,14 +201,16 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
      */
     private void initButtonsListeners(final View fView){
 
-        m_btnDraw = fView.findViewById(R.id.draw_pallete_view);
+        m_btnOpnDraw = fView.findViewById(R.id.btn_opnDraw);
         m_btnPath = fView.findViewById(R.id.btn_path);
         m_btnSelect = fView.findViewById(R.id.btn_select);
         m_btnCompletedDraw = fView.findViewById(R.id.btn_draw_complete);
 
         m_btnPreview = fView.findViewById(R.id.btn_preview);
-
+        m_btnPreview.setEnabled(true);
         m_btnErase = fView.findViewById(R.id.btn_erase);
+        m_btnErase.setEnabled(false);
+
         m_btnTask = fView.findViewById(R.id.btn_task);
 
         // set color for icons when api is less than 23
@@ -225,7 +223,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             public void onClick(View v) {
                 //check if an object is drawn.
                 if(m_builtStrokes.isEmpty()){
-                    if(m_btnDraw.isSelected()) //if needs to draw a shape
+                    if(m_btnOpnDraw.isSelected()) //if needs to draw a shape
                         DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
                     else // needs to draw a path
                         DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_PATH_FIRST, getFragmentManager().beginTransaction(), null);
@@ -233,7 +231,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 }
 
 
-                if(m_btnDraw.isSelected()) {
+                if(m_btnOpnDraw.isSelected()) {
                     completeDrawObject();
                     Toast.makeText(getActivity(), "Shape saved", Toast.LENGTH_LONG).show();
                 }
@@ -245,14 +243,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
-        // Draw button
-        m_btnDraw.setOnClickListener(new View.OnClickListener() {
-
+        m_btnOpnDraw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-                disableButtonsExcept(m_btnDraw);
-                menuManager.animateMenu(getActivity(), !menuManager.isMenuVisible());
+                disableButtonsExcept(m_btnOpnDraw);
+                menuManager.animateMenu(!menuManager.isMenuVisible());
 
                 m_btnCompletedDraw.setVisibility(View.VISIBLE);
             }
@@ -267,7 +263,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 //if no shape was drawn, then show a dialog and turn 'draw button' on
                 if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
-                    m_btnDraw.callOnClick();
+                    m_btnOpnDraw.callOnClick();
                 }
                 else
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
@@ -283,7 +279,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 //if no shape was drawn, then show a dialog and turn 'draw button' on
                 if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
-                    m_btnDraw.callOnClick();
+                    m_btnOpnDraw.callOnClick();
                     return;
                 }
                 if(m_selectedAnimPath != null || m_selectedAnimShape != null) { // the user selected an animated path or shape
@@ -306,16 +302,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                m_btnErase.setSelected(true);
 
                 toggleDrawMenu();
-                m_btnErase.setSelected(!(m_btnErase.isSelected()));
-
-                //if no shape was drawn, then show a dialog and turn 'draw button' on
-                if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
-                    m_btnErase.setSelected(false);
-                    m_btnDraw.callOnClick();
-                }
+                DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), DrawingFragment.this);
             }
         });
 
@@ -348,17 +338,18 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
         activity = null;
         //set the draw button as pressed by default
-        m_btnDraw.setSelected(true);
+        m_btnOpnDraw.setSelected(true);
         m_btnCompletedDraw.setVisibility(View.VISIBLE);
     }
 
 
     /**
-     * open / close the Draw's palette, depends on its current status.
+     * close the Draw's palette, if it is open.
      */
     private void toggleDrawMenu(){
-        if(menuManager.isMenuVisible())
-            menuManager.animateMenu(getActivity(), !menuManager.isMenuVisible());
+        if(menuManager.isMenuVisible()) {
+            menuManager.animateMenu(!menuManager.isMenuVisible());
+        }
     }
 
 
@@ -396,11 +387,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int id = (btn == null? View.NO_ID : btn.getId());
 
         m_btnPath.setSelected(m_btnPath.getId() == id);
-        m_btnDraw.setSelected(m_btnDraw.getId() == id);
+        m_btnOpnDraw.setSelected(m_btnOpnDraw.getId() == id);
         m_btnSelect.setSelected(m_btnSelect.getId() == id);
         m_btnCompletedDraw.setVisibility(View.INVISIBLE);
+        m_btnErase.setEnabled(false);
 
-        if(!m_btnDraw.isSelected() || m_selectedShape != null)
+        if(!m_btnOpnDraw.isSelected() || m_selectedShape != null)
             // if a stroke is being build we need to finish it and dismiss by rendering only the remaining
             // or if user pressed Draw after drawing a path
             stopBuildStroke();
@@ -411,7 +403,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         else
             cancelSelected();
 
-        if(menuManager.isMenuVisible() && !m_btnDraw.isSelected())
+        if(menuManager.isMenuVisible() && !m_btnOpnDraw.isSelected())
             toggleDrawMenu();
 
     }
@@ -505,20 +497,19 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             checkSelection(type);
             m_Paint.setWidth(w);
 
-            if(m_btnErase.isSelected()){
-                if(m_selectedStroke != null || m_selectedAnimShape != null || m_selectedAnimPath != null || m_selectedShape != null )
-                    DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), this);
-                else
-                    m_btnErase.setSelected(false);
-            }
-
-            else if(m_btnSelect.isSelected()){
-                if(m_selectedShape != null)
+           if(m_btnSelect.isSelected()){
+                if(m_selectedShape != null) {
                     paintThese(m_selectedShape, null, false); //highlight it
-                else if(m_selectedAnimShape != null)
+                    m_btnErase.setEnabled(true);
+                }
+                else if(m_selectedAnimShape != null) {
                     paintThese(m_selectedAnimShape.GetAnimationObject(), m_selectedAnimShape.GetAnimationPath(), false); //highlight it
-                else if(m_selectedAnimPath != null)
+                    m_btnErase.setEnabled(true);
+                }
+                else if(m_selectedAnimPath != null) {
                     paintThese(m_selectedAnimPath.GetAnimationObject(), m_selectedAnimPath.GetAnimationPath(), false); //highlight it
+                    m_btnErase.setEnabled(true);
+                }
             }
 
             //the user selected an animation path to merge
@@ -631,7 +622,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             m_builtStrokes.clear();
         }
 
-
         Animation anim = new Animation();
         anim.SetAnimationPath(path)
                 .SetAnimationObject(m_selectedShape)
@@ -711,7 +701,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         }
     }
 
-    private void deleteStroke(){
+    /**
+     * delete the selected stroke. depends on the selected type.
+     * @param render should render the screen after removing the stroke?
+     */
+    private void deleteStroke(boolean render){
 
         //user erasing a stroke when drawing
         if(m_selectedStroke != null) {
@@ -733,8 +727,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                    m_animations.remove(anim);
                }
             }
-            m_shapes.add(m_selectedAnimPath.GetAnimationObject());
+            Shape shape = m_selectedAnimPath.GetAnimationObject();
+            m_shapes.add(shape);
             m_animations.remove(m_selectedAnimPath);
+            m_selectedShape = shape;
+            cancelSelected();
             m_selectedAnimPath = null;
         }
         // if user chose to delete a shape then delete its whole animation
@@ -743,8 +740,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             m_selectedAnimShape = null;
         }
 
-        mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
-        mListener.renderView();
+        if(render) {
+            mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
+            mListener.renderView();
+        }
     }
 
     /**
@@ -784,8 +783,9 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     public void resultOk() {
 
         if(m_btnErase.isSelected()) {
-            deleteStroke();
+            deleteStroke(true);
             m_btnErase.setSelected(false);
+            disableButtonsExcept(null);
             return;
         }
         if(m_btnPath.isSelected() && m_selectedAnimPath != null) { //the user chose an existing path and decided to merge
