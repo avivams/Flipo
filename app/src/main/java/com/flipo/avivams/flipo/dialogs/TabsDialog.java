@@ -152,12 +152,12 @@ public class TabsDialog extends DialogFragment {
 
         View tabSave = inflater.inflate(R.layout.dialog_record_result_tab, null);
         ((ImageView)tabSave.findViewById(R.id.icon)).setImageResource(R.drawable.ic_save_tab);
-        ((TextView)tabSave.findViewById(R.id.textView)).setText(getString(R.string.dialog_record_tab_save_txt));
+      //  ((TextView)tabSave.findViewById(R.id.textView)).setText(getString(R.string.dialog_record_tab_save_txt));
 
 
         View tabShare = inflater.inflate(R.layout.dialog_record_result_tab, null);
         ((ImageView)tabShare.findViewById(R.id.icon)).setImageResource(R.drawable.ic_share_tab);
-        ((TextView)tabShare.findViewById(R.id.textView)).setText(getString(R.string.dialog_record_tab_share_txt));
+     //   ((TextView)tabShare.findViewById(R.id.textView)).setText(getString(R.string.dialog_record_tab_share_txt));
 
         tabLayout.addTab(tabLayout.newTab().setCustomView(tabSave), 0);
         tabLayout.addTab(tabLayout.newTab().setCustomView(tabShare), 1);

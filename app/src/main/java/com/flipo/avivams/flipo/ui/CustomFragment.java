@@ -29,7 +29,7 @@ public class CustomFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.dialog_record_result_tab,container,false);
-        ((TextView) v.findViewById(R.id.textView)).setText(mText);
+       // ((TextView) v.findViewById(R.id.textView)).setText(mText);
         return v;
     }
 }

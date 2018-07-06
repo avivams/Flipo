@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--
     <item android:state_enabled="false"
         android:drawable="@drawable/task_disable"/>
 
@@ -9,5 +10,5 @@
 
     <item android:drawable="@drawable/task"/>
 
-
+-->
 </selector>

@@ -4,9 +4,11 @@
     <!-- The Doodles fragment section -->
     <dimen name="dialog_border_width">8dp</dimen>
 
-    <dimen name="menu_bar_tools_btn_width">60dp</dimen>
-    <dimen name="menu_bar_tools_btn_height">60dp</dimen>
-    <dimen name="menu_bar_tools_btn_txt_size">13sp</dimen>
+    <dimen name="menu_bar_tools_btn_width">55dp</dimen>
+    <dimen name="menu_bar_tools_btn_height">55dp</dimen>
+
+    <dimen name="info_btn_width">35dp</dimen>
+    <dimen name="info_btn_height">35dp</dimen>
 
     <dimen name="menu_bar_tools_tab_width">180dp</dimen>
     <dimen name="menu_bar_tools_tab_height">350dp</dimen>
@@ -22,6 +24,19 @@
     <dimen name="dialog_assignment_width">320dp</dimen>
 
 
+    <!-- Palette sizes -->
+    <dimen name="palette_icon_size">26dp</dimen>
+    <dimen name="palette_width">240dp</dimen>
+    <dimen name="palette_height">100dp</dimen>
+    <dimen name="brush_size_tiny_size">6dp</dimen>
+    <dimen name="brush_size_small_size">11dp</dimen>
+    <dimen name="brush_size_normal_size">17dp</dimen>
+    <dimen name="brush_size_big_size">23dp</dimen>
+    <dimen name="brush_size_giant_size">29dp</dimen>
+    <dimen name="brush_color_circle_size">20dp</dimen>
+
+
+    <!-- homework dimens -->
     <dimen name="assignment_title_image_height">110dp</dimen>
     <dimen name="assignment_title_image_width">320dp</dimen>
     <dimen name="assignment_title_txt_size">18sp</dimen>

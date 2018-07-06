@@ -100,6 +100,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     }
 
     private void setButtons(final View i_View){
+        /*
         m_PlayBtn = i_View.findViewById(R.id.preview_btn_play);
         m_StopBtn = i_View.findViewById(R.id.preview_btn_stop);
         m_RecordBtn = i_View.findViewById(R.id.preview_btn_record);
@@ -126,7 +127,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             }
         });
 
-        setAnimationListeners();
+        setAnimationListeners();*/
     }
 
     private void playBtn_OnClick(View i_View){

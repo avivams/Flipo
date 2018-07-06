@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/draw_pallete_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
+    android:layout_width="@dimen/palette_width"
+    android:layout_height="@dimen/palette_height"
+    android:background="@drawable/shadow_button_purple"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/palette_icon_size"
+            android:layout_height="@dimen/palette_icon_size"
+            android:src="@drawable/draw_icon"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_size_tiny"
+            android:layout_width="@dimen/brush_size_tiny_size"
+            android:layout_height="@dimen/brush_size_tiny_size"
+            android:src="@drawable/brush_size_circle"
+            android:layout_marginLeft="18dp"
+            android:layout_gravity="bottom"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_size_small"
+            android:layout_width="@dimen/brush_size_small_size"
+            android:layout_height="@dimen/brush_size_small_size"
+            android:src="@drawable/brush_size_circle"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="bottom"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_size_normal"
+            android:layout_width="@dimen/brush_size_normal_size"
+            android:layout_height="@dimen/brush_size_normal_size"
+            android:src="@drawable/brush_size_circle"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="bottom"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_size_big"
+            android:layout_width="@dimen/brush_size_big_size"
+            android:layout_height="@dimen/brush_size_big_size"
+            android:src="@drawable/brush_size_circle"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="bottom"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_size_giant"
+            android:layout_width="@dimen/brush_size_giant_size"
+            android:layout_height="@dimen/brush_size_giant_size"
+            android:src="@drawable/brush_size_circle"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_y"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#ffde1a"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_r"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#ff3333"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_b"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#0060b7"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_g"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#02b92d"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_blk"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#000000"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/brush_color_w"
+            android:layout_width="@dimen/brush_color_circle_size"
+            android:layout_height="@dimen/brush_color_circle_size"
+            android:src="@drawable/brush_size_circle"
+            android:tint="#ffffff"
+            android:layout_marginLeft="12dp"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>
