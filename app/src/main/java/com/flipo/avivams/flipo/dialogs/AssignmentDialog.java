@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 
@@ -46,7 +45,7 @@ public class AssignmentDialog extends DialogFragment {
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        View dialog = inflater.inflate(R.layout.dialog_assignment, null);
+        View dialog = inflater.inflate(R.layout.deprec_dialog_assignment, null);
 
         ((TextView)dialog.findViewById(R.id.txt_assignment_title)).setText(taskTitle);
         TextView description =dialog.findViewById(R.id.txt_assignment_description);

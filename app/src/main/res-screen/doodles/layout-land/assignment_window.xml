@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/assignment_window"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/dialog_assignment_width"
+    android:layout_height="@dimen/dialog_assignment_height"
+    android:background="@drawable/homework_window"
+    android:padding="32dp">
+
+    <ImageView
+        android:layout_marginTop="12dp"
+        android:layout_width="@dimen/assignment_title_image_width"
+        android:layout_height="@dimen/assignment_title_image_height"
+        android:layout_gravity="top|center_horizontal"
+        android:src="@drawable/task_symbol"/>
+    
+    <TextView
+        android:layout_marginTop="12dp"
+        android:layout_width="@dimen/assignment_description_txt_width"
+        android:layout_height="@dimen/assignment_description_txt_height"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/assignment_description_txt_size"
+        android:minLines="1"
+        android:maxLines="5"
+        android:textAlignment="center"
+        android:text="@string/assignment_description" />
+    
+    <Button
+        android:id="@+id/homework_ok_btn"
+        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/assignment_btn_width"
+        android:layout_height="@dimen/assignment_btn_height"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_green_no_shadow"
+        android:text="@string/btn_ok"
+        android:textSize="@dimen/dialog_btn_txt_size"
+        android:fontFamily="@font/big_john"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>

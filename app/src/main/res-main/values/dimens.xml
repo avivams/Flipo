@@ -20,12 +20,12 @@
     <dimen name="dialog_prompt_txt_size">20sp</dimen>
     <dimen name="dialog_btn_txt_size">18sp</dimen>
 
-    <dimen name="dialog_assignment_height">380dp</dimen>
-    <dimen name="dialog_assignment_width">320dp</dimen>
+    <dimen name="dialog_assignment_width">450dp</dimen>
+    <dimen name="dialog_assignment_height">350dp</dimen>
 
     <!-- Drawing confirmation -->
     <dimen name="btn_confirm_draw_width">110dp</dimen>
-    <dimen name="btn_confirm_draw_height">40dp</dimen>
+    <dimen name="btn_confirm_draw_height">45dp</dimen>
 
     <!-- Palette sizes -->
     <dimen name="palette_icon_size">26dp</dimen>
@@ -40,12 +40,18 @@
 
 
     <!-- homework dimens -->
-    <dimen name="assignment_title_image_height">110dp</dimen>
-    <dimen name="assignment_title_image_width">320dp</dimen>
+    <dimen name="assignment_title_image_height">90dp</dimen>
+    <dimen name="assignment_title_image_width">90dp</dimen>
     <dimen name="assignment_title_txt_size">18sp</dimen>
-    <dimen name="assignment_description_txt_size">13sp</dimen>
+    <dimen name="assignment_description_txt_size">21sp</dimen>
     <dimen name="assignment_description_txt_width">250dp</dimen>
-    <dimen name="assignment_txt_padding">30dp</dimen>
+    <dimen name="assignment_description_txt_height">110dp</dimen>
+    <dimen name="assignment_btn_width">120dp</dimen>
+    <dimen name="assignment_btn_height">30dp</dimen>
+    <dimen name="assignment_padding">12dp</dimen>
+
+    <dimen name="hw_width">100dp</dimen>
+    <dimen name="hw_height">40dp</dimen>
 
 
     <!-- The Preview fragment section -->

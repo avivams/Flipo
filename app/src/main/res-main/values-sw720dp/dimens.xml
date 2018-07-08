@@ -13,8 +13,10 @@
     <dimen name="menu_bar_right_btn_width">80dp</dimen>
     <dimen name="menu_bar_right_btn_height">80dp</dimen>
 
-    <dimen name="dialog_assignment_height">580dp</dimen>
-    <dimen name="dialog_assignment_width">520dp</dimen>
+    <dimen name="dialog_assignment_width">550dp</dimen>
+    <dimen name="dialog_assignment_height">450dp</dimen>
+
+    <dimen name="dialog_btn_txt_size">25sp</dimen>
 
     <!-- Drawing confirmation -->
     <dimen name="btn_confirm_draw_width">130dp</dimen>
@@ -22,12 +24,18 @@
 
 
     <!-- homework dimens -->
-    <dimen name="assignment_title_image_height">160dp</dimen>
-    <dimen name="assignment_title_image_width">350dp</dimen>
+    <dimen name="assignment_title_image_height">120dp</dimen>
+    <dimen name="assignment_title_image_width">120dp</dimen>
     <dimen name="assignment_title_txt_size">25sp</dimen>
-    <dimen name="assignment_description_txt_size">20sp</dimen>
+    <dimen name="assignment_description_txt_size">30sp</dimen>
     <dimen name="assignment_description_txt_width">350dp</dimen>
-    <dimen name="assignment_txt_padding">70dp</dimen>
+    <dimen name="assignment_description_txt_height">150dp</dimen>
+    <dimen name="assignment_btn_width">150dp</dimen>
+    <dimen name="assignment_btn_height">50dp</dimen>
+    <dimen name="assignment_padding">32dp</dimen>
+
+    <dimen name="hw_width">150dp</dimen>
+    <dimen name="hw_height">50dp</dimen>
 
 
     <!-- Palette sizes -->

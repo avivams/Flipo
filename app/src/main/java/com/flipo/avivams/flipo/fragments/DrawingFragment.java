@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
+import com.flipo.avivams.flipo.ui.HomeworkButton;
 import com.flipo.avivams.flipo.ui.MenuManager;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.AnimationPath;
@@ -45,10 +46,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             m_btnErase;*/
     private LinearLayout m_btnDraw;
     private ImageButton m_btnOpnDraw, m_btnPath, m_btnPreview,
-            m_btnErase, m_btnCompletedDraw, m_btnSelect;
-    private Button m_btnTask;
+            m_btnErase, m_btnCompletedDraw, m_btnCancelDraw, m_btnSelect;
 
     private MenuManager menuManager;
+    private HomeworkButton m_btnHW;
 
     private SpeedPathBuilder m_PathBuilder;
     private SurfaceView m_SurfaceView;
@@ -110,12 +111,8 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 (ImageView)v.findViewById(R.id.brush_size_big), (ImageView)v.findViewById(R.id.brush_size_giant),
                 (ImageView)v.findViewById(R.id.brush_color_y), (ImageView)v.findViewById(R.id.brush_color_r), (ImageView)v.findViewById(R.id.brush_color_b), (ImageView)v.findViewById(R.id.brush_color_g),
                 (ImageView)v.findViewById(R.id.brush_color_blk), (ImageView)v.findViewById(R.id.brush_color_w));
-        /*
-        menuManager.registerButtons(m_btnMenuOpn, m_btnStyle, m_btnParams, m_btnPath, m_btnDraw);
-        menuManager.registerButtonsText((TextView)v.findViewById(R.id.menu_btn_style_txt), (TextView)v.findViewById(R.id.menu_btn_params_txt),
-                (TextView)v.findViewById(R.id.menu_btn_path_txt), (TextView)v.findViewById(R.id.menu_btn_shape_txt));
-        menuManager.registerTab(m_menuTabView);
-*/
+
+
         m_PathBuilder = new SpeedPathBuilder();
         m_Smoothener = new MultiChannelSmoothener(m_PathBuilder.getStride());
         m_ColorCanvas = getResources().getColor(R.color.canvasBackground);
@@ -159,6 +156,8 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 public boolean onTouch(View v, MotionEvent event) {
                     if(menuManager.isMenuVisible())
                         toggleDrawMenu();
+                    if(m_btnHW.isMenuVisible())
+                        m_btnHW.animateMenu(false);
 
                     if(m_btnOpnDraw.isSelected()) {
                         drawingMode(event);
@@ -205,13 +204,13 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnPath = fView.findViewById(R.id.btn_path);
         m_btnSelect = fView.findViewById(R.id.btn_select);
         m_btnCompletedDraw = fView.findViewById(R.id.btn_draw_complete);
+        m_btnCancelDraw = fView.findViewById(R.id.btn_draw_cancel);
 
         m_btnPreview = fView.findViewById(R.id.btn_preview);
         m_btnPreview.setEnabled(true);
         m_btnErase = fView.findViewById(R.id.btn_erase);
         m_btnErase.setEnabled(false);
 
-        m_btnTask = fView.findViewById(R.id.btn_task);
 
         // set color for icons when api is less than 23
         Activity activity = getActivity();
@@ -230,7 +229,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                     return;
                 }
 
-
                 if(m_btnOpnDraw.isSelected()) {
                     completeDrawObject();
                     Toast.makeText(getActivity(), "Shape saved", Toast.LENGTH_LONG).show();
@@ -243,6 +241,16 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
+        m_btnCancelDraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopBuildStroke();
+                cancelSelected();
+                disableButtonsExcept(null);
+            }
+        });
+
+
         m_btnOpnDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,9 +258,10 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 disableButtonsExcept(m_btnOpnDraw);
                 menuManager.animateMenu(!menuManager.isMenuVisible());
 
-                m_btnCompletedDraw.setVisibility(View.VISIBLE);
+                showConfirmButtons(true);
             }
         });
+
 
         //Select button
         m_btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -294,7 +303,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
                 disableButtonsExcept(m_btnPath);
                 DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_PATH, getFragmentManager().beginTransaction(), null);
-                m_btnCompletedDraw.setVisibility(View.VISIBLE);
+                showConfirmButtons(true);
             }
         });
 
@@ -325,21 +334,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
-        
-        m_btnTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.ASSIGNMENT_OBJECTIVE, getFragmentManager().beginTransaction(), null);
-               /* AssignmentDialog.makeInstance(getString(R.string.assignment_title), getString(R.string.assignment_description),
-                        getString(R.string.btn_thanks_gotit), fView.findViewById(R.id.layout_container), getActivity());*/
-            }
-        });
-
+        m_btnHW = new HomeworkButton(getActivity(), (Button)fView.findViewById(R.id.btn_task), fView.findViewById(R.id.assignment_window));
 
         activity = null;
         //set the draw button as pressed by default
         m_btnOpnDraw.setSelected(true);
-        m_btnCompletedDraw.setVisibility(View.VISIBLE);
+        showConfirmButtons(true);
     }
 
 
@@ -389,7 +389,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnPath.setSelected(m_btnPath.getId() == id);
         m_btnOpnDraw.setSelected(m_btnOpnDraw.getId() == id);
         m_btnSelect.setSelected(m_btnSelect.getId() == id);
-        m_btnCompletedDraw.setVisibility(View.INVISIBLE);
+        showConfirmButtons(false);
         m_btnErase.setEnabled(false);
 
         if(!m_btnOpnDraw.isSelected() || m_selectedShape != null)
@@ -406,6 +406,8 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         if(menuManager.isMenuVisible() && !m_btnOpnDraw.isSelected())
             toggleDrawMenu();
 
+        if(m_btnHW.isMenuVisible())
+            m_btnHW.animateMenu(false);
     }
 
 
@@ -633,7 +635,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_selectedShape = null;
         m_selectedAnimPath = m_selectedAnimShape = null;
 
-        m_btnCompletedDraw.setVisibility(View.INVISIBLE);
+        showConfirmButtons(false);
 
         paintThese(anim.GetAnimationObject(), anim.GetAnimationPath(), true);
 
@@ -744,6 +746,17 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
             mListener.renderView();
         }
+    }
+
+
+    /**
+     * This function reveal/hide the confirmation (of drawing) buttons
+     * @param reveal should reveal?
+     */
+    private void showConfirmButtons(boolean reveal){
+        int visible = reveal ? View.VISIBLE : View.GONE;
+        m_btnCompletedDraw.setVisibility(visible);
+        m_btnCancelDraw.setVisibility(visible);
     }
 
     /**

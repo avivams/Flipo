@@ -9,10 +9,10 @@
     <string name="menu_params_title">Parameters</string>
 
     <string name="assignment_title">The assingment</string>
-    <string name="assignment_description">To demonstrate how the solar system\nworks, according to what taught in the\nclassroom.</string>
+    <string name="assignment_description">Prepare a visual presentation which describes how the solar system works</string>
 
     <!-- dialogs buttons text -->
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok">O.K</string>
     <string name="btn_ok_gotit">Got It</string>
     <string name="btn_ok_alright">Alright</string>
     <string name="btn_yes">Go for it</string>

@@ -45,6 +45,7 @@ public class ResizeAnimation extends Animation {
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
 
+        System.out.println(view.getLayoutParams().height +"\n");
         if (startHeight != 0) {
             if (deltaHeight > 0) {
                 view.getLayoutParams().height = (int) (startHeight + deltaHeight * interpolatedTime);

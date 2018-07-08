@@ -12,7 +12,7 @@
         android:id="@+id/title_image_assignment"
         android:layout_width="@dimen/assignment_title_image_width"
         android:layout_height="@dimen/assignment_title_image_height"
-        android:src="@drawable/task_title"
+        android:src="@drawable/task_symbol"
         android:layout_margin="20dp"
         android:background="@android:color/transparent"/>
 
@@ -22,8 +22,8 @@
         android:orientation="vertical"
         android:background="@drawable/dialog_half_bg"
         android:layout_margin="3dp"
-        android:paddingTop="@dimen/assignment_txt_padding"
-        android:paddingBottom="@dimen/assignment_txt_padding"
+        android:paddingTop="@dimen/assignment_padding"
+        android:paddingBottom="@dimen/assignment_padding"
         android:gravity="center">
 
         <LinearLayout

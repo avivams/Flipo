@@ -148,19 +148,29 @@
 
     <Button
         android:id="@+id/btn_task"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/hw_width"
+        android:layout_height="@dimen/hw_height"
         android:background="@drawable/homework_button"
         android:text="H.W"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/big_john"
         android:textColor="#FFFFFF"
         android:layout_marginTop="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline_ver_center_screen"
         app:layout_constraintStart_toEndOf="@id/guideline_ver_center_screen"
         />
+
+    <include
+        android:id="@+id/assignment_window"
+        layout="@layout/assignment_window"
+        android:layout_width="@dimen/dialog_assignment_width"
+        android:layout_height="1dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_center_screen"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_center_screen"
+        android:visibility="gone"/>
 
 
     <android.support.constraint.Guideline
