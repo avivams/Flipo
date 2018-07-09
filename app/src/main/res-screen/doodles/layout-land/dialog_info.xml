@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_info_width"
+    android:layout_height="@dimen/dialog_info_height"
+    android:background="@drawable/button_yellow_no_shadow"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/info_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STEPS AT WORK"
+        android:fontFamily="@font/big_john"
+        android:textSize="@dimen/assignment_title_txt_size"
+        android:textColor="@color/dialog_text_color"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:elevation="2dp"/>
+
+    <LinearLayout
+        android:id="@+id/info_draw_line"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/info_line_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/info_title"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/info_icon_width"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_fencil_info"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Draw your visual object"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="@font/comfortaa_bold"
+            android:textColor="@color/dialog_text_color"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info_path_line"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/info_line_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/info_draw_line"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/info_icon_width"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_path_info"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Define a path for every selected object"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="@font/comfortaa_bold"
+            android:textColor="@color/dialog_text_color"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info_preview_line"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/info_line_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/info_path_line"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/info_icon_width"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_eye_info"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Preview your animation"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="@font/comfortaa_bold"
+            android:textColor="@color/dialog_text_color"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/info_save_line"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/info_line_height"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/info_preview_line"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/info_icon_width"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_save_as"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Save locally or send to teacher"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="@font/comfortaa_bold"
+            android:textColor="@color/dialog_text_color"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="@dimen/info_image_width"
+        android:layout_height="@dimen/info_image_height"
+        android:src="@drawable/ic_doodle"
+        android:layout_toEndOf="@+id/info_path_line"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="5dp"
+        android:scaleType="centerInside"/>
+
+    <Button
+        android:id="@+id/info_btn_ok"
+        android:layout_width="@dimen/dialog_btn_width"
+        android:layout_height="@dimen/dialog_btn_height"
+        android:layout_below="@id/info_save_line"
+        android:background="@drawable/button_green_no_shadow"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/btn_ok"
+        android:textSize="@dimen/dialog_btn_txt_size"
+        android:fontFamily="@font/big_john"
+        android:textColor="@color/dialog_btn_text_color"/>
+
+</RelativeLayout>

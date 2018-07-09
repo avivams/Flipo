@@ -2,72 +2,59 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/dialog_prompt_width"
+    android:layout_height="@dimen/dialog_prompt_height"
     android:gravity="center"
-    android:background="@drawable/dialog_shape"
-    android:padding="32dp">
+    android:background="@drawable/dialog_shape">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/txt_question"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txt_question"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text = "@string/quest_combine_exist_path"
-            android:fontFamily="@font/comfortaa_bold"
-            android:textStyle="bold"
-            android:textSize="@dimen/dialog_prompt_txt_size"
-            android:textColor="@color/dialog_text_color"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
+        android:text = "@string/quest_combine_exist_path"
+        android:fontFamily="@font/comfortaa_bold"
+        android:textSize="@dimen/dialog_prompt_txt_size"
+        android:textColor="@color/dialog_result_text_color"
+        android:gravity="center_horizontal"/>
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center|bottom"
+        android:gravity="center_horizontal"
         android:layout_gravity="center"
         android:layout_marginTop="8dp">
 
         <Button
             android:id="@+id/btn_yes"
-
-            android:layout_width="110dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/dialog_button"
-            android:fontFamily="B"
-            android:textAllCaps="false"
-            android:text="@string/btn_no"
+            android:layout_width="@dimen/dialog_confirm_btn_width"
+            android:layout_height="@dimen/dialog_confirm_btn_height"
+            android:background="@drawable/button_green_no_shadow"
+            android:fontFamily="@font/big_john"
+            android:text="@string/btn_yes"
             android:textColor="@color/dialog_btn_text_color"
-            android:textStyle="bold"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:textSize="@dimen/dialog_btn_txt_size"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="10dp"/>
+            android:gravity="center"/>
 
         <Button
             android:id="@+id/btn_no"
-            android:layout_width="110dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/dialog_button"
-            android:fontFamily="sans-serif"
-            android:textAllCaps="false"
-            android:text="@string/btn_yes"
+            android:layout_width="@dimen/dialog_confirm_btn_width"
+            android:layout_height="@dimen/dialog_confirm_btn_height"
+            android:background="@drawable/button_red_no_shadow"
+            android:fontFamily="@font/big_john"
+            android:text="@string/btn_no"
             android:textColor="@color/dialog_btn_text_color"
-            android:textStyle="bold"
-            android:textSize="@dimen/dialog_btn_txt_size"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="@dimen/dialog_btn_txt_size"
+            android:gravity="center"/>
+
     </LinearLayout>
 
 

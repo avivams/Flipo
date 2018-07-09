@@ -7,6 +7,17 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:elevation="10dp">
+
+
+
+    <ImageButton
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/ic_speed"
+        android:background="@drawable/shadow_button_purple"
+        android:paddingTop="6dp"
+        android:paddingLeft="6dp"
+        android:cropToPadding="true"/>
     <!--
 
         <ImageButton

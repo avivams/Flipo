@@ -87,7 +87,10 @@
         android:scaleType="centerInside"
         android:src="@drawable/draw_icon"
         android:layout_marginTop="12dp"
-        android:padding="15dp"
+        android:paddingBottom="@dimen/btn_draw_paddBottom"
+        android:paddingRight="@dimen/btn_draw_paddRight"
+        android:paddingLeft="@dimen/btn_draw_paddLeft"
+        android:paddingTop="@dimen/btn_draw_paddTop"
         app:layout_constraintStart_toStartOf="@id/btn_path"
         app:layout_constraintEnd_toEndOf="@id/btn_path"
         app:layout_constraintTop_toBottomOf="@id/btn_path"/>
@@ -105,6 +108,7 @@
 
 
     <ImageButton
+        android:id="@+id/info_btn"
         android:layout_width="@dimen/info_btn_width"
         android:layout_height="@dimen/info_btn_height"
         android:background="@drawable/shadow_button_yellow"

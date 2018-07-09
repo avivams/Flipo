@@ -68,7 +68,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private Animation m_selectedAnimShape, m_selectedAnimPath; // to distinguish what exactly the user clicked on as part of an animation
     private int m_ColorCanvas;
     private int m_pathSpeed;
-    private boolean isDrawingNow;
+    private boolean isDrawingNow, isPathNow;
 
 
     public DrawingFragment() {
@@ -205,6 +205,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnSelect = fView.findViewById(R.id.btn_select);
         m_btnCompletedDraw = fView.findViewById(R.id.btn_draw_complete);
         m_btnCancelDraw = fView.findViewById(R.id.btn_draw_cancel);
+        ImageButton m_btnInfo = fView.findViewById(R.id.info_btn);
 
         m_btnPreview = fView.findViewById(R.id.btn_preview);
         m_btnPreview.setEnabled(true);
@@ -301,6 +302,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                     return;
                 }
 
+                isPathNow = true;
                 disableButtonsExcept(m_btnPath);
                 DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_PATH, getFragmentManager().beginTransaction(), null);
                 showConfirmButtons(true);
@@ -315,6 +317,13 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
                 toggleDrawMenu();
                 DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DELETE_CHOSED, getFragmentManager().beginTransaction(), DrawingFragment.this);
+            }
+        });
+
+        m_btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.INFO_DIALOG, getFragmentManager().beginTransaction(), null);
             }
         });
 
@@ -423,10 +432,12 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     }
 
 
+
     public void drawStroke(MotionEvent event){
         InkCanvas canvas = mListener.getCanvas();
         Layer currentFrameLayer = mListener.getCurrentView(), strokesLayer = mListener.getStrokesLayer();
         StrokeRenderer strokeRenderer = mListener.getRenderer();
+
         int stride = m_PathBuilder.getStride();
 
         strokeRenderer.drawPoints(m_PathBuilder.getPathBuffer(), m_PathBuilder.getPathLastUpdatePosition(),

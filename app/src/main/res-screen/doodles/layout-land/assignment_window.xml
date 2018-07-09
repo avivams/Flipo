@@ -13,7 +13,7 @@
         android:layout_width="@dimen/assignment_title_image_width"
         android:layout_height="@dimen/assignment_title_image_height"
         android:layout_gravity="top|center_horizontal"
-        android:src="@drawable/task_symbol"/>
+        android:src="@drawable/ic_atom"/>
     
     <TextView
         android:layout_marginTop="12dp"

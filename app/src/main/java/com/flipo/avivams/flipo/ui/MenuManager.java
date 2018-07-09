@@ -125,7 +125,8 @@ public class MenuManager {
         m_btnMenuView.findViewById(R.id.draw_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               animateMenu(false);
+
+                animateMenu(false);
             }
         });
     }
