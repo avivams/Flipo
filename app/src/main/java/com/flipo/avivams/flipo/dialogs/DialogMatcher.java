@@ -70,7 +70,8 @@ public class DialogMatcher {
     public static void showDialog(Context context, PreviewDialogType type, FragmentTransaction transaction, @NonNull RecordResultDialogListener listener) {
         switch (type){
             case RECORD_RESULT:
-                TabsDialog.TabsDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
+                RecordCompletedDialog.RecordDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
+
                 break;
         }
     }
@@ -84,6 +85,6 @@ public class DialogMatcher {
 
     public interface RecordResultDialogListener{
 
-        void onConfirmButtonClicked(TabsDialog.TabType tabType, String userInput);
+        void onConfirmButtonClicked(TabsDialogDeprec.TabType tabType, String userInput);
     }
 }

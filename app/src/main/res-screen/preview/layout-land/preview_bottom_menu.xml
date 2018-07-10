@@ -9,15 +9,42 @@
     android:elevation="10dp">
 
 
+    <ImageButton
+        android:id="@+id/preview_btn_play"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/play_and_pause"
+        android:background="@drawable/shadow_button_purple"
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
 
     <ImageButton
+        android:id="@+id/preview_btn_speed"
         android:layout_width="@dimen/menu_bar_tools_btn_width"
         android:layout_height="@dimen/menu_bar_tools_btn_height"
         android:src="@drawable/ic_speed"
         android:background="@drawable/shadow_button_purple"
-        android:paddingTop="6dp"
-        android:paddingLeft="6dp"
-        android:cropToPadding="true"/>
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+       />
+
+    <ImageButton
+        android:id="@+id/preview_btn_record"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/ic_record"
+        android:background="@drawable/shadow_button_purple"
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        />
+
+
     <!--
 
         <ImageButton

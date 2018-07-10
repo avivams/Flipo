@@ -2,11 +2,15 @@ package com.flipo.avivams.flipo.ui;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
 import com.wacom.ink.rasterization.StrokePaint;
+
+import java.util.Locale;
 
 /**
  * Created by aviv_ams on 30/04/2018.
@@ -82,15 +86,13 @@ public class SeekBarListener implements SeekBar.OnSeekBarChangeListener{
 
     public static class SpeedSeekBar extends SeekBarListener{
 
-        private MenuManager.MenuManagerListener mListener;
         private int m_maxVal;
 
         public SpeedSeekBar(int currentProgress, int minimumValue, int maxVal,
-                            int jump, @NonNull TextView currentValTxt,
-                            @NonNull MenuManager.MenuManagerListener listener){
+                            int jump, @NonNull TextView currentValTxt){
 
             super(currentProgress, minimumValue, currentValTxt, jump);
-            mListener = listener;
+
             m_maxVal = maxVal;
         }
 
@@ -98,14 +100,15 @@ public class SeekBarListener implements SeekBar.OnSeekBarChangeListener{
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             seekBar.setProgress(m_progressValue - m_minimumValue);
-            mListener.setNewSpeed(m_progressValue);
         }
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
             super.onProgressChanged(seekBar, i, b);
+
             double speed = ((double)m_progressValue/m_maxVal) * 10;
-            m_currentValTxt.setText(String.valueOf(speed));//update text
+            String string = String.format(Locale.US, "X%.1f", speed);
+            m_currentValTxt.setText(string);//update text
         }
     }
 }

@@ -6,24 +6,25 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.flipo.avivams.flipo.R;
-import com.flipo.avivams.flipo.animation.PointCalc;
 import com.flipo.avivams.flipo.dialogs.DialogMatcher;
-import com.flipo.avivams.flipo.dialogs.TabsDialog;
+import com.flipo.avivams.flipo.dialogs.TabsDialogDeprec;
+import com.flipo.avivams.flipo.ui.SpeedHandler;
 import com.flipo.avivams.flipo.utilities.Animation;
 import com.flipo.avivams.flipo.utilities.MyPoint;
 import com.flipo.avivams.flipo.utilities.MyView;
@@ -33,11 +34,11 @@ import com.wacom.ink.boundary.Boundary;
 import com.wacom.ink.boundary.BoundaryBuilder;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.LinkedList;
 
-import static java.lang.Math.abs;
 
-public class PreviewFragment extends Fragment implements DialogMatcher.RecordResultDialogListener{
+public class PreviewFragment extends Fragment implements DialogMatcher.RecordResultDialogListener, SpeedHandler.OnSpeedChangeListener{
     private LinkedList<Shape> m_ShapesList;//holds all static shapes
     private LinkedList<Animation> m_AnimationsInfo;//hold all the animation
     private LinkedList<ObjectAnimator> m_Animations;
@@ -49,6 +50,10 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     private Boundary m_Boundary;
     private ImageButton m_PlayBtn, m_StopBtn, m_RecordBtn;
     private boolean m_IsPausing = false;
+
+
+    private SpeedHandler speedHandler;
+
 
     public PreviewFragment() {
         // Required empty public constructor
@@ -81,6 +86,11 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
 
             ((ConstraintLayout) myView.findViewById(R.id.layoutPrieview)).addView(view);
         }
+
+        Context context = getActivity();
+        speedHandler = new SpeedHandler(context, this, context.getResources().getInteger(R.integer.min_params_speed),
+                (ImageButton)myView.findViewById(R.id.btn_speed_cancel), (ImageButton)myView.findViewById(R.id.btn_speed_complete), (SeekBar)myView.findViewById(R.id.skbar_speed),
+                (TextView)myView.findViewById(R.id.seekbar_speed_txt), new LinkedList<View>(Arrays.asList(m_PlayBtn, m_StopBtn, m_RecordBtn)));
 
         return myView;
     }
@@ -127,7 +137,15 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             }
         });
 
+        i_View.findViewById(R.id.btn_back_edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
         setAnimationListeners();*/
+
     }
 
     private void playBtn_OnClick(View i_View){
@@ -164,7 +182,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     }
 
     @Override
-    public void onConfirmButtonClicked(TabsDialog.TabType i_TabType, String i_UserInput) {
+    public void onConfirmButtonClicked(TabsDialogDeprec.TabType i_TabType, String i_UserInput) {
         switch (i_TabType){
             case SAVE_TAB:{
                 //save i_UserInpute file name to the device memory
@@ -365,6 +383,19 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
         return i_First > i_Second ? i_First : i_Second;
     }
 
+
+
+    //TODO (Erez): use this method to get the new speed when the user changes it.
+    @Override
+    public void newSpeed(int speed) {
+
+    }
+
+
+
+    //////////////////////////////
+    ///DEPRECATE CODE FROM HERE///
+    //////////////////////////////
     @Deprecated
     public void CreatePaths(){
         m_Pathes = new LinkedList<>();

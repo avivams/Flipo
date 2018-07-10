@@ -213,7 +213,6 @@ public class MenuManager {
 
     public interface MenuManagerListener{
         StrokePaint getPaint();
-        void setNewSpeed(int speed);
     }
 
 

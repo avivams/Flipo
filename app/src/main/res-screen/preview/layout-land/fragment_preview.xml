@@ -62,4 +62,68 @@
         app:layout_constraintStart_toEndOf="@id/guideline_ver_mid_menu"
         app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom_menu" />
 
+    <include
+        android:visibility="gone"
+        android:id="@+id/speed_layout"
+        layout="@layout/speed_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_mid_menu"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_mid_menu"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom_menu"/>
+
+    <ImageButton
+        android:visibility="gone"
+        android:id="@+id/btn_speed_cancel"
+        android:layout_width="@dimen/btn_confirm_draw_width"
+        android:layout_height="@dimen/btn_confirm_draw_height"
+        android:src="@drawable/ic_x"
+        android:scaleType="centerInside"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/shadow_button_red"
+        app:layout_constraintStart_toEndOf="@id/speed_layout"
+        app:layout_constraintTop_toBottomOf="@id/speed_layout"
+        app:layout_constraintBottom_toTopOf="@id/speed_layout"/>
+
+    <ImageButton
+        android:visibility="gone"
+        android:id="@+id/btn_speed_complete"
+        android:layout_width="@dimen/btn_confirm_draw_width"
+        android:layout_height="@dimen/btn_confirm_draw_height"
+        android:src="@drawable/ic_v"
+        android:scaleType="centerInside"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/shadow_button_green"
+        app:layout_constraintStart_toEndOf="@id/btn_speed_cancel"
+        app:layout_constraintTop_toBottomOf="@id/speed_layout"
+        app:layout_constraintBottom_toTopOf="@id/speed_layout"/>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <Button
+        android:id="@+id/btn_back_edit"
+        android:layout_width="@dimen/preview_back_btn_width"
+        android:layout_height="@dimen/dialog_btn_height"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_yellow_no_shadow"
+        android:fontFamily="@font/big_john"
+        android:text="back to edit"
+        android:textColor="@color/dialog_text_color"
+        android:textSize="@dimen/preivew_back_btn_txt_size"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

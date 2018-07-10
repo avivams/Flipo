@@ -72,4 +72,16 @@
     <dimen name="preview_dialog_record_result_width">350dp</dimen>
     <dimen name="preview_dialog_record_result_height">380dp</dimen>
 
+
+    <!-- Preview icons dimens -->
+    <dimen name="preview_icon_size">93dp</dimen>
+    <dimen name="preview_icon_padding">6dp</dimen>
+
+    <dimen name="preview_thumb_size">90dp</dimen>
+    <dimen name="preview_slider_max_height">38dp</dimen>
+    <dimen name="preview_seekbar_width">330dp</dimen>
+    <dimen name="preview_seekbar_height">75dp</dimen>
+
+    <dimen name="preview_back_btn_width">150dp</dimen>
+    <dimen name="preivew_back_btn_txt_size">14sp</dimen>
 </resources>

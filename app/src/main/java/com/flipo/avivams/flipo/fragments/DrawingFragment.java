@@ -309,7 +309,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             }
         });
 
-        //TODO change the erase button to trash
+
         m_btnErase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -845,10 +845,6 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         return m_Paint;
     }
 
-    @Override
-    public void setNewSpeed(int speed) {
-        m_pathSpeed = speed;
-    }
 
     /*create a bitmap from a path and a view
     public static Bitmap loadBitmapFromView(View v) {

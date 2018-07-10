@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,6 +32,15 @@ public class YesNoDialog extends DialogFragment {
         ins.listener = listener;
         return ins;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Window window =  getDialog().getWindow();
+        window.setLayout((int)getActivity().getResources().getDimension(R.dimen.dialog_prompt_width),
+                (int)getActivity().getResources().getDimension(R.dimen.dialog_prompt_height));
+    }
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

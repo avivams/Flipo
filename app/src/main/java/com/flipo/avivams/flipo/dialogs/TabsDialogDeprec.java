@@ -1,46 +1,35 @@
 package com.flipo.avivams.flipo.dialogs;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
  * Created by aviv_ams on 07/06/2018.
  */
 
-public class TabsDialog extends DialogFragment {
+public class TabsDialogDeprec extends DialogFragment {
 
     public enum TabType {SHARE_TAB, SAVE_TAB};
 
@@ -55,7 +44,7 @@ public class TabsDialog extends DialogFragment {
     private DialogMatcher.RecordResultDialogListener listener;
 
 
-    public TabsDialog(){}
+    public TabsDialogDeprec(){}
 
     @Override
     public void onResume() {
@@ -67,8 +56,8 @@ public class TabsDialog extends DialogFragment {
 
     }
 
-    public static TabsDialog TabsDialogInstance(@NonNull DialogMatcher.RecordResultDialogListener listener) throws RuntimeException{
-        TabsDialog dialog = new TabsDialog();
+    public static TabsDialogDeprec TabsDialogInstance(@NonNull DialogMatcher.RecordResultDialogListener listener) throws RuntimeException{
+        TabsDialogDeprec dialog = new TabsDialogDeprec();
         dialog.listener = listener;
         return dialog;
     }
