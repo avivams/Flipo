@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
@@ -9,34 +10,72 @@
 
 
     <ImageButton
-        android:id="@+id/preview_btn_record"
-        android:layout_width="@dimen/menu_bar_right_btn_width"
-        android:layout_height="@dimen/menu_bar_right_btn_height"
-        android:src="@drawable/record"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
-
-    <ImageButton
         android:id="@+id/preview_btn_play"
-        android:layout_width="@dimen/menu_bar_right_btn_width"
-        android:layout_height="@dimen/menu_bar_right_btn_height"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
         android:src="@drawable/play_and_pause"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:background="@drawable/shadow_button_purple"
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
 
     <ImageButton
-        android:id="@+id/preview_btn_stop"
-        android:layout_width="@dimen/menu_bar_right_btn_width"
-        android:layout_height="@dimen/menu_bar_right_btn_height"
-        android:src="@drawable/stop"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:id="@+id/preview_btn_speed"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/ic_speed"
+        android:background="@drawable/shadow_button_purple"
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+       />
+
+    <ImageButton
+        android:id="@+id/preview_btn_record"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:src="@drawable/ic_record"
+        android:background="@drawable/shadow_button_purple"
+        android:paddingLeft="@dimen/preview_icon_padding"
+        android:paddingTop="@dimen/preview_icon_padding"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        />
 
 
+    <!--
+
+        <ImageButton
+            android:id="@+id/preview_btn_record"
+            android:layout_width="@dimen/menu_bar_right_btn_width"
+            android:layout_height="@dimen/menu_bar_right_btn_height"
+            android:src="@drawable/record"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageButton
+            android:id="@+id/preview_btn_play"
+            android:layout_width="@dimen/menu_bar_right_btn_width"
+            android:layout_height="@dimen/menu_bar_right_btn_height"
+            android:src="@drawable/play_and_pause"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <ImageButton
+            android:id="@+id/preview_btn_stop"
+            android:layout_width="@dimen/menu_bar_right_btn_width"
+            android:layout_height="@dimen/menu_bar_right_btn_height"
+            android:src="@drawable/stop"
+            android:background="@android:color/transparent"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+    -->
 </LinearLayout>

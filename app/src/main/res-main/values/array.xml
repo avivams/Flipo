@@ -2,12 +2,19 @@
 <resources>
     <!-- For palette use, in the menu bar -->
     <array name="palette_colors">
+        <item>#ffde1a</item>
+        <item>#ff3333</item>
+        <item>#0060b7</item>
+        <item>#02b92d</item>
         <item>#000000</item>
-        <item>#FF0000</item>
-        <item>#00FF00</item>
-        <item>#0000FF</item>
-        <item>#fffb00</item>
-        <item>#1dd1d1</item>
-        <item>#ff00a1</item>
+        <item>#ffffff</item>
     </array>
+
+    <integer-array name="brush_sizes">
+        <item>10</item>
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+    </integer-array>
 </resources>

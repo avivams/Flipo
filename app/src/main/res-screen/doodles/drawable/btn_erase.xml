@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_enabled="false"
-        android:drawable="@drawable/erase_disable"/>
+        <item android:state_enabled="false"
+            android:drawable="@drawable/ic_trash_bin_50"
+            />
 
-    <item android:state_selected="true"
-        android:drawable="@drawable/erase_select"/>
-
-    <item android:drawable="@drawable/erase"/>
+        <item android:drawable="@drawable/ic_trash_bin_100"/>
 
 </selector>

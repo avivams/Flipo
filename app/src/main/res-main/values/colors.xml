@@ -5,7 +5,7 @@
     <color name="colorAccent">#0060B7</color>
 
     <color name="dialog_half_bg_color">#FFEB76</color>
-
+    <color name="default_blue">#0060B7</color>
     <color name="text_view_background">#F4F2F2</color>
 
     <color name="canvasBackground">#F4F2F2</color>
@@ -13,11 +13,13 @@
     <color name="black_overlay">#66000000</color>
 
 
-    <color name="dialog_primary_color">#C0E3FF</color>
-    <color name="dialog_border_color">#700099</color>
-    <color name="dialog_text_color">#0060B7</color>
-    <color name="dialog_btn_text_color">#FFCC00</color>
+    <color name="dialog_primary_color">#700099</color>
+    <color name="dialog_border_color">#ffffff</color>
 
-    <color name="dialog_result_text_color">#700099</color>
+    <color name="dialog_text_color">#9900cc</color>
+    <color name="dialog_btn_text_color">#ffffff</color>
+
+    <color name="dialog_result_text_color">#F4F2F2</color>
     <color name="dialog_result_text_input">#CC99FF</color>
+
 </resources>

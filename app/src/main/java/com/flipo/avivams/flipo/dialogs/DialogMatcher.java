@@ -13,7 +13,7 @@ import com.flipo.avivams.flipo.R;
 public class DialogMatcher {
 
     public enum DoodlesDialogType {CHOOSE_SHAPE, CHOOSE_FREE_SHAPE, DRAW_PATH, DRAW_SHAPE_FIRST, DRAW_PATH_FIRST, CHOSE_EXIST_PATH,
-                            CHOOSE_DELETE, DELETE_CHOSED, ASSIGNMENT_OBJECTIVE};
+                            CHOOSE_DELETE, DELETE_CHOSED, INFO_DIALOG};
 
     public enum PreviewDialogType {RECORD_RESULT};
 
@@ -60,9 +60,8 @@ public class DialogMatcher {
                         context.getString(R.string.btn_no), listener).show(transaction, context.getString(R.string.dialog_tag_choose_delete));
                 break;
 
-            case ASSIGNMENT_OBJECTIVE:
-                AssignmentDialog.AssignmentDialogInstance(context.getString(R.string.assignment_title), context.getString(R.string.assignment_description),
-                        context.getString(R.string.btn_thanks_gotit)).show(transaction, context.getString(R.string.dialog_tag_assignment));
+            case INFO_DIALOG:
+                InfoDialog.AssignmentDialogInstance(context.getString(R.string.btn_ok)).show(transaction, context.getString(R.string.dialog_tag_assignment));
                 break;
         }
     }
@@ -71,7 +70,8 @@ public class DialogMatcher {
     public static void showDialog(Context context, PreviewDialogType type, FragmentTransaction transaction, @NonNull RecordResultDialogListener listener) {
         switch (type){
             case RECORD_RESULT:
-                TabsDialog.TabsDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
+                RecordCompletedDialog.RecordDialogInstance(listener).show(transaction, context.getString(R.string.dialog_record_result_tag));
+
                 break;
         }
     }
@@ -85,6 +85,6 @@ public class DialogMatcher {
 
     public interface RecordResultDialogListener{
 
-        void onConfirmButtonClicked(TabsDialog.TabType tabType, String userInput);
+        void onConfirmButtonClicked(TabsDialogDeprec.TabType tabType, String userInput);
     }
 }

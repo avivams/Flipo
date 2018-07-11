@@ -12,7 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.10" />
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_hor_logo_middle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
 
 
     <android.support.constraint.Guideline
@@ -21,7 +28,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.10" />
-
 
 
     <ImageView
@@ -37,6 +43,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_hor_logo_top"
         app:layout_constraintEnd_toEndOf="@id/guideline_ver_menu_left"/>
 
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline_hor_bottom"
         android:layout_width="match_parent"
@@ -45,153 +52,72 @@
         app:layout_constraintGuide_percent="0.80" />
 
 
-
     <ImageButton
-        android:id="@+id/btn_opn_tools"
+        android:id="@+id/btn_select"
         android:layout_width="@dimen/menu_bar_right_btn_width"
         android:layout_height="@dimen/menu_bar_right_btn_height"
-        android:layout_marginBottom="60dp"
-        android:layout_marginStart="60dp"
-        android:background="@android:color/transparent"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/shadow_button_purple"
         android:scaleType="centerCrop"
-        android:elevation="40dp"
-        android:src="@drawable/menu_open"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline_ver_menu_left"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:src="@drawable/ic_selection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_menu_left"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_logo_middle"/>
 
 
-    <ImageButton
-        android:id="@+id/btn_style"
-        android:layout_width="@dimen/menu_bar_tools_btn_width"
-        android:layout_height="@dimen/menu_bar_tools_btn_height"
-        android:background="@android:color/transparent"
-        android:src="@drawable/brush_style"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
-        android:alpha="0"
-        android:visibility="invisible"/>
 
-    <TextView
-        android:id="@+id/menu_btn_style_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_style_title"
-        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
-        android:textColor="@color/dialog_text_color"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_style"
-        app:layout_constraintStart_toEndOf="@id/btn_style"
-        app:layout_constraintTop_toTopOf="@id/btn_style"
-        android:alpha="0"
-        android:visibility="invisible"/>
-
-
-    <ImageButton
-        android:id="@+id/btn_params"
-        android:layout_width="@dimen/menu_bar_tools_btn_width"
-        android:layout_height="@dimen/menu_bar_tools_btn_height"
-        android:background="@android:color/transparent"
-        android:src="@drawable/parameters"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
-        android:alpha="0"
-        android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/menu_btn_params_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_params_title"
-        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
-        android:textColor="@color/dialog_text_color"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_params"
-        app:layout_constraintStart_toEndOf="@id/btn_params"
-        app:layout_constraintTop_toTopOf="@id/btn_params"
-        android:alpha="0"
-        android:visibility="invisible"/>
-
-
-    <!-- TODO 4.1: make the sub view for params as match_parent of with and height of this view -->
     <ImageButton
         android:id="@+id/btn_path"
         android:layout_width="@dimen/menu_bar_tools_btn_width"
         android:layout_height="@dimen/menu_bar_tools_btn_height"
-        android:background="@android:color/transparent"
-        android:src="@drawable/path"
+        android:background="@drawable/shadow_button_purple"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
-        android:alpha="0"
-        android:visibility="invisible"/>
+        android:src="@drawable/ic_path"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@id/btn_select"
+        app:layout_constraintEnd_toEndOf="@id/btn_select"
+        app:layout_constraintTop_toBottomOf="@id/btn_select" />
 
-    <TextView
-        android:id="@+id/menu_btn_path_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_draw_path_title"
-        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
-        android:textColor="@color/dialog_text_color"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_path"
-        app:layout_constraintStart_toEndOf="@id/btn_path"
-        app:layout_constraintTop_toTopOf="@id/btn_path"
-        android:alpha="0"
-        android:visibility="invisible"/>
 
-    <!-- TODO 5.2: make the sub view for style as match_parent of with and height of this view -->
     <ImageButton
-        android:id="@+id/btn_draw"
+        android:id="@+id/btn_opnDraw"
         android:layout_width="@dimen/menu_bar_tools_btn_width"
         android:layout_height="@dimen/menu_bar_tools_btn_height"
-        android:background="@android:color/transparent"
-        android:src="@drawable/draw_shape"
+        android:background="@drawable/shadow_button_purple"
+        android:scaleType="centerInside"
+        android:src="@drawable/draw_icon"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="@dimen/btn_draw_paddBottom"
+        android:paddingRight="@dimen/btn_draw_paddRight"
+        android:paddingLeft="@dimen/btn_draw_paddLeft"
+        android:paddingTop="@dimen/btn_draw_paddTop"
+        app:layout_constraintStart_toStartOf="@id/btn_path"
+        app:layout_constraintEnd_toEndOf="@id/btn_path"
+        app:layout_constraintTop_toBottomOf="@id/btn_path"/>
+
+    <include
+        android:visibility="invisible"
+        android:id="@+id/draw_pallete_view"
+        layout="@layout/draw_pallete"
+        android:layout_width="@dimen/menu_bar_tools_btn_width"
+        android:layout_height="@dimen/menu_bar_tools_btn_height"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@id/btn_path"
+        app:layout_constraintEnd_toEndOf="@id/btn_path"
+        app:layout_constraintTop_toBottomOf="@id/btn_path" />
+
+
+    <ImageButton
+        android:id="@+id/info_btn"
+        android:layout_width="@dimen/info_btn_width"
+        android:layout_height="@dimen/info_btn_height"
+        android:background="@drawable/shadow_button_yellow"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
-        android:alpha="0"
-        android:visibility="invisible"/>
+        android:src="@drawable/ic_info"
+        app:layout_constraintStart_toStartOf="@id/draw_pallete_view"
+        app:layout_constraintEnd_toEndOf="@id/draw_pallete_view"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"/>
 
-    <TextView
-        android:id="@+id/menu_btn_shape_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_draw_shape_title"
-        android:textSize="@dimen/menu_bar_tools_btn_txt_size"
-        android:textColor="@color/dialog_text_color"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_draw"
-        app:layout_constraintStart_toEndOf="@id/btn_draw"
-        app:layout_constraintTop_toTopOf="@id/btn_draw"
-        android:alpha="0"
-        android:visibility="invisible"/>
-
-
-
-
-    <include layout="@layout/menu_tabs"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="0dp"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_left"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
-        android:visibility="invisible" />
 
 
     <android.support.constraint.Guideline
@@ -206,11 +132,76 @@
         layout="@layout/options_right_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_hor_bottom"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_right" />
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_menu_right"
+        app:layout_constraintBottom_toTopOf="@id/guideline_hor_logo_top"
+        />
 
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_center_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+
+    <Button
+        android:id="@+id/btn_task"
+        android:layout_width="@dimen/hw_width"
+        android:layout_height="@dimen/hw_height"
+        android:background="@drawable/homework_button"
+        android:text="H.W"
+        android:textSize="20sp"
+        android:fontFamily="@font/big_john"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_center_screen"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_center_screen"
+        />
+
+    <include
+        android:id="@+id/assignment_window"
+        layout="@layout/assignment_window"
+        android:layout_width="@dimen/dialog_assignment_width"
+        android:layout_height="1dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_center_screen"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_center_screen"
+        android:visibility="gone"/>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_ver_right_85"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <ImageButton
+        android:id="@+id/btn_draw_complete"
+        android:layout_width="@dimen/btn_confirm_draw_width"
+        android:layout_height="@dimen/btn_confirm_draw_height"
+        android:src="@drawable/ic_v"
+        android:scaleType="centerInside"
+        android:background="@drawable/shadow_button_green"
+        app:layout_constraintStart_toEndOf="@id/guideline_ver_right_85"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"/>
+
+    <ImageButton
+        android:id="@+id/btn_draw_cancel"
+        android:layout_width="@dimen/btn_confirm_draw_width"
+        android:layout_height="@dimen/btn_confirm_draw_height"
+        android:src="@drawable/ic_x"
+        android:scaleType="centerInside"
+        android:background="@drawable/shadow_button_red"
+        app:layout_constraintEnd_toStartOf="@id/guideline_ver_right_85"
+        app:layout_constraintTop_toBottomOf="@id/guideline_hor_bottom"/>
 
 </android.support.constraint.ConstraintLayout>

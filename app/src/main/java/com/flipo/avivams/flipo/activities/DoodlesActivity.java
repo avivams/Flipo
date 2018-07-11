@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.flipo.avivams.flipo.R;
@@ -69,11 +67,13 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
      * specifies how to draw each stroke
      */
     private void createStrokePaint() {
+
         m_Paint = new StrokePaint();
         m_Paint.setStrokeBrush(m_SolidBrush);
-        m_Paint.setColor(Color.BLUE);// Particle brush.
+        m_Paint.setColor(getResources().getColor(R.color.default_blue));// Particle brush.
         //m_Paint.setWidth(Float.NaN);//draw it with width
         m_Paint.setWidth(50.0f);
+
     }
 
     private void initSurfaceView() {
@@ -137,6 +137,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
 
     private void releaseResources(){
         m_StrokeRenderer.dispose();
+
         m_Canvas.dispose();
     }
 
@@ -212,6 +213,27 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
                 m_Paint.setWidth(path.getWidth());
 
                 m_StrokeRenderer.setStrokePaint(m_Paint);
+               /* int pointsNum = path.getSize()/path.getStride();
+                int pointsInPart = (path.getSize()/path.getStride()) / 10, j = 1, leftEdge;
+                int rightEdge;
+
+                m_StrokeRenderer.drawPoints(path.getPoints(), 0, path.getSize()/2, path.getStride(),
+                        path.getStartValue(), path.getEndValue(), true);
+                m_StrokeRenderer.drawPoints(path.getPoints(), path.getSize()/2 +2*path.getStride(), path.getSize(), path.getStride(),
+                        path.getStartValue(), path.getEndValue(), true);
+            /*    for ( leftEdge = 0; leftEdge < pointsNum;  j++) {
+                    rightEdge = j*pointsInPart*path.getStride() + 3*path.getStride(); //the location on the buffer
+                    if(rightEdge > pointsNum)
+                        break;
+                    m_StrokeRenderer.drawPoints(path.getPoints(), leftEdge, rightEdge, path.getStride(),
+                            path.getStartValue(), path.getEndValue(), true);
+
+                    leftEdge=(j*pointsInPart*path.getStride()+3*path.getStride());
+                }
+                if(leftEdge<path.getSize())
+                     m_StrokeRenderer.drawPoints(path.getPoints(), leftEdge, path.getSize(), path.getStride(),
+                             path.getStartValue(), path.getEndValue(), true);
+*/
                 m_StrokeRenderer.drawPoints(path.getPoints(), 0, path.getSize(), path.getStride(),
                         path.getStartValue(), path.getEndValue(), true);
                 m_StrokeRenderer.blendStroke(m_StrokesLayer, BlendMode.BLENDMODE_NORMAL);
@@ -235,6 +257,7 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     public void exitOnClick(View view){
         finish();
     }
+
 
     @Override
     public InkCanvas getCanvas() {

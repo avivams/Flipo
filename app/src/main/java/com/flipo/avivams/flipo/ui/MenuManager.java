@@ -1,21 +1,31 @@
 package com.flipo.avivams.flipo.ui;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.flipo.avivams.flipo.R;
+import com.flipo.avivams.flipo.animation.ResizeAnimation;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
 import com.wacom.ink.rasterization.StrokePaint;
 
@@ -28,154 +38,169 @@ import java.util.Arrays;
 
 public class MenuManager {
 
-    public enum TabType {STYLE_TAB, PARAMS_TAB};
-    private enum AnimType{BUTTONS, TEXTS};
-
-    private ArrayList<ImageButton> buttons;
-    private ArrayList<TextView> buttons_text;
-    private View m_menuTabView;
-    private ImageButton m_btnTitle;
-    private ImageButton m_btnMenuOpn;
+    private int brushSizes[];
+    private ArrayList<Integer> brushColors;
+    private LinearLayout m_btnMenuView;
+    private ImageButton m_btnOpnDraw;
     private boolean menuVisible;
 
-    public MenuManager() {
+    private int openWidth, openHeight, closeWidth, closeHeight;
+
+    public MenuManager(Context context) {
+
+        brushColors = new ArrayList<>();
+        brushSizes = context.getResources().getIntArray(R.array.brush_sizes);
+
+        Resources resources = context.getResources();
+
+        openWidth = (int)resources.getDimension(R.dimen.palette_width);
+        openHeight = (int)resources.getDimension(R.dimen.palette_height);
+        closeHeight = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_height);
+        closeWidth = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_width);
+
+        // get colors from 'array.xml'
+        TypedArray colors = context.getResources().obtainTypedArray(R.array.palette_colors);
+        for (int i=0; i < colors.length(); i++) {
+            brushColors.add(colors.getColor(i, 0));
+        }
+        colors.recycle(); // finished using the colors TypedArray
     }
 
 
     /**
      * After the opnMenuButton, insert each button button ordered by their position after each other.
-     * @param opnMenuButton the button which responsible of opening the menu.
+     * @param opnMenuView the menu.
+     * @param btnOpnButton the button which responsible of opening the menu.
      * @param buttons the buttons to show on the menu.
      */
-    public void registerButtons(ImageButton opnMenuButton, ImageButton... buttons){
-        if(this.buttons != null)
-            this.buttons.clear();
+    public void registerButtons(
+            final DrawingFragment.OnDrawingInteractionListener drawListener,
+            final MenuManagerListener listener,
+            LinearLayout opnMenuView, ImageButton btnOpnButton, int numOfSizes, int numOfColors, ImageView... buttons){
 
-        this.buttons = new ArrayList<>(Arrays.asList(buttons));
-        m_btnMenuOpn = opnMenuButton;
+        m_btnMenuView = opnMenuView;
+        m_btnOpnDraw = btnOpnButton;
 
-        initAnimsListeners(AnimType.BUTTONS);
+        initAnimsListeners(drawListener, listener, numOfSizes, numOfColors, buttons);
     }
 
-    /**
-     * Insert texts strings by the order of the buttons which passed to 'registerButtons' function.
-     * @param texts the texts which will be shown besides each button
-     */
-    public void registerButtonsText(TextView... texts){
-        if(buttons_text != null)
-            buttons_text.clear();
-
-        buttons_text = new ArrayList<>(Arrays.asList(texts));
-        initAnimsListeners(AnimType.TEXTS);
-    }
-
-
-    public void registerTab(View tab){
-        this.m_menuTabView = tab;
-        final View parentTab = ((View)m_menuTabView.getParent());
-        m_btnTitle = parentTab.findViewById(R.id.btn_menu_title_image);
-        m_btnTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeTab();
-            }
-        });
-        parentTab.animate().setListener(new MenuOptionAnimation(parentTab));
-    }
 
 
     /**
      * sets listeners to animations (which also take control of their Visibility).
      */
-    private void initAnimsListeners(AnimType type){
+    private void initAnimsListeners(final DrawingFragment.OnDrawingInteractionListener drawListener,
+                                    final MenuManagerListener listener,
+                                    int numOfSizes, int numOfColors, ImageView[] buttons){
 
-        if(type == AnimType.BUTTONS) {
-            for (ImageButton button : buttons) {
-                button.animate().setListener(new MenuOptionAnimation(button));
-            }
+        int i=0;
+
+        for (; i < numOfSizes; i++) {
+            final int j = i;
+
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.getPaint().setWidth(brushSizes[j]);
+                    drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                }
+            });
+         //   buttons[i].animate().setListener(new MenuOptionAnimation(buttons[i]));
         }
-        else if(type == AnimType.TEXTS) {
-            for (TextView textView : buttons_text) {
-                textView.animate().setListener(new MenuOptionAnimation(textView));
-            }
+
+        int k = 0;
+        for(; i < buttons.length; i++, k++){
+            final int j = k;
+
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.getPaint().setColor(brushColors.get(j));
+                    drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                }
+            });
+        //    buttons[i].animate().setListener(new MenuOptionAnimation(buttons[i]));
         }
+
+        m_btnMenuView.findViewById(R.id.draw_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                animateMenu(false);
+            }
+        });
     }
 
+
     /**
-     * animation action for the top left menu bar
-     * @param open is opening animation
+     * animation action for the brush palette.
+     * @param open is opening animation?
      */
-    public void animateMenu(Activity activity, boolean open){
+    public void animateMenu(boolean open){
 
         if(open){
-            m_btnMenuOpn.setImageDrawable(activity.getDrawable(R.drawable.menu_close));
 
-            if(buttons != null && buttons.size() > 0) {
-                buttons.get(0).animate().alpha(1.0f);
-                buttons_text.get(0).animate().alpha(1.0f);
-                for (int i = 1; i < buttons.size(); i++) {
-                    buttons.get(i).animate().translationYBy(-(activity.getResources().getDimension(R.dimen.menu_bar_tools_btn_height) * i)).alpha(1.0f);
-                    buttons_text.get(i).animate().translationYBy(-(activity.getResources().getDimension(R.dimen.menu_bar_tools_btn_height) * i)).alpha(1.0f);
+            // set the starting height (the current height) and the new height that the view should have after the animation
+            ResizeAnimation anim = new ResizeAnimation(m_btnMenuView);
+            anim.setHeights(m_btnMenuView.getHeight(), openHeight);
+            anim.setWidths(m_btnMenuView.getWidth(), openWidth);
+            anim.setOriginXY(m_btnMenuView.getX(), m_btnMenuView.getY());
+
+            anim.setDuration(500);
+
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    m_btnMenuView.setVisibility(View.VISIBLE);
+                    m_btnOpnDraw.setVisibility(View.GONE);
                 }
-            }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            m_btnMenuView.startAnimation(anim);
 
             menuVisible = true;
         }
         else {
-            m_btnMenuOpn.setImageDrawable(activity.getDrawable(R.drawable.menu_open));
 
-            closeTab();
 
-            if(buttons != null && buttons.size() > 0) {
-                buttons.get(0).animate().alpha(0);
-                buttons_text.get(0).animate().alpha(0);
-                for (int i = buttons.size() - 1; i > 0; i--) {
-                    buttons.get(i).animate().translationYBy(activity.getResources().getDimension(R.dimen.menu_bar_tools_btn_height) * i).alpha(0);
-                    buttons_text.get(i).animate().translationYBy(activity.getResources().getDimension(R.dimen.menu_bar_tools_btn_height) * i).alpha(0);
+            // set the starting height (the current height) and the new height that the view should have after the animation
+            ResizeAnimation anim = new ResizeAnimation(m_btnMenuView);
+            anim.setHeights(m_btnMenuView.getHeight(), closeHeight);
+            anim.setWidths(m_btnMenuView.getWidth(), closeWidth);
+            anim.setOriginXY(m_btnMenuView.getX(), m_btnMenuView.getY());
+
+            anim.setDuration(500);
+
+            anim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
                 }
-            }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    m_btnMenuView.setVisibility(View.GONE);
+                    m_btnOpnDraw.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+
+            m_btnMenuView.startAnimation(anim);
+            m_btnOpnDraw.setVisibility(View.VISIBLE);
 
             menuVisible = false;
-        }
-
-    }
-
-
-    public void closeTab(){
-        final View parentTab = ((View)m_menuTabView.getParent());
-        parentTab.setAlpha(0.5f);
-        parentTab.animate().alpha(0).setDuration(50);
-
-        for(ImageButton button : buttons){
-            button.setVisibility(View.VISIBLE);
-            button.setAlpha(1.0f);
-        }
-
-        for(TextView textView : buttons_text){
-            textView.setVisibility(View.VISIBLE);
-            textView.setAlpha(1.0f);
-        }
-    }
-
-    public void openTab(TabType tabType, Activity activity, DrawingFragment.OnDrawingInteractionListener drawListener, MenuManagerListener menuListener){
-
-        View parentTab = ((View)m_menuTabView.getParent());
-        parentTab.animate().alpha(1.0f);
-
-        for(ImageButton button : buttons){
-            button.animate().alpha(0);
-        }
-        for(TextView textView : buttons_text){
-            textView.animate().alpha(0);
-        }
-
-        switch (tabType){
-            case STYLE_TAB:
-                initBrushTab(activity, drawListener, menuListener);
-                break;
-            default:
-                initParamsTab(activity, menuListener);
-                break;
         }
 
     }
@@ -186,7 +211,13 @@ public class MenuManager {
     }
 
 
-    private void initBrushTab(Activity activity,
+    public interface MenuManagerListener{
+        StrokePaint getPaint();
+    }
+
+
+/*
+    private void initBrushTab(y activity,
                               final DrawingFragment.OnDrawingInteractionListener drawListener,
                               final MenuManagerListener menuListener){
 
@@ -210,24 +241,11 @@ public class MenuManager {
         });
 
 
-        Resources res = activity.getResources();
-        SeekBar seekBar = view.findViewById(R.id.skbar_brush_size);
-        seekBar.setOnSeekBarChangeListener(
-                new SeekBarListener.BrushSeekBar(
-                        res.getInteger(R.integer.default_brush_size),
-                        res.getInteger(R.integer.min_brush_size),
-                        res.getInteger(R.integer.seekbar_brush_size_jumps),
-                        (TextView)view.findViewById(R.id.txt_brush_size),
-                        menuListener.getPaint(),
-                        drawListener));
-        seekBar.incrementProgressBy(R.integer.seekbar_brush_size_jumps);
-        seekBar.setMax(res.getInteger(R.integer.max_brush_size) - res.getInteger(R.integer.min_brush_size));
-        seekBar.setProgress(res.getInteger(R.integer.default_brush_size) - res.getInteger(R.integer.min_brush_size) );
+    }*/
 
 
-    }
 
-
+/*
     private void initParamsTab(Activity activity,
                                final MenuManagerListener menuListener){
 
@@ -254,12 +272,9 @@ public class MenuManager {
         seekBar.incrementProgressBy(R.integer.seekbar_speed_jumps);
         seekBar.setMax(res.getInteger(R.integer.max_params_speed) - res.getInteger(R.integer.min_params_speed));
         seekBar.setProgress(res.getInteger(R.integer.default_params_speed) - res.getInteger(R.integer.min_params_speed) );
-    }
+    }*/
 
-    public interface MenuManagerListener{
-        StrokePaint getPaint();
-        void setNewSpeed(int speed);
-    }
+
 }
 
 
