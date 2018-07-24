@@ -14,10 +14,10 @@ import com.wacom.ink.utils.Utils;
 public class Stroke implements Intersectable{
 
     private FloatBuffer m_Points;
-    private int m_Color;
+    private int m_Color, m_formerColor;
     private int m_Stride;
     private int m_Size;
-    private float m_Width;
+    private float m_Width, m_formerWidth;
     private float m_StartT;
     private float m_EndT;
     private BlendMode m_BlendMode;
@@ -25,7 +25,6 @@ public class Stroke implements Intersectable{
     private int m_Seed;
     private boolean m_HasRandomSeed;
 
-    private int m_formerColor;
 
     private FloatBuffer m_SegmentsBounds;
     private RectF bounds;
@@ -34,6 +33,7 @@ public class Stroke implements Intersectable{
         super();
         bounds = new RectF();
         m_formerColor = -1;
+        m_formerWidth = -1;
     }
 
     public Stroke(int size) {
@@ -58,6 +58,7 @@ public class Stroke implements Intersectable{
         bounds = new RectF(source.bounds);
         m_SegmentsBounds = source.m_SegmentsBounds;
         m_formerColor = source.m_formerColor;
+        m_formerWidth = source.m_formerWidth;
         CopyPoints(source.m_Points, 0, source.m_Size);
     }
 
@@ -104,6 +105,10 @@ public class Stroke implements Intersectable{
     public int getFormerColor(){return m_formerColor;}
 
     public void setFormerColor(int color){m_formerColor = color;}
+
+    public float getFormerWidth(){return m_formerWidth;}
+
+    public void setFormerWidth(float width){m_formerWidth = width;}
 
     @Override
     public FloatBuffer getSegmentsBounds() {

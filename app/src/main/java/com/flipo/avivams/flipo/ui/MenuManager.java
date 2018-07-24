@@ -27,6 +27,8 @@ import android.widget.TextView;
 import com.flipo.avivams.flipo.R;
 import com.flipo.avivams.flipo.animation.ResizeAnimation;
 import com.flipo.avivams.flipo.fragments.DrawingFragment;
+import com.flipo.avivams.flipo.utilities.Shape;
+import com.flipo.avivams.flipo.utilities.Stroke;
 import com.wacom.ink.rasterization.StrokePaint;
 
 import java.util.ArrayList;
@@ -42,7 +44,8 @@ public class MenuManager {
     private ArrayList<Integer> brushColors;
     private LinearLayout m_btnMenuView;
     private ImageButton m_btnOpnDraw;
-    private boolean menuVisible;
+    private boolean menuVisible, m_selectMode;
+    private Shape m_selectedShape;
 
     private int openWidth, openHeight, closeWidth, closeHeight;
 
@@ -101,8 +104,15 @@ public class MenuManager {
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.getPaint().setWidth(brushSizes[j]);
-                    drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                    if(m_selectMode && m_selectedShape != null){
+                        swapWidth();
+                        setNewWidth(brushSizes[j]);
+                        listener.updateView();
+                    }
+                    else {
+                        listener.getPaint().setWidth(brushSizes[j]);
+                        drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                    }
                 }
             });
          //   buttons[i].animate().setListener(new MenuOptionAnimation(buttons[i]));
@@ -115,8 +125,14 @@ public class MenuManager {
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.getPaint().setColor(brushColors.get(j));
-                    drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                    if(m_selectMode && m_selectedShape != null){
+                        swapColor();
+                        setNewColoer(brushColors.get(j));
+                        listener.updateView();
+                    }else {
+                        listener.getPaint().setColor(brushColors.get(j));
+                        drawListener.getRenderer().setStrokePaint(listener.getPaint());
+                    }
                 }
             });
         //    buttons[i].animate().setListener(new MenuOptionAnimation(buttons[i]));
@@ -130,6 +146,16 @@ public class MenuManager {
             }
         });
     }
+
+
+
+    public void setSelectMode(boolean is_selecting_now){
+        m_selectMode = is_selecting_now;
+    }
+    public void registerSelectedShape(Shape shape){
+        m_selectedShape = shape;
+    }
+
 
 
     /**
@@ -206,6 +232,32 @@ public class MenuManager {
     }
 
 
+    private void swapWidth(){
+        for(Stroke stroke : m_selectedShape.getShape()){
+            stroke.SetWidth(stroke.getFormerWidth());
+        }
+    }
+
+    private void swapColor(){
+        for(Stroke stroke : m_selectedShape.getShape()){
+            stroke.SetColor(stroke.getFormerColor());
+        }
+    }
+
+    private void setNewColoer(int color){
+        for (Stroke stroke : m_selectedShape.getShape()){
+            stroke.setFormerColor(stroke.GetColor());
+            stroke.SetColor(color);
+        }
+    }
+
+    private void setNewWidth(int width) {
+        for (Stroke stroke : m_selectedShape.getShape()) {
+            stroke.setFormerWidth(stroke.getWidth());
+            stroke.SetWidth(width);
+        }
+    }
+
     public boolean isMenuVisible(){
         return menuVisible;
     }
@@ -213,6 +265,7 @@ public class MenuManager {
 
     public interface MenuManagerListener{
         StrokePaint getPaint();
+        void updateView();
     }
 
 

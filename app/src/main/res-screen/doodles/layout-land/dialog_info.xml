@@ -5,6 +5,7 @@
     android:layout_width="@dimen/dialog_info_width"
     android:layout_height="@dimen/dialog_info_height"
     android:background="@drawable/button_yellow_no_shadow"
+    android:layoutDirection="ltr"
     android:padding="20dp">
 
     <TextView

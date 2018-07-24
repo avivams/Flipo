@@ -221,6 +221,14 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnCompletedDraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //if we show this button because of the select button
+                if(m_btnSelect.isSelected()){
+                    saveVals();
+                    disableButtonsExcept(null);
+                    return;
+                }
+
                 //check if an object is drawn.
                 if(m_builtStrokes.isEmpty()){
                     if(m_btnOpnDraw.isSelected()) //if needs to draw a shape
@@ -256,10 +264,11 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             @Override
             public void onClick(View view) {
 
-                disableButtonsExcept(m_btnOpnDraw);
+                if(!m_btnSelect.isSelected() && !m_btnPath.isSelected()) {
+                    disableButtonsExcept(m_btnOpnDraw);
+                    showConfirmButtons(true);
+                }
                 menuManager.animateMenu(!menuManager.isMenuVisible());
-
-                showConfirmButtons(true);
             }
         });
 
@@ -277,6 +286,8 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 }
                 else
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.CHOOSE_SHAPE, getFragmentManager().beginTransaction(), null);
+
+                showConfirmButtons(true);
             }
         });
 
@@ -367,6 +378,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         if(m_selectedShape == null && m_selectedAnimPath == null && m_selectedAnimShape == null){
             handleSelectShape(event, detectMarker.ANY);
         }
+
     }
 
 
@@ -400,6 +412,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         m_btnSelect.setSelected(m_btnSelect.getId() == id);
         showConfirmButtons(false);
         m_btnErase.setEnabled(false);
+        menuManager.setSelectMode(m_btnSelect.isSelected());
 
         if(!m_btnOpnDraw.isSelected() || m_selectedShape != null)
             // if a stroke is being build we need to finish it and dismiss by rendering only the remaining
@@ -512,15 +525,17 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
            if(m_btnSelect.isSelected()){
                 if(m_selectedShape != null) {
-                    paintThese(m_selectedShape, null, false); //highlight it
+                    paintThese(m_selectedShape, null, false, false); //highlight it
                     m_btnErase.setEnabled(true);
+                    menuManager.registerSelectedShape(m_selectedShape);
                 }
                 else if(m_selectedAnimShape != null) {
-                    paintThese(m_selectedAnimShape.GetAnimationObject(), m_selectedAnimShape.GetAnimationPath(), false); //highlight it
+                    paintThese(m_selectedAnimShape.GetAnimationObject(), m_selectedAnimShape.GetAnimationPath(), false, false); //highlight it
                     m_btnErase.setEnabled(true);
+                    menuManager.registerSelectedShape(m_selectedAnimShape.GetAnimationObject());
                 }
                 else if(m_selectedAnimPath != null) {
-                    paintThese(m_selectedAnimPath.GetAnimationObject(), m_selectedAnimPath.GetAnimationPath(), false); //highlight it
+                    paintThese(m_selectedAnimPath.GetAnimationObject(), m_selectedAnimPath.GetAnimationPath(), false, false); //highlight it
                     m_btnErase.setEnabled(true);
                 }
             }
@@ -648,7 +663,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
         showConfirmButtons(false);
 
-        paintThese(anim.GetAnimationObject(), anim.GetAnimationPath(), true);
+        paintThese(anim.GetAnimationObject(), anim.GetAnimationPath(), true, true);
 
         //paintThese(anim.GetAnimationObject(), anim.GetAnimationPath(), true);
 
@@ -662,32 +677,45 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
      * @param shape the shape to highlight
      * @param path the path to highlight
      * @param oldColor if using the old color
+     * @param oldWidth if using the old width
      */
-    private void paintThese(Shape shape, AnimationPath path, boolean oldColor){
+    private void paintThese(Shape shape, AnimationPath path, boolean oldColor, boolean oldWidth){
         int color;
+        float width;
 
         if(shape != null) {
             for (Stroke stroke : shape.getShape()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
+                width = oldWidth ? stroke.getFormerWidth() : stroke.getWidth();
+
                 if(!oldColor)
                     stroke.setFormerColor(stroke.GetColor());
+                if(!oldWidth)
+                    stroke.setFormerWidth(stroke.getWidth());
 
                 stroke.SetColor(color);
+                stroke.SetWidth(width);
             }
         }
         if(path != null && !(m_btnPath.isSelected())) { // no need to highlight paths when selecting/drawing paths
             for (Stroke stroke : path.GetPath()){
                 color = oldColor ? stroke.getFormerColor() : stroke.GetColor() >> 1;
+                width = oldWidth ? stroke.getFormerWidth() : stroke.getWidth();
+
                 if(!oldColor)
                     stroke.setFormerColor(stroke.GetColor());
+                if(!oldWidth)
+                    stroke.setFormerWidth(stroke.getWidth());
 
                 stroke.SetColor(color);
+                stroke.SetWidth(width);
             }
         }
 
         mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
         mListener.renderView();
     }
+
 
 
     private void cancelSelected(){
@@ -701,17 +729,19 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
     private void cancelSelected(Shape except){
 
         if(m_selectedShape != null && m_selectedShape != except){
-            paintThese(m_selectedShape, null, true);
+            paintThese(m_selectedShape, null, true, true);
             m_selectedShape = null;
         }
         if(m_selectedAnimShape != null) {
-            paintThese(m_selectedAnimShape.GetAnimationObject(), m_selectedAnimShape.GetAnimationPath(), true);
+            paintThese(m_selectedAnimShape.GetAnimationObject(), m_selectedAnimShape.GetAnimationPath(), true, true);
             m_selectedAnimShape = null;
         }
         if(m_selectedAnimPath != null){
-            paintThese(m_selectedAnimPath.GetAnimationObject(), m_selectedAnimPath.GetAnimationPath(), true);
+            paintThese(m_selectedAnimPath.GetAnimationObject(), m_selectedAnimPath.GetAnimationPath(), true, true);
             m_selectedAnimPath = null;
         }
+
+        menuManager.registerSelectedShape(null);
     }
 
     /**
@@ -768,6 +798,26 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         int visible = reveal ? View.VISIBLE : View.GONE;
         m_btnCompletedDraw.setVisibility(visible);
         m_btnCancelDraw.setVisibility(visible);
+    }
+
+
+    /**
+     * saves the values of the current selected shape. (they could have been changed by the Draw button)
+     */
+    private void saveVals(){
+        if(m_selectedShape != null){
+            for(Stroke stroke : m_selectedShape.getShape()){
+                stroke.setFormerColor(stroke.GetColor());
+                stroke.setFormerWidth(stroke.getWidth());
+            }
+            return;
+        }
+        if(m_selectedAnimShape != null){
+            for(Stroke stroke : m_selectedAnimShape.GetAnimationObject().getShape()){
+                stroke.setFormerColor(stroke.GetColor());
+                stroke.setFormerWidth(stroke.getWidth());
+            }
+        }
     }
 
     /**
@@ -840,9 +890,18 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
         }
     }
 
+
+
     @Override
     public StrokePaint getPaint() {
         return m_Paint;
+    }
+
+
+    @Override
+    public void updateView() {
+        mListener.drawShapes(m_shapes, m_animations, m_builtStrokes);
+        mListener.renderView();
     }
 
 
