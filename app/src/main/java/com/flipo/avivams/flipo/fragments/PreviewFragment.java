@@ -110,9 +110,9 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
     }
 
     private void setButtons(final View i_View){
-        /*
+
         m_PlayBtn = i_View.findViewById(R.id.preview_btn_play);
-        m_StopBtn = i_View.findViewById(R.id.preview_btn_stop);
+        //m_StopBtn = i_View.findViewById(R.id.preview_btn_);
         m_RecordBtn = i_View.findViewById(R.id.preview_btn_record);
         m_PlayBtn.setSelected(true);
 
@@ -123,19 +123,19 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             }
         });
 
-        m_StopBtn.setOnClickListener(new View.OnClickListener() {
+        /*m_StopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopBtn_OnClick(i_View);
             }
-        });
+        });*/
 
-        m_RecordBtn.setOnClickListener(new View.OnClickListener() {
+        /*m_RecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recordBtn_OnClick(i_View);
             }
-        });
+        });*/
 
         i_View.findViewById(R.id.btn_back_edit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +144,7 @@ public class PreviewFragment extends Fragment implements DialogMatcher.RecordRes
             }
         });
 
-        setAnimationListeners();*/
+        setAnimationListeners();
 
     }
 
