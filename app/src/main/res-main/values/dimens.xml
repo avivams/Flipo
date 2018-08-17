@@ -20,7 +20,7 @@
     <dimen name="dialog_prompt_txt_size">25sp</dimen>
     <dimen name="dialog_btn_txt_size">18sp</dimen>
     <dimen name="dialog_prompt_width">500dp</dimen>
-    <dimen name="dialog_prompt_height">220dp</dimen>
+    <dimen name="dialog_prompt_height">210dp</dimen>
 
     <dimen name="dialog_btn_width">110dp</dimen>
     <dimen name="dialog_btn_height">40dp</dimen>

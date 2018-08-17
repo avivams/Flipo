@@ -142,7 +142,10 @@ public class DoodlesActivity extends AppCompatActivity implements DrawingFragmen
     }
 
 
-    //draw the strokes from the list from 'surfaceChanged'
+    /**
+     *  draw the strokes from the list from 'surfaceChanged'
+     */
+
     @Override
     public synchronized void drawShapes(LinkedList<Shape> shapesList, LinkedList<Animation> anims, LinkedList<Stroke> strokes) {
         m_Canvas.setTarget(m_StrokesLayer);
