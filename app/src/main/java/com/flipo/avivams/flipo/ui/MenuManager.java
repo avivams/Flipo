@@ -44,7 +44,7 @@ public class MenuManager {
     private ArrayList<Integer> brushColors;
     private LinearLayout m_btnMenuView;
     private ImageButton m_btnOpnDraw;
-    private boolean menuVisible, m_selectMode;
+    private boolean menuVisible, m_selectMode, changedColor, changedWidth;
     private Shape m_selectedShape;
 
     private int openWidth, openHeight, closeWidth, closeHeight;
@@ -60,6 +60,8 @@ public class MenuManager {
         openHeight = (int)resources.getDimension(R.dimen.palette_height);
         closeHeight = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_height);
         closeWidth = (int)resources.getDimension(R.dimen.menu_bar_tools_btn_width);
+
+        changedColor = changedWidth = false;
 
         // get colors from 'array.xml'
         TypedArray colors = context.getResources().obtainTypedArray(R.array.palette_colors);
@@ -105,6 +107,7 @@ public class MenuManager {
                 @Override
                 public void onClick(View view) {
                     if(m_selectMode && m_selectedShape != null){
+                        setChangedWidthStatus(true);
                         swapWidth();
                         setNewWidth(brushSizes[j]);
                         listener.updateView();
@@ -126,8 +129,9 @@ public class MenuManager {
                 @Override
                 public void onClick(View view) {
                     if(m_selectMode && m_selectedShape != null){
-                        swapColor();
-                        setNewColoer(brushColors.get(j));
+                        setChangedColorStatus(true); // we are changing a color of a shape
+                        swapColor(); // swap old color (the origin color) and current color (the highlight color)
+                        setNewColoer(brushColors.get(j)); // set the new color to replace old.
                         listener.updateView();
                     }else {
                         listener.getPaint().setColor(brushColors.get(j));
@@ -262,6 +266,11 @@ public class MenuManager {
         return menuVisible;
     }
 
+    public boolean hasChangedColor(){return changedColor;}
+    public void setChangedColorStatus(boolean status){ changedColor = status;}
+
+    public boolean hasChangedWidth(){return changedWidth;}
+    public void setChangedWidthStatus(boolean status){ changedWidth = status;}
 
     public interface MenuManagerListener{
         StrokePaint getPaint();

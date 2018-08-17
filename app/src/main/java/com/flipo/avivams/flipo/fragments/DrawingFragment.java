@@ -224,7 +224,8 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
                 //if we show this button because of the select button
                 if(m_btnSelect.isSelected()){
-                    saveVals();
+                    if(menuManager.hasChangedColor() || menuManager.hasChangedWidth())
+                        saveVals();
                     disableButtonsExcept(null);
                     return;
                 }
@@ -282,6 +283,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
                 //if no shape was drawn, then show a dialog and turn 'draw button' on
                 if(m_builtStrokes.isEmpty() && m_shapes.isEmpty() && m_animations.isEmpty()) {
                     DialogMatcher.showDialog(getActivity(), DialogMatcher.DoodlesDialogType.DRAW_SHAPE_FIRST, getFragmentManager().beginTransaction(), null);
+                    disableButtonsExcept(m_btnOpnDraw);
                     m_btnOpnDraw.callOnClick();
                 }
                 else
@@ -374,7 +376,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
 
 
     private void buttonSelectHandler(MotionEvent event){
-        //if no shape was selected then we need to check a selection
+        //if no shape was selected yet, then we need to check a selection
         if(m_selectedShape == null && m_selectedAnimPath == null && m_selectedAnimShape == null){
             handleSelectShape(event, detectMarker.ANY);
         }
@@ -523,6 +525,7 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
             checkSelection(type);
             m_Paint.setWidth(w);
 
+            // checks which type of shape was selected as a result from 'checkSelection(type)'
            if(m_btnSelect.isSelected()){
                 if(m_selectedShape != null) {
                     paintThese(m_selectedShape, null, false, false); //highlight it
@@ -805,19 +808,27 @@ public class DrawingFragment extends Fragment implements DialogMatcher.ResultYes
      * saves the values of the current selected shape. (they could have been changed by the Draw button)
      */
     private void saveVals(){
+
         if(m_selectedShape != null){
             for(Stroke stroke : m_selectedShape.getShape()){
-                stroke.setFormerColor(stroke.GetColor());
-                stroke.setFormerWidth(stroke.getWidth());
+                if(menuManager.hasChangedColor())
+                    stroke.setFormerColor(stroke.GetColor());
+                if(menuManager.hasChangedWidth())
+                    stroke.setFormerWidth(stroke.getWidth());
             }
             return;
         }
         if(m_selectedAnimShape != null){
             for(Stroke stroke : m_selectedAnimShape.GetAnimationObject().getShape()){
-                stroke.setFormerColor(stroke.GetColor());
-                stroke.setFormerWidth(stroke.getWidth());
+                if(menuManager.hasChangedColor())
+                    stroke.setFormerColor(stroke.GetColor());
+                if(menuManager.hasChangedWidth())
+                    stroke.setFormerWidth(stroke.getWidth());
             }
         }
+
+        menuManager.setChangedColorStatus(false);
+        menuManager.setChangedWidthStatus(false);
     }
 
     /**
